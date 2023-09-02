@@ -1,0 +1,15 @@
+/* navbar styles */
+.navbar-brand {
+    font-size: 30px;
+}
+
+.navbar-nav {
+    margin-left: 10px;
+}
+
+
+
+/* index body styles */
+#indexBody {
+    padding: 20px;
+}
