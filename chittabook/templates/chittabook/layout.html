@@ -27,16 +27,20 @@
         <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
         <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
         <!-- JavaScript file -->
         <script src="{% static 'chittabook/scripts.js' %}"></script>
+
+        <!-- google fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open Sans|Trirong">
 
         {% block script %}
         {% endblock %}
     </head>
     <body>
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light" style="font-family: Roboto;">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Chitta Book</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,16 +49,16 @@
               <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" aria-current="page" href="#">How it works</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">Features</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="#">About us</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" aria-disabled="true">Disabled</a>
+                    <a class="nav-link">Contact</a>
                   </li>
                   <li class="nav-item">
                     <button type="button" class="btn btn-primary rounded-pill py-1" id="loginButton">Get Started</button>
