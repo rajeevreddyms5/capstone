@@ -64,7 +64,7 @@
                     <a class="nav-link">Contact</a>
                   </li>
                   {% if user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'profile' %}"><strong>{{ user.username }}</strong></a>
+                    <a class="nav-link" href="{% url 'logout' %}"><strong>username</strong></a>
                   {% else %}
                     <li class="nav-item">
                       <a href="{% url 'login' %}"<button type="button" class="btn btn-primary rounded-pill py-1" id="loginButton">Get Started</button></a>
