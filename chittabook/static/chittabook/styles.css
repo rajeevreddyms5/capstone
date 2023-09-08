@@ -15,6 +15,15 @@
 }
 
 
+.navbar-nav .nav-item .nav-link {
+    color: black;  /* black text in navbar */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: black;
+    border-bottom: 2px solid black;
+}
+
 /* index body styles */
 #indexBody {
     padding: 20px;
@@ -118,4 +127,36 @@ height: calc(100% - 73px);
 .h-custom {
 height: 100%;
 }
+}
+
+
+/* google icon color in signup and login page */
+.bi-google {
+  background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* seperator */
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #0000004f;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
 }

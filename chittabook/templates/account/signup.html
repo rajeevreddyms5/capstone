@@ -1,21 +1,50 @@
 {% extends "account/base.html" %}
-
+{% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
+{% load account socialaccount %}
 
 {% block head_title %}{% trans "Chitta Book | Signup" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
+<section>
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="{% static 'chittabook\img\indexphoto.png' %}"
+          class="img-fluid" alt="image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+          {% csrf_token %}
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+          <h1>{% trans "Create an account" %}</h1>
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+          <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
+          <div class="mb-3">
+            {{ form|crispy }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+          </div>
+
+          <p class="text-muted">{% trans "By signing up, you agree to our" %} <a href="#">{% trans "Privacy Policy" %}</a> {% trans "and" %} <a href="#">{% trans "Terms of Service" %}</a>.</p>
+
+          <div>
+            <button class="btn btn-primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
+          </div>
+        </form>
+        <br>
+        <div class="separator text-muted">or</div>
+        <br>
+        <form action="{% provider_login_url 'google' %}" method="post">
+          {% csrf_token %}
+          <button type="submit">SIGN IN WITH GOOGLE</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

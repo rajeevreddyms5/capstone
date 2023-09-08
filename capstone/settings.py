@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
+    # crsipy forms
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 # required by allauth
@@ -67,6 +70,10 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # multiple email accounts disable
 ACCOUNT_CHANGE_EMAIL = True
+
+# crspy templates
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -161,9 +168,16 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '123',
-            'secret': '456',
+            'client_id': '843872717472-2h0olfehfj8o26fpop13k9c8e5tvec6f.apps.googleusercontent.com',
+            'secret': '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',
             'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
         }
     }
 }
