@@ -11,24 +11,29 @@
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="{% static 'chittabook\img\indexphoto.png' %}"
+        <img src="{% static 'chittabook\img\signupPhoto.png' %}"
           class="img-fluid" alt="image">
+          <p>By signing up, you are taking a positive approach that will change your relationship with money. This platform is designed to empower you to make informed financial decisions, develop healthy spending habits, and achieve your financial goals.</p>
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}
 
-          <h1>{% trans "Create an account" %}</h1>
+          <h1 class="text-center">{% trans "Create an account" %}</h1>
 
-          <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+          <p class="text-center">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
-          <div class="mb-3">
+          <div class="postion-relative">
+            <!-- form field -->
             {{ form|crispy }}
+
+            <!-- Password toggle -->
+            <i class="far fa-eye toggle-password" id="togglePasswordSignup" style="margin-left: 10px; cursor: pointer;"> <span id="togglePasswordLabel"> Show</span></i>
+            
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
           </div>
-
           <p class="text-muted">{% trans "By signing up, you agree to our" %} <a href="#">{% trans "Privacy Policy" %}</a> {% trans "and" %} <a href="#">{% trans "Terms of Service" %}</a>.</p>
 
           <div>
@@ -38,10 +43,19 @@
         <br>
         <div class="separator text-muted">or</div>
         <br>
-        <form action="{% provider_login_url 'google' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">SIGN IN WITH GOOGLE</button>
-        </form>
+
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+          <form action="{% provider_login_url 'google' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-light google-login-button border-dark" type="submit">
+              <span class="google-icon" style="margin-right: 20px;">
+                <i class="fab fa-google"></i>
+              </span>
+              <span class="google-login-text">Sign Up with Google</span>
+            </button>
+          </form>
+        {% endif %}
 
       </div>
     </div>
