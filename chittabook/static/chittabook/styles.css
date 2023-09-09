@@ -162,14 +162,36 @@ height: 100%;
 }
 
 
-/* toggle password */
-.toggle-password {
+/* toggle password styles on signup page */
+#togglePasswordSignup {
   position: absolute;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;
 }
+
+/* toggle password styles on login page */
+#postion-relative-login {
+  position: relative;
+}
+
+#togglePasswordLogIn {
+  position: absolute;
+  top: 54%;
+  right: 10px;
+  transform: translateY(-54%);
+  cursor: pointer;
+}
+
+#togglePasswordLogin i {
+  margin-right: 5px;
+}
+
+#togglePasswordLogin span {
+  font-size: 12px;
+}
+
 
 /* google icon color in signup and login page */
 .fa-google {

@@ -1,14 +1,20 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // toggle password visibility
-    togglePasswordVisibility_signup();
-    togglePasswordVisibility_login();
+    // run toggle password visibility on signup page
+    if (document.querySelector('#id_password')) {
+        togglePasswordVisibility_login();
+    }
+
+    // run toggle password visibility on login page
+    if (document.querySelector('#id_password1')) {
+        togglePasswordVisibility_signup();
+    }
 
 });
 
 
-// togglepassword visiblity function
+// togglepassword visiblity function for sign up page
 function togglePasswordVisibility_signup() {
     const togglePassword = document.querySelector('#togglePasswordSignup');
 
@@ -32,7 +38,7 @@ function togglePasswordVisibility_signup() {
 });
 }
 
-
+// togglepassword visiblity function for login page
 function togglePasswordVisibility_login() {
     const togglePassword = document.querySelector('#togglePasswordLogIn');
 
@@ -51,3 +57,5 @@ function togglePasswordVisibility_login() {
         label.innerHTML = label.innerHTML === 'Hide' ? 'Show' : 'Hide';
 });
 }
+
+
