@@ -63,9 +63,9 @@
     {% block body %}
 
     {% if messages %}
-    <div>
+    <div class="alert alert-info">
       <strong>{% trans "Messages:" %}</strong>
-      <ul>
+      <ul class="list-unstyled">
         {% for message in messages %}
         <li>{{message}}</li>
         {% endfor %}

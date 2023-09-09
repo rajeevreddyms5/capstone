@@ -194,10 +194,9 @@ AUTHENTICATION_BACKENDS = [
 # login redirect page url
 LOGIN_REDIRECT_URL = '/home'
 
-# Google email setup
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #new
-EMAIL_HOST = 'smtp.gmail.com' #new
-EMAIL_PORT = 587 #new
-EMAIL_HOST_USER = 'services.chittabook@gmail.com'  #new
-EMAIL_HOST_PASSWORD = "cvdmndllldrvdjzs" #new
-EMAIL_USE_TLS = True #new
+# Google Email server configuration
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 465
+EMAIL_HOST_USER = yubyjsrqcflgjgwo = 'services.chittabook@gmail.com'
+EMAIL_HOST_PASSWORD = 'rflggaunezxnltam'
