@@ -66,7 +66,7 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # multiple email accounts disable
 ACCOUNT_CHANGE_EMAIL = True
@@ -181,3 +181,23 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# for email verification
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# login redirect page url
+LOGIN_REDIRECT_URL = '/home'
+
+# Google email setup
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #new
+EMAIL_HOST = 'smtp.gmail.com' #new
+EMAIL_PORT = 587 #new
+EMAIL_HOST_USER = 'services.chittabook@gmail.com'  #new
+EMAIL_HOST_PASSWORD = "cvdmndllldrvdjzs" #new
+EMAIL_USE_TLS = True #new
