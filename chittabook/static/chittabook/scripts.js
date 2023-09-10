@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // run toggle password visibility on signup page
-    if (document.querySelector('#id_password')) {
+    if (document.querySelector('#id_password') && document.querySelector('.postion-relative')) {
         togglePasswordVisibility_login();
     }
 
@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
         togglePasswordVisibility_signup();
     }
 
+     // run toggle password visibility on reauthentication page
+     if (document.querySelector('#id_password') && document.querySelector('.reauthenticate')) {
+        togglePasswordVisibility_reauthentication();
+    }
 });
 
 
@@ -58,4 +62,24 @@ function togglePasswordVisibility_login() {
 });
 }
 
+
+// togglepassword visiblity function for reauthentication page
+function togglePasswordVisibility_reauthentication() {
+    const togglePassword = document.querySelector('#togglePasswordReauthenticate');
+
+    const password = document.querySelector('#id_password');
+
+    const label = document.getElementById('togglePasswordLabel');
+
+    togglePassword.addEventListener('click', function (e) {
+        
+        const type1 = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type1);
+
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+
+        label.innerHTML = label.innerHTML === 'Hide' ? 'Show' : 'Hide';
+});
+}
 
