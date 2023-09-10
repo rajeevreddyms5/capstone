@@ -2,15 +2,9 @@
 {% load static %}
 
 {% block body %}
-
-    <h1>You have successfully logged in</h1>
-    <!-- logout url -->
-    <form method="post" action="{% url 'account_logout' %}">
-        {% csrf_token %}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-        {% endif %}
-        <button type="submit">Sign Out</button>
-      </form>
-
+    <!-- Header Start -->
+    <div class="container py-5">
+        <p> Hi </p>
+    </div>
+    <!-- Header End -->
 {% endblock %}

@@ -3,19 +3,27 @@
 
 <!-- block body -->
 {% block body %}
+
     <!-- Header Start -->
     <div class="container-fluid hero-header bg-light py-5 mb-5" style="font-family: Roboto;">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
                     <h1 class="display-4 mb-3">Say Goodbye to Financial Stress by Tracking <span style="color: blue;" id="features">Income</span></h1>
-                    <p>Track your income and expenses effortlessly with our user-friendly website. Gain control over your finances and make informed decisions for a brighter financial future. Start today!</p>
-                    <a href="/accounts/login" class="btn btn-primary py-2 px-4">Login</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/accounts/signup" class="btn btn-success py-2 px-4">Register (It's Free!)</a>
+                    <p>Track your income and expenses effortlessly with our Personal Financial Management Software. Gain control over your finances and make informed decisions for a brighter financial future. Start today!  (It's Free!)</p>
+                    <div class="d-grid gap-3">
+                        <div class="row">
+                            <div class="col">
+                                <a href="/accounts/login" class="btn btn-primary w-100" id="getStartedButton">Get started</a>
+                            </div>
+                            <div class="col">
+                                <a href="/accounts/signup" class="btn btn-success w-100" id="getregisterButton">Register</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6">
-                    <img class="img-fluid" src="static\chittabook\img\indexphoto.png"
-                        alt="">
+                    <img class="img-fluid" src="static/chittabook/img/indexphoto.png" alt="">
                 </div>
             </div>
         </div>

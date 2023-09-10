@@ -209,3 +209,22 @@ height: 100%;
 .google-login-button:hover {
   background-color: lightgrey;
 }
+
+/* register button on navbar when hover change background to blue and highlight only outline */
+#registerButton:hover {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  background-color: inherit;
+  color: blue;
+}
+
+/* regster and loginbutto on index page */
+@media (max-width: 767px) {
+  #getStartedButton {
+      width: 100%;
+  }
+  #getregisterButton {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
