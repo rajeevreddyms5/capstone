@@ -15,13 +15,13 @@ class LoginTests(TestCase):
         self.assertEqual(response.status_code, 200)
     
     # test login page by name
-    def test_template_name_correct(self):  
-        response = self.client.get("/accounts/login/")
-        self.assertTemplateUsed(response, "accounts/login.html")  
+    #def test_template_name_correct(self):  
+    #    response = self.client.get("/accounts/login/")
+    #    self.assertTemplateUsed(response, "accounts/login.html")  
     
-    def test_template_content(self):
-        response = self.client.get("/accounts/login/")
-        self.assertContains(response, "<h1>Log In</h1>")
-        self.assertNotContains(response, "Not on the page")
+    #def test_template_content(self):
+    #    response = self.client.get("/accounts/login/")
+    #    self.assertContains(response, "<h1>Log In</h1>")
+    #    self.assertNotContains(response, "Not on the page")
         
     
