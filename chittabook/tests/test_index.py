@@ -15,5 +15,5 @@ class indexpageTests(TestCase):
         self.assertTemplateUsed(response, "chittabook/index.html")
     def test_template_content(self):
         response = self.client.get(reverse("index"))
-        self.assertContains(response, "<p>Track your income and expenses effortlessly with our Personal Financial Management Software. Gain control over your finances and make informed decisions for a brighter financial future. Start today!  (It's Free!)</p>")
+        self.assertContains(response, '<h1 class="display-6">Great Features!</h1>')
         self.assertNotContains(response, "Not on the page")
