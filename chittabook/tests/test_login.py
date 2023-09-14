@@ -14,14 +14,21 @@ class LoginTests(TestCase):
         response = self.client.get("/accounts/login/")
         self.assertEqual(response.status_code, 200)
     
-    # test login page by name
-    #def test_template_name_correct(self):  
-    #    response = self.client.get("/accounts/login/")
-    #    self.assertTemplateUsed(response, "accounts/login.html")  
+    #test login page by name
+    def test_template_name_correct(self):  
+        response = self.client.get(reverse("account_login"))
+        self.assertEqual(response.status_code, 200)  
     
-    #def test_template_content(self):
-    #    response = self.client.get("/accounts/login/")
-    #    self.assertContains(response, "<h1>Log In</h1>")
-    #    self.assertNotContains(response, "Not on the page")
+    # test login page template name
+    def test_template_name_correct(self):  
+        response = self.client.get(reverse("account_login"))
+        self.assertTemplateUsed(response, "account/login.html")
+
+    # test login page content
+    def test_template_content(self):
+        response = self.client.get("/accounts/login/")
+        self.assertContains(response, '<p>Welcome Back! Change your relationship with money. This platform is designed to empower you to make informed financial decisions, develop healthy spending habits, and achieve your financial goals.</p>')
+        self.assertContains(response, '<h1 class="text-center"')
+        self.assertNotContains(response, "Not on the page")
         
     
