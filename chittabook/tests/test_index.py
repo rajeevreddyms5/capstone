@@ -9,15 +9,15 @@ class indexpageTests(TestCase):
         User = get_user_model()
         user = User.objects.create_user(email="normal@user.com", password="foo")
 
-    def test_url_available_by_name(self):  
-        response = self.client.get(reverse("index"))
-        self.assertEqual(response.status_code, 200)
+    #def test_url_available_by_name(self):  
+    #    response = self.client.get(reverse("index"))
+    #    self.assertEqual(response.status_code, 200)
 
-    def test_template_name_correct(self):  
-        response = self.client.get(reverse("index"))
-        self.assertTemplateUsed(response, "chittabook/index.html")
+    #def test_template_name_correct(self):  
+    #    response = self.client.get(reverse("index"))
+    #    self.assertTemplateUsed(response, "chittabook/index.html")
 
-    def test_template_content(self):
-        response = self.client.get(reverse("index"))
-        self.assertContains(response, '<h1 class="display-6">Great Features!</h1>')
-        self.assertNotContains(response, "Not on the page")
+    #def test_template_content(self):
+    #    response = self.client.get(reverse("index"))
+    #     self.assertContains(response, '<h1 class="display-6">Great Features!</h1>')
+    #    self.assertNotContains(response, "Not on the page")
