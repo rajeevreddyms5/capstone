@@ -93,7 +93,7 @@ ROOT_URLCONF = "capstone.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'chittabook', 'templates')],
+        "DIRS": [os.path.join(BASE_DIR, 'chittabook', 'Templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
