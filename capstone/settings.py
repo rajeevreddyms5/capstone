@@ -194,6 +194,8 @@ AUTHENTICATION_BACKENDS = [
 
 # login redirect page url
 LOGIN_REDIRECT_URL = '/home'
+# LOGOUT_REDIRECT_URL = '/accounts/login/'
+# ACCOUNT_SIGNUP_REDIRECT_URL = "/accounts/login/"
 
 # Google Email server configuration
 EMAIL_USE_TLS = True
