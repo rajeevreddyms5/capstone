@@ -40,6 +40,5 @@ class RegisterTests(TestCase):
             "password2": "foo"
         })
         self.assertTrue(response, 200)
-        # self.assertRedirects(response, reverse("index")) 
         self.assertEqual(get_user_model().objects.all().count(), 1)
         

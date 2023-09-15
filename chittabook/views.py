@@ -11,4 +11,4 @@ def index(request):
 # home page view for chittabook app
 @login_required
 def home(request):
-    return render(request, 'chittabook/home.html')
+    return render(request, 'homepage/home.html')

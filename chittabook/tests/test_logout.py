@@ -12,9 +12,15 @@ class LoginTests(TestCase):
 
     # test logout page
     def test_logout_functionality(self):
+
+        # login
         self.assertTrue(self.client.login(email="normal@user.com", password="foo"))
         response = self.client.post("/accounts/login/", {
             "email": "normal@user.com",
             "password": "foo"
         })
         self.assertRedirects(response, "/home", target_status_code=301)
+
+        # logout
+        response = self.client.post("/accounts/logout/", follow=True)
+        self.assertRedirects(response, "/", target_status_code=200)

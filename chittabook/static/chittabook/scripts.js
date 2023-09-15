@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
      if (document.querySelector('#id_password') && document.querySelector('.reauthenticate')) {
         togglePasswordVisibility_reauthentication();
     }
+
+
+    // error messages on page load linked to bootstrap alert danger
+    let errorElements = document.getElementsByClassName('alert-error');
+    [...errorElements].forEach(el => {el.classList.add('alert-danger')});
 });
 
 
