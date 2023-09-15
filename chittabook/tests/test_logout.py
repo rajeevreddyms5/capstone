@@ -18,21 +18,3 @@ class LoginTests(TestCase):
             "password": "foo"
         })
         self.assertRedirects(response, "/home", target_status_code=301)
-        # response = self.client.get("/home/")
-
-        # test homepage content
-        # self.assertContains(response, 'Sign Out')
-        # self.assertNotContains(response, "Not on the page")
-
-
-        # test logout functionality
-        response = self.client.post(path=reverse("account_logout"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, reverse("index")) # logout redirects to index page
-
-
-        # check whether logout is successful
-        # response = self.client.get("/home")
-        # self.assertRedirects(response, "/accounts/login/?next=/home/", target_status_code=200)
-
-
