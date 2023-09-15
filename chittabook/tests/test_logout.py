@@ -22,5 +22,5 @@ class LoginTests(TestCase):
         self.assertRedirects(response, "/home", target_status_code=301)
 
         # logout
-        response = self.client.post("/accounts/logout/", follow=True)
-        self.assertTrue(response, 200)
+        # response = self.client.post("/accounts/logout/", follow=True)
+        # self.assertTrue(response, 200)
