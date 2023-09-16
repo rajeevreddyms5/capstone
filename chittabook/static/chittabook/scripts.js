@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // error messages on page load linked to bootstrap alert danger
     let errorElements = document.getElementsByClassName('alert-error');
     [...errorElements].forEach(el => {el.classList.add('alert-danger')});
+
+
+    // load auto dismiss alert
+    auto_dismiss_alert();
 });
 
 
@@ -88,3 +92,16 @@ function togglePasswordVisibility_reauthentication() {
 });
 }
 
+// Auto dismiss alert functionality
+function auto_dismiss_alert() {
+    let alert_list = document.querySelectorAll('.alert')
+    alert_list.forEach(function(alert) {
+        new bootstrap.Alert(alert);
+
+        let alert_timeout = alert.getAttribute('data-timeout');
+        setTimeout(() => {
+            bootstrap.Alert.getInstance(alert).close();
+        }, +alert_timeout);
+    });
+}
+    
