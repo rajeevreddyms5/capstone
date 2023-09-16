@@ -58,6 +58,10 @@ INSTALLED_APPS = [
     # crsipy forms
     'crispy_forms',
     'crispy_bootstrap5',
+    # django money
+    'djmoney',
+    # django countries
+    'django_countries',
 ]
 
 # crspy templates
