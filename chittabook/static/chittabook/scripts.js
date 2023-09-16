@@ -94,7 +94,7 @@ function togglePasswordVisibility_reauthentication() {
 
 // Auto dismiss alert functionality
 function auto_dismiss_alert() {
-    let alert_list = document.querySelectorAll('.alert')
+    let alert_list = document.querySelectorAll('#messages')
     alert_list.forEach(function(alert) {
         new bootstrap.Alert(alert);
 
