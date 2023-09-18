@@ -7,6 +7,13 @@ jobs:
 
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: ${{secrets.DEBUG}}
+      TEMPLATE_DEBUG: ${{secrets.TEMPLATE_DEBUG}}
+      GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+      GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+      EMAIL_HOST_USER: ${{secrets.EMAIL_HOST_USER}}
+      EMAIL_HOST_PASSWORD: ${{secrets.EMAIL_HOST_PASSWORD}}
+
       
     steps:
     - uses: actions/checkout@v2
