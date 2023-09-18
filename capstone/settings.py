@@ -197,6 +197,10 @@ ACCOUNT_CHANGE_EMAIL = True
 
 # login redirect page url
 LOGIN_REDIRECT_URL = '/home'
+
+# custom social account adapter that links local account to existing user
+SOCIALACCOUNT_ADAPTER = 'chittabook.adapter.SocialAdapter'
+
 # LOGOUT_REDIRECT_URL = '/accounts/login/'
 # ACCOUNT_SIGNUP_REDIRECT_URL = "/accounts/login/"
 
