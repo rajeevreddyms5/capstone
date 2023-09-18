@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,10 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-evthwfuz@j@gsql$t-t5cc6ti#b8k3zu0=8qx%r6h^umq71j8e"
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
+TEMPLATE_DEBUG = config('TEMPLATE_DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -159,8 +161,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '843872717472-2h0olfehfj8o26fpop13k9c8e5tvec6f.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_CLIENT_SECRET'),
             'key': ''
         },
         'SCOPE': [
@@ -214,5 +216,5 @@ ACCOUNT_ADAPTER = 'chittabook.adapter.RestrictEmailAdapter'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 465
-EMAIL_HOST_USER = yubyjsrqcflgjgwo = 'services.chittabook@gmail.com'
-EMAIL_HOST_PASSWORD = 'rflggaunezxnltam'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
