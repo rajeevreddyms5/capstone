@@ -190,6 +190,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day
 
 # multiple email accounts disable
 ACCOUNT_CHANGE_EMAIL = True
@@ -198,10 +200,14 @@ ACCOUNT_CHANGE_EMAIL = True
 # login redirect page url
 LOGIN_REDIRECT_URL = '/home'
 
+# logout redirect page url
+ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/'
+
 # custom social account adapter that links local account to existing user
 SOCIALACCOUNT_ADAPTER = 'chittabook.adapter.SocialAdapter'
+ACCOUNT_ADAPTER = 'chittabook.adapter.RestrictEmailAdapter'
 
-# LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 # ACCOUNT_SIGNUP_REDIRECT_URL = "/accounts/login/"
 
 # Google Email server configuration
