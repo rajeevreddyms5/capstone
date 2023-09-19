@@ -1,28 +1,7 @@
-{% extends "Chittabook/layout.html" %}
+{% extends "homepage/basic.html" %}
 {% load static %}
 {% load i18n %}
 
 {% block body %}
-
-    <!-- messages display -->
-    {% if messages %}
-        {% for message in messages %}
-            <div id="messages" class="alert alert-{{ message.tags }} alert-dismissible fade show" data-timeout="10000" role="alert" style="margin-bottom: 0; margin-right: 10px; margin-left: 10px;">
-                <ul>
-                    <li>
-                        {{ message }}
-                    </li>
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-
-
-     <!-- Header Start -->
-     <div style="padding-left: 20px;">
-        <p> Hi {{ user.email }} </p>
-    </div>
-
 
 {% endblock %}
