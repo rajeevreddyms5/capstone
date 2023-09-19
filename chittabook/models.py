@@ -65,11 +65,19 @@ class UserProfile(models.Model):
         ('FEMALE', 'Female'),
         ('OTHER', 'Prefer not to say'),
     ]
+    
+    PROFESSION_CHOICES =[
+        ("Employee","Employee"),
+        ("Business","Business"),
+        ("Student","Student"),
+        ("Other","Other")
+    ]
 
     # fields
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
+    profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)
     gender = models.CharField(max_length=255, null=True, blank=True, choices=gender_choice)
     country = CountryField()
     numeric = models.CharField(max_length=255, null=True, blank=True)
