@@ -49,15 +49,21 @@ class RestrictEmailAdapter(DefaultAccountAdapter):
     # restrict email address registration from disposable emails
     def clean_email(self, email):
         domain = email.lower().split('@')[1]
-        print(domain)
+
+        # if email is already registered and not verified
+        if EmailAddress.objects.filter(email=email, verified=False).exists():
+            raise ValidationError('You are already registered with this email. Please verify your email.')
+        
+        # if email is already registered and verified
+        if EmailAddress.objects.filter(email=email, verified=True).exists():
+            raise ValidationError('You are already registered with this email. Please login.')
+        
+        # if email is from any blocklisted domain prevent from signing up        
         if domain in blocklist:
             raise ValidationError('You are restricted from registering with this email. Please contact admin.')
-        return email
-    
-    # check for existing email and perform signup
-    def clean_register(self, email):
-        email = self.normalize_email(email)
-        user = User.objects.filter(email__iexact=email)
         
-        if user:
-            raise ValidationError('User with this email already exists. Please verify your email.')
+        # you can block any email from registering in your website
+        if email in ['']:
+            raise ValidationError('You are restricted from registering with this email. Please contact admin.')
+        return email
+        
