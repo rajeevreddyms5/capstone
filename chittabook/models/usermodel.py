@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
-from django_countries.fields import CountryField
 
 
 # define custom usermanger with email authentication
@@ -51,39 +50,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_absolute_url(self):
         return "/users/%i/" % (self.pk)
-
-
-# UserProfile
-class UserProfile(models.Model):
-    # choices
-    MALE = 'M'
-    FEMALE = 'F'
-    OTHER = 'O'
-
-    gender_choice = [
-        ('MALE', 'Male'),
-        ('FEMALE', 'Female'),
-        ('OTHER', 'Prefer not to say'),
-    ]
-    
-    PROFESSION_CHOICES =[
-        ("Employee","Employee"),
-        ("Business","Business"),
-        ("Student","Student"),
-        ("Other","Other")
-    ]
-
-    # fields
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    dob = models.DateField(null=True, blank=True)
-    profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)
-    gender = models.CharField(max_length=255, null=True, blank=True, choices=gender_choice)
-    country = CountryField()
-    numeric = models.CharField(max_length=255, null=True, blank=True)
-
-
-    def __str__(self):
-        return self.name
     
 
