@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     # django countries
     'django_countries',
+    # browser reload
+    "django_browser_reload",
 ]
 
 # crspy templates
@@ -78,6 +80,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # allauth middleware
     'allauth.account.middleware.AccountMiddleware',
+    # browser reload middleware
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "capstone.urls"

@@ -23,4 +23,6 @@ urlpatterns = [
     path("", include("chittabook.urls")),
     path("accounts/", include("allauth.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
+    # browser reload urls
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
