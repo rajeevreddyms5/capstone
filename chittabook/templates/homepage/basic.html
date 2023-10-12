@@ -49,11 +49,11 @@
   <body>
 
     <div class="main-container d-flex">
-      <div class="sidebar shadow bg-white" id="side_nav">
+      <div class="sidebar bg-white" id="side_nav">
           <div class="header-box px-2 pt-3 pb-4 d-flex justify-content-between">
               <h1 class="fs-4"><span class="bg-dark text-white rounded shadow px-2 me-2">CB</span> <span
                       class="text-dark">Chitta Book</span></h1>
-              <button class="btn d-md-none d-block close-btn px-1 py-0 text-white"><i
+              <button class="btn d-md-none d-block close-btn px-1 py-0"><i
                       class="fal fa-stream"></i></button>
           </div>
 
@@ -150,11 +150,11 @@
 
       </div>
       <div class="content">
-          <nav class="navbar navbar-expand-md navbar-light p-3 bg-white shadow bg-light">
+          <nav class="navbar navbar-expand-lg navbar-light p-3 bg-white" id="nav_bar">
               <div class="container-fluid">
                   <div class="d-flex justify-content-between d-md-none d-block">
                    <button class="btn px-1 py-0 open-btn me-2"><i class="fal fa-stream"></i></button>
-                      <a class="navbar-brand fs-4" href="#"><span class="bg-dark rounded px-2 py-0 text-white">CL</span></a>
+                      <a class="navbar-brand fs-4" href="#"><span class="bg-dark rounded px-2 py-0 text-white">CB</span></a>
                      
                   </div>
                   <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse"
@@ -162,14 +162,20 @@
                       aria-expanded="false" aria-label="Toggle navigation">
                       <i class="fal fa-bars"></i>
                   </button>
-                  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                      <ul class="navbar-nav mb-2 mb-lg-0">
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="#">Profile</a>
-                          </li>
-
-                      </ul>
-
+                  <div class="collapse navbar-collapse justify-content-end me-5 px-5" id="navbarSupportedContent">
+                        <!-- Example single danger button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-gear"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Contact us</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        </div>
+                        
                   </div>
               </div>
           </nav>

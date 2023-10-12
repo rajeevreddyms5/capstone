@@ -41,3 +41,14 @@ body{
      }
    }
 
+   /* sidebar shadow */
+   #side_nav {
+    box-shadow: 0 -6px 0 #fff, 0 1px 6px rgba(0,0,0, .35);
+  }
+
+  /* navbar shadow only on downside */
+  #nav_bar {
+    box-shadow: 0 6px 6px -6px rgba(0,0,0, .35);
+  }
+   
+ 
