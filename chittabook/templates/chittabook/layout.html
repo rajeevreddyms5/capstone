@@ -47,7 +47,10 @@
         <!-- Navbar -->
         <nav class="navbar fixed-top navbar-expand-lg navbar-light shadow p-3 mb-5 bg-white rounded" style="font-family: Roboto;">
             <div class="container-fluid">
-              <a class="navbar-brand" href="{% url 'index' %}">Chitta Book</a>
+              <h1 class="fs-4"><span class="bg-dark text-white rounded shadow px-2 me-2">CB</span>
+                <span class="text-dark"><a class="navbar-brand" href="{% url 'index' %}">Chitta Book</a></span>
+              </h1>
+              
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -66,15 +69,21 @@
                     <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                   </li>
                   {% if user.is_authenticated %}
+                    <li class="nav-item">
+                      <a href="/home"<button type="button" class="btn btn-primary rounded-pill py-1" id="loginButton">Home Page</button></a>
+                    </li>
+                  
                     <!-- logout -->
                     <li class="nav-item">
+
                      <form method="post" action="{% url 'account_logout' %}">
                         {% csrf_token %}
                         {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                         {% endif %}
                         <button class="btn btn-outline-primary rounded-pill py-1" type="submit">{% trans 'Sign Out' %}</button>
-                      </form>                    
+                      </form>
+                                          
                     </li>
                   {% else %}
                     <li class="nav-item">

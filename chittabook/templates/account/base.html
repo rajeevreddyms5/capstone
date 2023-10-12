@@ -40,12 +40,14 @@
     {% block extra_head %}
     {% endblock %}
   </head>
-  <body class="vh-100">
+  <body class="d-flex flex-column min-vh-100">
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light shadow p-3 mb-5 bg-white rounded" style="font-family: Roboto;">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">Chitta Book</a>
+        <h1 class="fs-4"><span class="bg-dark text-white rounded shadow px-2 me-2">CB</span>
+          <span class="text-dark"><a class="navbar-brand" href="{% url 'index' %}">Chitta Book</a></span>
+        </h1>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
@@ -84,7 +86,7 @@
     {% block extra_body %}
       <!-- footer -->
       <br><br>
-      <footer class="footer text-muted" style="font-size: 10px;">
+      <footer class="mt-auto" style="font-size: 10px;">
         <div class="container">
           <div class="row justify-content-center flex-wrap">
             <div class="col-md-auto"> <a href="#" class="text-muted">Terms of Service</a></div>

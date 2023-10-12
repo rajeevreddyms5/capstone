@@ -142,11 +142,12 @@
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 30px;"><i class="bi bi-plus"></i> Add Investments</button>
             </div>
         </ul>
-
-          <ul class="list-unstyled px-2">
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bell"></i>
-                      Notifications</a></li>
-          </ul>
+    
+        <!-- sidebar end - buy me a coffee link -->
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="sidebar-footer px-2 py-5 mt-5">
+            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+        </div>
 
       </div>
       <div class="content">
@@ -163,6 +164,27 @@
                       <i class="fal fa-bars"></i>
                   </button>
                   <div class="collapse navbar-collapse justify-content-end me-5 px-5" id="navbarSupportedContent">
+                       
+                    <!-- alert notification on click -->
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i>
+                            </button>
+                            <ul class="dropdown-menu list-unstyled">
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                {% endfor %}
+                                {% else %}
+                                    <li><a class="dropdown-item" href="#">No messages</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        
+
                         <!-- Example single danger button -->
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -171,9 +193,20 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Contact us</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li>
+                                    <form method="post" action="{% url 'account_logout' %}">
+                                        {% csrf_token %}
+                                        {% if redirect_field_value %}
+                                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                                        {% endif %}
+                                        <button type="submit" class="btn btn-outline-danger rounded-pill py-1 dropdown-item">{% trans 'Sign Out' %}</button>
+                                      </form>
+                                </li>
                             </ul>
+                        </div>
+                        <!-- buymeacoffee link -->
+                        <div>
+                            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 177px !important; margin-left: 5px;" ></a>
                         </div>
                         
                   </div>

@@ -15,12 +15,18 @@
                     <p>Track your income and expenses effortlessly with our Personal Financial Management Software. Gain control over your finances and make informed decisions for a brighter financial future. Start today!  (It's Free!)</p>
                     <div class="d-grid gap-3">
                         <div class="row">
-                            <div class="col">
-                                <a href="/accounts/login" class="btn btn-primary w-100" id="getStartedButton">Get started</a>
-                            </div>
-                            <div class="col">
-                                <a href="/accounts/signup" class="btn btn-success w-100" id="getregisterButton">Register</a>
-                            </div>
+                            {% if user.is_authenticated %}
+                                <div class="col">
+                                    <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+                                </div>
+                            {% else %}
+                                <div class="col">
+                                    <a href="/accounts/login" class="btn btn-primary w-100" id="getStartedButton">Get started</a>
+                                </div>
+                                <div class="col">
+                                    <a href="/accounts/signup" class="btn btn-success w-100" id="getregisterButton">Register</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -112,7 +118,7 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-md-6 mb-4">
-                    <h1 class="text-primary mb-4"><img class="img-fluid me-2" src="img/icon-1.png" alt=""
+                    <h1 class="text-primary mb-4"><img class="img-fluid me-2" src="" alt=""
                             style="width: 45px;">Chitta Book</h1>
                     <span>Discover the ultimate Income Expense Tracker! Designed with a deep understanding of family needs. Effortlessly track income, expenses, savings and much more!. Make informed financial decisions for a secure future. Experience peace of mind in managing your home finances. We are here to serve you on your financial journey.</span>
                 </div>
