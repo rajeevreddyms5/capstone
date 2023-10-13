@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from .usermodel import User
 from django_countries.fields import CountryField
 
@@ -36,4 +37,18 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.name
     
+    
+    
+# create userprofile model form
+class UserProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['name', 'dob', 'profession', 'gender', 'country', 'numeric']
 
+    # override save method to update user profile instead of creating a new one
+    def save(self, commit=True):
+        user_profile = super(UserProfileForm, self).save(commit=False)
+        user_profile.user = self.instance.user
+        if commit:
+            user_profile.save()
+        return user_profile

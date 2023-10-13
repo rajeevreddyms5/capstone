@@ -3,5 +3,14 @@
 {% load i18n %}
 
 {% block content %}
-
+    {% if user.name %}
+        <h2 class="fs-5"> Dashboard</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, totam? Sequi alias eveniet ut quas
+            ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda doloremque provident,
+            dolores aspernatur neque.</p>
+    {% else %}
+        <h2 class="fs-5"> Welcome to Chitta Book </h2>
+        <p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>
+        <p>Thank you using Chitta Book. <a href="{% url 'account_signup' %}">Click here</a> to start</p>
+    {% endif %}
 {% endblock %}
