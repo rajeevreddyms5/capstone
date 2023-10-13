@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from .forms import UserProfileForm
+from .models import UserProfile
 
 
 # Create your views here.
@@ -42,4 +44,29 @@ def terms(request):
 # home page view for chittabook app
 @login_required
 def home(request):
-    return render(request, 'homepage/home.html')
+    return render(request, 'homepage/home.html',
+        context={
+            "form": UserProfileForm,
+        }
+    )
+
+
+@login_required
+def profileUpdate(request):
+    # if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = UserProfileForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            form = UserProfileForm(request.POST)
+            form.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect("/home/")
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = UserProfileForm()
+
+    return render(request, "homepage/home.html", {"form": form})

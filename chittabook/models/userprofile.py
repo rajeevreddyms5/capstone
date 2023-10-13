@@ -1,7 +1,8 @@
 from django.db import models
-from django.forms import ModelForm
 from .usermodel import User
-from django_countries.fields import CountryField
+from datetime import date, datetime, time
+from babel.dates import format_date, format_datetime, format_time
+import pycountry
 
 
 # UserProfile
@@ -26,12 +27,12 @@ class UserProfile(models.Model):
 
     # fields
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    dob = models.DateField(null=True, blank=True)
+    name = models.CharField(max_length=255)
+    dob = models.DateField()
     profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)
     gender = models.CharField(max_length=255, null=True, blank=True, choices=gender_choice)
-    country = CountryField()
-    numeric = models.CharField(max_length=255, null=True, blank=True)
+
+    
 
 
     def __str__(self):
@@ -39,16 +40,4 @@ class UserProfile(models.Model):
     
     
     
-# create userprofile model form
-class UserProfileForm(ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['name', 'dob', 'profession', 'gender', 'country', 'numeric']
 
-    # override save method to update user profile instead of creating a new one
-    def save(self, commit=True):
-        user_profile = super(UserProfileForm, self).save(commit=False)
-        user_profile.user = self.instance.user
-        if commit:
-            user_profile.save()
-        return user_profile

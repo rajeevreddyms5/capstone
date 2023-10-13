@@ -60,8 +60,6 @@ INSTALLED_APPS = [
     # crsipy forms
     'crispy_forms',
     'crispy_bootstrap5',
-    # django countries
-    'django_countries',
     # browser reload
     "django_browser_reload",
 ]

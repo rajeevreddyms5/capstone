@@ -1,9 +1,10 @@
 {% extends "homepage/basic.html" %}
 {% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    {% if user.name %}
+    {% if UserProfile.name %}
         <h2 class="fs-5"> Dashboard</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, totam? Sequi alias eveniet ut quas
             ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda doloremque provident,
@@ -11,6 +12,33 @@
     {% else %}
         <h2 class="fs-5"> Welcome to Chitta Book </h2>
         <p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>
-        <p>Thank you using Chitta Book. <a href="{% url 'account_signup' %}">Click here</a> to start</p>
+        <p>Thank you using Chitta Book. It will only take a few seconds to Get Started!</p>
+        <!-- Button trigger modal -->
+        <a tclass="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
+            Click here for Getting Started
+        </a>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <!-- load userprofile form -->
+                <form method="post" action="{% url 'profileUpdate' %}">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" value="Save" class="btn btn-primary"/>
+                </div>
+            </div>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
