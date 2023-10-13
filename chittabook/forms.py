@@ -2,19 +2,18 @@ from django.forms import ModelForm, widgets
 from django import forms
 # import userprofile model from chittabook/models/userprofile.py
 from chittabook.models.userprofile import UserProfile
-
+from django_countries.widgets import CountrySelectWidget
+from bootstrap_datepicker_plus.widgets import DatePickerInput
 
 # Create your custom views here.
 
-# date picker for userprofile model form
-class DateInput(forms.DateInput):
-    input_type = 'date'
 
 # create userprofile model form
-class UserProfileForm(ModelForm):
+class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['name', 'dob', 'profession', 'gender', 'country', 'numeric']
+        fields = ['name', 'dob', 'profession', 'gender', 'country']
         widgets = {
-            'order_date': widgets.DateInput(),
+            'dob': DatePickerInput(),
+            'country': CountrySelectWidget(),
         }

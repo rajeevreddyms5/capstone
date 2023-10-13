@@ -3,6 +3,7 @@ from .usermodel import User
 from datetime import date, datetime, time
 from babel.dates import format_date, format_datetime, format_time
 import pycountry
+from django_countries.fields import CountryField
 
 
 # UserProfile
@@ -28,13 +29,12 @@ class UserProfile(models.Model):
     # fields
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    dob = models.DateField()
+    dob = models.DateField(verbose_name="Date of Birth")
     profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)
     gender = models.CharField(max_length=255, null=True, blank=True, choices=gender_choice)
+    country = CountryField()
 
     
-
-
     def __str__(self):
         return self.name
     

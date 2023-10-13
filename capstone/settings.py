@@ -62,6 +62,10 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     # browser reload
     "django_browser_reload",
+    # django countries
+    'django_countries',
+    # datepicker plus
+    "bootstrap_datepicker_plus",
 ]
 
 # crspy templates

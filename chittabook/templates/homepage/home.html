@@ -14,7 +14,7 @@
         <p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>
         <p>Thank you using Chitta Book. It will only take a few seconds to Get Started!</p>
         <!-- Button trigger modal -->
-        <a tclass="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
             Click here for Getting Started
         </a>
         
@@ -27,15 +27,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <!-- load userprofile form -->
-                <form method="post" action="{% url 'profileUpdate' %}">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <input type="submit" value="Save" class="btn btn-primary"/>
+                    <!-- load userprofile form -->
+                    {{ form.media }}  {# Adds widget's JS/CSS files from CDN #}
+                    <form method="post" action="{% url 'profileUpdate' %}">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                        </div>
+                    </form>
                 </div>
             </div>
             </div>
