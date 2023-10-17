@@ -4,11 +4,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    {% if UserProfile.name %}
+    {% if username %}
         <h2 class="fs-5"> Dashboard</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, totam? Sequi alias eveniet ut quas
-            ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda doloremque provident,
-            dolores aspernatur neque.</p>
+        <p>Welcome {{ username }}.</p>
     {% else %}
         <h2 class="fs-5"> Welcome to Chitta Book </h2>
         <p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>
@@ -51,5 +49,12 @@
                 modal.classList.add("show");
             </script>
         {% endif %}
+        <script>
+            $(function () {
+                $('#modalClose').on('click', function () {
+                    $('#staticBackdrop').hide();
+                })
+            })
+        </script>
     {% endif %}
 {% endblock %}

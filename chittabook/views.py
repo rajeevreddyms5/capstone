@@ -48,11 +48,11 @@ def home(request, form_error=False):
     # get instance of user profile
     UserProfileInstance = UserProfile.objects.get(user=request.user)
 
-    print(form_error)
     return render(request, 'homepage/home.html',
         context={
             "form": UserProfileForm(instance=UserProfileInstance),
-            "form_error": form_error
+            "form_error": form_error,
+            "username": UserProfileInstance.name,
         }
     )
 
