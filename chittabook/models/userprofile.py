@@ -27,7 +27,7 @@ class UserProfile(models.Model):
     ]
 
     # fields
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     name = models.CharField(max_length=255)
     dob = models.DateField(verbose_name="Date of Birth")
     profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)

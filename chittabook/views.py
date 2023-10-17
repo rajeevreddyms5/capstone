@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
-from .models import UserProfile
+from .models import UserProfile, User
 
 
 # Create your views here.
@@ -53,15 +53,25 @@ def home(request):
 
 @login_required
 def profileUpdate(request):
+
+    # get the profile instance of the logged in user if it exists
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     # if this is a POST request we need to process the form data
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
         form = UserProfileForm(request.POST)
+        
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            form = UserProfileForm(request.POST)
-            form.save()
+            form = UserProfileForm(request.POST, instance=UserProfileInstance)
+            form.save(commit=False)
+
+            # save the profile object to the user
+            instance.user = request.user
+            instance.save()
+
             # redirect to a new URL:
             return HttpResponseRedirect("/home/")
 
