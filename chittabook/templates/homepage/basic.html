@@ -172,14 +172,18 @@
                     <!-- alert notification on click -->
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-bell"></i>
+                                <i class="bi bi-bell"><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ messages|length }}
+                                    <span class="visually-hidden">unread messages</span>
+                                  </span>
+                                </i>
                             </button>
                             <ul class="dropdown-menu list-unstyled">
                                 {% if messages %}
                                 {% for message in messages %}
-                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <div class="alert alert-danger" role="alert">
                                     {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
                                   </div>
                                 {% endfor %}
                                 {% else %}
@@ -188,8 +192,13 @@
                             </ul>
                         </div>
                         
+                        &nbsp;&nbsp;
+                        <!-- buymeacoffee link -->
+                        <div>
+                            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 177px !important; margin-left: 5px;" ></a>
+                        </div>
 
-                        <!-- Example single danger button -->
+                        <!-- settings -->
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-gear"></i>
@@ -207,10 +216,6 @@
                                       </form>
                                 </li>
                             </ul>
-                        </div>
-                        <!-- buymeacoffee link -->
-                        <div>
-                            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 177px !important; margin-left: 5px;" ></a>
                         </div>
                         
                   </div>

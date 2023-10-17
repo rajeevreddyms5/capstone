@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
 from .models import UserProfile, User
+from django.contrib import messages
 
 
 # Create your views here.
@@ -43,10 +44,13 @@ def terms(request):
 
 # home page view for chittabook app
 @login_required
-def home(request):
+def home(request, form_error=False):
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+
     return render(request, 'homepage/home.html',
         context={
-            "form": UserProfileForm,
+            "form": UserProfileForm(instance=UserProfileInstance),
+            "form_error": form_error
         }
     )
 
@@ -54,29 +58,32 @@ def home(request):
 @login_required
 def profileUpdate(request):
 
-    # get the profile instance of the logged in user if it exists
+    # get the logged in user profile
     UserProfileInstance = UserProfile.objects.get(user=request.user)
-    
+
     # if this is a POST request we need to process the form data
     if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = UserProfileForm(request.POST)
+        form = UserProfileForm(request.POST, instance=UserProfileInstance)
         
+        form_error = False
+
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            form = UserProfileForm(request.POST, instance=UserProfileInstance)
-            form.save(commit=False)
+            instance = form.save(commit=False)
 
             # save the profile object to the user
             instance.user = request.user
             instance.save()
+            messages.success(request, "Profile Updated Successfully.")
 
             # redirect to a new URL:
             return HttpResponseRedirect("/home/")
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = UserProfileForm()
+        form_error = True
+        form = UserProfileForm(instance=UserProfileInstance)
+        
 
-    return render(request, "homepage/home.html", {"form": form})
+    return render(request, "homepage/home.html", {"form": form, "form_error": form_error})

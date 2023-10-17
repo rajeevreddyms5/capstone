@@ -18,6 +18,14 @@
             Click here for Getting Started
         </a>
         
+        <!-- if error on form save show modal -->
+        {% if form_error == True %}
+            <!-- show modal on page load -->
+            <script>
+                $(#staticBackdrop).modal("show");
+            </script>
+        {% endif %}
+
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">

@@ -29,7 +29,7 @@ class UserProfile(models.Model):
     # fields
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     name = models.CharField(max_length=255)
-    dob = models.DateField(verbose_name="Date of Birth")
+    dob = models.DateField(verbose_name="Date of Birth", null=True, blank=True)
     profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)
     gender = models.CharField(max_length=255, null=True, blank=True, choices=gender_choice)
     country = CountryField()
