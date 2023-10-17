@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // load auto dismiss alert
     auto_dismiss_alert();
+    
 });
 
 

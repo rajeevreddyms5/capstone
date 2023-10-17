@@ -27,10 +27,12 @@ class UserProfileForm(ModelForm):
             raise ValidationError("Date of Birth cannot be in the future.")
         elif dob == date.today():
             raise ValidationError("Date of Birth cannot be today.")
-        elif dob > date.today() - date(100, 0, 0):
-            raise ValidationError("Date of Birth cannot be more than 100 years.")
+        
         # dob cannot be less than 13 years old
-        elif dob < date.today() - date(13, 0, 0):
+        today = date.today()
+        age = int(today.year) - int(dob.year) - ((int(today.month), int(today.day)) < (int(dob.month), int(dob.day)))
+
+        if int(age) < 18:
             raise ValidationError("Date of Birth cannot be less than 13 years.")
         
         return cleaned_data

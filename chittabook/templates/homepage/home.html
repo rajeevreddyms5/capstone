@@ -17,14 +17,6 @@
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
             Click here for Getting Started
         </a>
-        
-        <!-- if error on form save show modal -->
-        {% if form_error == True %}
-            <!-- show modal on page load -->
-            <script>
-                $(#staticBackdrop).modal("show");
-            </script>
-        {% endif %}
 
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -41,7 +33,7 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalClose">Close</button>
                             <input type="submit" value="Save Changes" class="btn btn-primary"/>
                         </div>
                     </form>
@@ -49,5 +41,15 @@
             </div>
             </div>
         </div>
+
+        <!-- if error on form save show modal -->
+        {% if form_error == True %}
+            <!-- show modal on page load -->
+            <script type="text/javascript">
+                var modal = document.getElementById("staticBackdrop");
+                modal.style.display = "block";
+                modal.classList.add("show");
+            </script>
+        {% endif %}
     {% endif %}
 {% endblock %}

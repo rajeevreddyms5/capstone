@@ -45,8 +45,10 @@ def terms(request):
 # home page view for chittabook app
 @login_required
 def home(request, form_error=False):
+    # get instance of user profile
     UserProfileInstance = UserProfile.objects.get(user=request.user)
 
+    print(form_error)
     return render(request, 'homepage/home.html',
         context={
             "form": UserProfileForm(instance=UserProfileInstance),
@@ -79,11 +81,13 @@ def profileUpdate(request):
 
             # redirect to a new URL:
             return HttpResponseRedirect("/home/")
+        
+        else:
+            form_error = True
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form_error = True
         form = UserProfileForm(instance=UserProfileInstance)
-        
-
-    return render(request, "homepage/home.html", {"form": form, "form_error": form_error})
+        form_error = True
+    
+    return render(request, 'homepage/home.html', context={"form": form, "form_error": form_error})
