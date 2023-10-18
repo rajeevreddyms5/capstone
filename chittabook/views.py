@@ -91,3 +91,12 @@ def profileUpdate(request):
         form_error = True
     
     return render(request, 'homepage/home.html', context={"form": form, "form_error": form_error})
+
+
+# profile view
+def profile(request):
+     # get instance of user profile
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+
+    form = UserProfileForm(instance=UserProfileInstance)
+    return render(request, 'homepage/profile.html', context={"form": form})

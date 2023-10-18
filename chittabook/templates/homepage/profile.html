@@ -1,0 +1,21 @@
+{% extends "homepage/basic.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2 class="fs-5">Profile</h2>
+       
+        <!-- load userprofile form -->
+        {{ form.media }}  {# Adds widget's JS/CSS files from CDN #}
+        <form method="post" action="{% url 'profileUpdate' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            
+            <input type="submit" value="Save Changes" href="{% url 'profileUpdate' %}" class="btn btn-primary"/>
+         
+        </form>
+
+    {% endif %}
+{% endblock %}

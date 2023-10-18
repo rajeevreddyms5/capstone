@@ -11,4 +11,5 @@ urlpatterns = [
     path("terms/", views.terms, name="terms"),
     path("privacy/", views.privacy, name="privacy"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
+    path("profile/", views.profile, name="profile"),
 ]

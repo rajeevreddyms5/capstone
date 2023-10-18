@@ -15,46 +15,6 @@
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
             Click here for Getting Started
         </a>
-
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- load userprofile form -->
-                    {{ form.media }}  {# Adds widget's JS/CSS files from CDN #}
-                    <form method="post" action="{% url 'profileUpdate' %}">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalClose">Close</button>
-                            <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <!-- if error on form save show modal -->
-        {% if form_error == True %}
-            <!-- show modal on page load -->
-            <script type="text/javascript">
-                var modal = document.getElementById("staticBackdrop");
-                modal.style.display = "block";
-                modal.classList.add("show");
-            </script>
-        {% endif %}
-        <script>
-            $(function () {
-                $('#modalClose').on('click', function () {
-                    $('#staticBackdrop').hide();
-                })
-            })
-        </script>
+        
     {% endif %}
 {% endblock %}

@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 
 <!DOCTYPE html>
@@ -204,7 +205,12 @@
                                 <i class="bi bi-gear"></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#">
+                                        Profile
+                                    </a>
+                                </li>
+                                
                                 <li><a class="dropdown-item" href="#">Contact us</a></li>
                                 <li>
                                     <form method="post" action="{% url 'account_logout' %}">
@@ -229,10 +235,57 @@
       </div>
   </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Profile</h1>
+        <button type="button" class="btn-close" id="btn-modalClose" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- load userprofile form -->
+            {{ form.media }}  {# Adds widget's JS/CSS files from CDN #}
+            <form method="post" action="{% url 'profileUpdate' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalClose">Close</button>
+                    <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- if error on form save show modal -->
+    {% if form_error == True %}
+        <!-- show modal on page load -->
+        <script type="text/javascript">
+            var modal = document.getElementById("staticBackdrop");
+            modal.style.display = "block";
+            modal.classList.add("show");
+        </script>
+    {% endif %}
+    <script>
+        $(function () {
+            $('#modalClose').on('click', function () {
+                $('#staticBackdrop').hide();
+            })
+        })
+        $(function () {
+            $('#btn-modalClose').on('click', function () {
+                $('#staticBackdrop').hide();
+            })
+        })
+    </script>
+
     {% block body %}
     {% endblock %}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!-- for sidebar collapse on mobile -->
     <script>
         $(".sidebar ul li").on('click', function () {
@@ -253,5 +306,6 @@
     </script>
     
     <script src="{% static 'chittabook/homepage/main.js' %}"></script>
+
   </body>
 </html>
