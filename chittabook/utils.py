@@ -17,7 +17,8 @@ def currency(request):
 def currency_symbol(country_code):
     try:
         currency_code = get_territory_currencies(country_code)[0]
-        symbol = get_currency_symbol(currency_code, locale='en_US')
+        symbol = get_currency_symbol(currency_code)
     except IndexError:
         symbol = ''
+    #print(f"symbol: {symbol}")
     return symbol

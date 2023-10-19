@@ -85,12 +85,12 @@
                     Accounts</a>
                 <div class="dropdown-items" id="dropdown_items" style="display: none;">  
                     <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                        <span> Account 1</span>
-                        <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
+                        <span class="text-truncate">Account 100000</span>
+                        <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{{currency}}1,00,00,000,00,0000</span>
                     </a>
                     <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                        <span> Account 2</span>
-                        <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
+                        <span class="text-truncate"> Account 2</span>
+                        <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">-{{currency}}1,00,00</span>
                     </a>
                     </li>
                     <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;"><i class="bi bi-plus"></i> Add Account</button>
@@ -147,10 +147,9 @@
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 30px;"><i class="bi bi-plus"></i> Add Investments</button>
             </div>
         </ul>
-    
+
         <!-- sidebar end - buy me a coffee link -->
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div class="sidebar-footer px-2 py-5 mt-5">
+        <div class="sidebar-footer px-2 py-5 mt-5"><p style="font-weight: bold;">If you enjoy this website, please show your support to help keep it free. <span class="text-danger">THANK YOU for your support.</span></p>
             <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
         </div>
 
@@ -170,11 +169,10 @@
                   </button>
                   <div class="collapse navbar-collapse justify-content-end me-5 px-5" id="navbarSupportedContent">
                        
-                    
-                        <!-- buymeacoffee link -->
+                        <!-- buymeacoffee link
                         <div>
                             <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 177px !important; margin-left: 5px;" ></a>
-                        </div>
+                        </div> -->
 
                         <!-- settings -->
                         <div class="btn-group">
@@ -212,7 +210,7 @@
       </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Profile Modal -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
     <div class="modal-content">
@@ -226,6 +224,8 @@
             <form method="post" action="{% url 'profileUpdate' %}">
                 {% csrf_token %}
                 {{ form|crispy }}
+                <p class="text-danger">Based on your country, currency will be changed</p>
+                <p class="text-dark-sm"> * fields are required</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalClose">Close</button>
                     <input type="submit" value="Save Changes" class="btn btn-primary"/>

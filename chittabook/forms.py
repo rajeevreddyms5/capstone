@@ -34,6 +34,8 @@ class UserProfileForm(ModelForm):
 
         if int(age) < 18:
             raise ValidationError("Date of Birth cannot be less than 13 years.")
+        elif int(age) > 100:
+            raise ValidationError("Date of Birth cannot be greater than 100 years.")
         
         return cleaned_data
             

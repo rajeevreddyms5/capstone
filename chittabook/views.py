@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
 from .models import UserProfile, User
 from django.contrib import messages
+from .utils import currency_symbol
 
 
 # Create your views here.
@@ -53,6 +54,8 @@ def home(request, form_error=False):
             "form": UserProfileForm(instance=UserProfileInstance),
             "form_error": form_error,
             "username": UserProfileInstance.name,
+            "country": UserProfileInstance.country,
+            "currency": currency_symbol(str(UserProfileInstance.country))
         }
     )
 
@@ -90,13 +93,4 @@ def profileUpdate(request):
         form = UserProfileForm(instance=UserProfileInstance)
         form_error = True
     
-    return render(request, 'homepage/home.html', context={"form": form, "form_error": form_error})
-
-
-# profile view
-def profile(request):
-     # get instance of user profile
-    UserProfileInstance = UserProfile.objects.get(user=request.user)
-
-    form = UserProfileForm(instance=UserProfileInstance)
-    return render(request, 'homepage/profile.html', context={"form": form})
+    return render(request, 'homepage/home.html', context={"form": form, "form_error": form_error, "username": UserProfileInstance.name})
