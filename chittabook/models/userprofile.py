@@ -33,6 +33,7 @@ class UserProfile(models.Model):
     profession = models.CharField(max_length=255, null=True, blank=True, choices=PROFESSION_CHOICES)
     gender = models.CharField(max_length=255, null=True, blank=True, choices=gender_choice)
     country = CountryField()
+    
 
     
     def __str__(self):

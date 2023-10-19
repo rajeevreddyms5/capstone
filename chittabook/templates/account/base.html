@@ -33,6 +33,10 @@
      <!-- JavaScript file -->
      <script src="{% static 'chittabook/scripts.js' %}"></script>
 
+     <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    
+
      <!-- Font Awesome -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -64,28 +68,38 @@
     </nav>
 
     {% block body %}
-
-    <!-- messages display -->
+    
+    <!-- Toasts -->
+    {% for message in messages %}
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="false">
+          <div class="toast-header">
+              <img src="#" class="rounded me-2" alt="...">
+              <strong class="me-auto">Chitta Book</strong>
+              <small>Just now</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+              {{ message }}
+          </div>
+          </div>
+      </div>
+    {% endfor %}
     {% if messages %}
-        {% for message in messages %}
-            <div id="messages" class="alert alert-{{ message.tags }} alert-dismissible fade show" data-timeout="10000" role="alert" style="margin-bottom: 0; margin-right: 10px; margin-left: 10px;">
-                <ul>
-                    <li>
-                        {{ message }}
-                    </li>
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
+      <script>
+          $(document).ready(function() {
+              $(".toast").toast('show');
+          });
+      </script>
     {% endif %}
 
     {% block content %}
     {% endblock %}
+    
     {% endblock %}
 
     {% block extra_body %}
       <!-- footer -->
-      <br><br>
       <footer class="mt-auto" style="font-size: 10px;">
         <div class="container">
           <div class="row justify-content-center flex-wrap">

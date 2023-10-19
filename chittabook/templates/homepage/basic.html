@@ -170,30 +170,7 @@
                   </button>
                   <div class="collapse navbar-collapse justify-content-end me-5 px-5" id="navbarSupportedContent">
                        
-                    <!-- alert notification on click -->
-                        <div class="btn-group">
-                            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-bell"><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ messages|length }}
-                                    <span class="visually-hidden">unread messages</span>
-                                  </span>
-                                </i>
-                            </button>
-                            <ul class="dropdown-menu list-unstyled">
-                                {% if messages %}
-                                {% for message in messages %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ message }}
-                                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
-                                  </div>
-                                {% endfor %}
-                                {% else %}
-                                    <li><a class="dropdown-item" href="#">No messages</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        
-                        &nbsp;&nbsp;
+                    
                         <!-- buymeacoffee link -->
                         <div>
                             <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 177px !important; margin-left: 5px;" ></a>
@@ -202,7 +179,7 @@
                         <!-- settings -->
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-gear"></i>
+                                <i class="bi bi-gear"> Settings</i>
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
@@ -258,6 +235,30 @@
         </div>
         </div>
     </div>
+
+    <!-- Toasts -->
+    {% for message in messages %}
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="#" class="rounded me-2" alt="...">
+                <strong class="me-auto">Chitta Book</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ message }}
+            </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% if messages %}
+        <script>
+            $(document).ready(function() {
+                $(".toast").toast('show');
+            });
+        </script>
+    {% endif %}
 
     <!-- if error on form save show modal -->
     {% if form_error == True %}
