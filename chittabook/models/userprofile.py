@@ -1,8 +1,5 @@
 from django.db import models
 from .usermodel import User
-from datetime import date, datetime, time
-from babel.dates import format_date, format_datetime, format_time
-import pycountry
 from django_countries.fields import CountryField
 
 
