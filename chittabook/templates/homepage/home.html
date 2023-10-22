@@ -4,10 +4,61 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+    <!-- if user doesnot select his country -->
     {% if username %}
-        <h2 class="fs-5"> Dashboard</h2>
-        <p>Welcome {{ username }}.</p>
-        <p>You are from {{ country }} and Your currency is {{ currency }}</p>
+        <!-- if user doesnot created atleast one type of account -->
+        {% if BankAccount or LoanAccount or InvestmentAccount or CreditCards %}
+            <h2 class="fs-5"> Dashboard</h2>
+            <p>Welcome {{ username }}.</p>
+            <p>You are from {{ country }} and Your currency is {{ currency }}</p>
+        {% else %}
+            <h2 class="fs-5"> Welcome {{ username }} </h2>
+            <p>Just one more step to get started. Just create any account for adding transactions.</p>
+            
+            <!-- add buttons to create SavingsAccount, CheckingAccount, LoanAccount, InvestmentAccount, CreditCardAccount -->
+            <div class="row g-3">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Bank Account</h5>
+                      <p class="card-text text-muted">With Bank Account you can track your savings or checking in your bank accounts. </p>
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Add Bank Account
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Credit Cards</h5>
+                        <p class="card-text text-muted">With Credit Cards you can track your spending on credit cards.</p>
+                        <a href="#" class="btn btn-primary">Add Credit Card</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Loan Account</h5>
+                        <p class="card-text text-muted">With Loan Account you can track your loans and liabilities.</p>
+                        <a href="#" class="btn btn-primary">Add Loan Account</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Investment Account</h5>
+                        <p class="card-text text-muted">With Investment Account you can track your Investments.</p>
+                        <a href="#" class="btn btn-primary">Add Investment Account</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+        {% endif %}  
     {% else %}
         <h2 class="fs-5"> Welcome to Chitta Book </h2>
         <p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>

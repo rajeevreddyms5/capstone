@@ -4,6 +4,7 @@ from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import date
+from chittabook.models.accounts import BankAccount, LoanAccount, CreditCards, InvestmentAccount
 
 # Create your custom views here.
 
@@ -38,4 +39,12 @@ class UserProfileForm(ModelForm):
             raise ValidationError("Date of Birth cannot be greater than 100 years.")
         
         return cleaned_data
-            
+
+
+
+
+# Bank Account form
+class BankAccountForm(ModelForm):
+    class Meta:
+        model = BankAccount
+        fields = ['account_name', 'balance']

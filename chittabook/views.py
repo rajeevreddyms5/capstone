@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileForm
-from .models import UserProfile, User
+from .forms import UserProfileForm, BankAccountForm
+from .models import UserProfile, User, BankAccount, LoanAccount, CreditCards, InvestmentAccount
 from django.contrib import messages
 from .utils import currency_symbol
 
@@ -53,13 +53,19 @@ def home(request, form_error=False):
         context={
             "form": UserProfileForm(instance=UserProfileInstance),
             "form_error": form_error,
+            "bankForm": BankAccountForm(instance=UserProfileInstance), # bank form for creating new bank accounts
             "username": UserProfileInstance.name,
             "country": UserProfileInstance.country,
-            "currency": currency_symbol(str(UserProfileInstance.country))
+            "currency": currency_symbol(str(UserProfileInstance.country)),
+            "BankAccount": BankAccount.objects.filter(user=request.user),
+            "LoanAccount": LoanAccount.objects.filter(user=request.user),
+            "CreditCards": CreditCards.objects.filter(user=request.user),
+            "InvestmentAccount": InvestmentAccount.objects.filter(user=request.user),
         }
     )
 
 
+# profile update
 @login_required
 def profileUpdate(request):
 
@@ -94,3 +100,19 @@ def profileUpdate(request):
         form_error = True
     
     return render(request, 'homepage/home.html', context={"form": form, "form_error": form_error, "username": UserProfileInstance.name})
+
+
+
+# create bank account
+@ login_required
+def createBankAccount(request):
+    if request.method == "POST":
+        form = BankAccountForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Bank Account Created Successfully.")
+            return HttpResponseRedirect("/home/")
+    else:
+        form = BankAccountForm()
