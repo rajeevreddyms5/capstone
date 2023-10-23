@@ -93,7 +93,8 @@
                         <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">-{{currency}}1,00,00</span>
                     </a>
                     </li>
-                    <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;"><i class="bi bi-plus"></i> Add Account</button>
+                    <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#bankAccountModal">
+                        <i class="bi bi-plus-circle"></i> Add Bank Account</button>
                 </div>
           </ul>
 
@@ -109,8 +110,10 @@
                     <span> Credit Card 2</span>
                     <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
                 </a>
-                </li>
-                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 30px;"><i class="bi bi-plus"></i> Add Credit Cards</button>
+            </li>
+                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#creditCardModal">
+                    <i class="bi bi-plus-circle"></i> Add Credit Card
+                  </button>
             </div>
         </ul>
 
@@ -127,7 +130,9 @@
                     <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
                 </a>
                 </li>
-                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 50px;"><i class="bi bi-plus"></i> Add Loans</button>
+                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#loanAccountModal">
+                    <i class="bi bi-plus-circle"></i> Add Loan Account
+                  </button>
             </div>
         </ul>
 
@@ -144,7 +149,9 @@
                     <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
                 </a>
                 </li>
-                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 30px;"><i class="bi bi-plus"></i> Add Investments</button>
+                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
+                    <i class="bi bi-plus-circle"></i> Add Investment Account
+                  </button>
             </div>
         </ul>
 
@@ -238,17 +245,83 @@
 
 
     <!-- Add Bank Account Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="bankAccountModal" tabindex="-1" aria-labelledby="bankAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Add Bank Account</h1>
+            <h1 class="modal-title fs-5" id="bankAccountModalLabel">Add Bank Account</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form method="post" action="{% url 'createBankAccount' %}">
                     {% csrf_token %}
                     {{ bankForm| crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Add Loan Account Modal -->
+    <div class="modal fade" id="loanAccountModal" tabindex="-1" aria-labelledby="loanAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="loanAccountModalLabel">Add Loan Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'createBankAccount' %}">
+                    {% csrf_token %}
+                    {{ loanForm| crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Add credit card Modal -->
+    <div class="modal fade" id="creditCardModal" tabindex="-1" aria-labelledby="creditCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="creditCardModalLabel">Add Credit Cards</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'createBankAccount' %}">
+                    {% csrf_token %}
+                    {{ creditCardForm| crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Add Investment Account Modal -->
+    <div class="modal fade" id="investmentAccountModal" tabindex="-1" aria-labelledby="investmentAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="investmentAccountModalLabel">Add Investment Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'createBankAccount' %}">
+                    {% csrf_token %}
+                    {{ investmentForm| crispy }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

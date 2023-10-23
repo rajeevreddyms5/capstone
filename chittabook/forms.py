@@ -48,3 +48,25 @@ class BankAccountForm(ModelForm):
     class Meta:
         model = BankAccount
         fields = ['account_name', 'balance']
+
+
+# Loan Account form
+class LoanAccountForm(ModelForm):
+    class Meta:
+        model = LoanAccount
+        fields = ['lender', 'amount', 'interest_rate', 'balance']
+
+
+# Credit Cards form
+class CreditCardsForm(ModelForm):
+    class Meta:
+        model = CreditCards
+        fields = ['card_name', 'credit_limit', 'current_balance']
+
+
+
+# Investment Account form
+class InvestmentAccountForm(ModelForm):
+    class Meta:
+        model = InvestmentAccount
+        fields = ['account_name', 'interest_rate', 'current_value']
