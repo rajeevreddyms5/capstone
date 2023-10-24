@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCardsForm, InvestmentAccountForm
 from .models import UserProfile, User, BankAccount, LoanAccount, CreditCards, InvestmentAccount
 from django.contrib import messages
-from .utils import currency_symbol
+from .utils import currency_symbol, currency_name
 
 
 # Create your views here.
@@ -61,7 +61,8 @@ def home(request, form_error=False):
             "creditCardForm": CreditCardsForm(instance=UserProfileInstance), # credit card form for creating new credit cards
             "investmentForm": InvestmentAccountForm(instance=UserProfileInstance), # investment form for creating new investment accounts
             "username": UserProfileInstance.name,   # username from user
-            "country": UserProfileInstance.country, # country from user
+            "country": str(UserProfileInstance.country), # country from user
+            "currency_name": currency_name(str(UserProfileInstance.country)), # currency from user using country name
             "currency": currency_symbol(str(UserProfileInstance.country)), # currency from user using country name
             "bankAccounts": user.bank_accounts.all(),   # bank accounts associated with user
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
@@ -123,3 +124,7 @@ def createBankAccount(request):
             return HttpResponseRedirect("/home/")
     else:
         form = BankAccountForm()
+        messages.error(request, "Bank Account Creation Failed.")
+        return HttpResponseRedirect("/home/")
+
+        

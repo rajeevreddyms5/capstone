@@ -5,7 +5,7 @@ body{
    #side_nav{
     background: white;
     min-width: 250px;
-    max-width: 250px;
+    max-width: 320px;
     transition: all 0.3s;
    }
    .content{
@@ -19,6 +19,7 @@ body{
    .sidebar li.active{
       background: #eee;
       border-radius: 8px;
+      font-weight: bold;
    }
    
    .sidebar li.active a, .sidebar li.active a:hover {
@@ -30,7 +31,7 @@ body{
    
    @media(max-width: 767px){
     #side_nav{
-      margin-left: -250px;
+      margin-left: -320px;
       position: absolute;
       min-height: 100vh;
       z-index: 1;
@@ -51,4 +52,3 @@ body{
     box-shadow: 0 6px 6px -6px rgba(0,0,0, .35);
   }
    
- 

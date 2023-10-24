@@ -13,6 +13,7 @@ def currency(request):
     
     return g.country_code(address)  # returns a 2-letter country code
 
+
 # get country currency symbol using country code
 def currency_symbol(country_code):
     try:
@@ -22,3 +23,12 @@ def currency_symbol(country_code):
         symbol = ''
     #print(f"symbol: {symbol}")
     return symbol
+
+
+# get country currency name from country code
+def currency_name(country_code):
+    try:
+        currency_code = get_territory_currencies(country_code)[0]
+    except IndexError:
+        currency_code = ''
+    return currency_code

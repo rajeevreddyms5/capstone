@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load formatter from format %}
 
 
 <!DOCTYPE html>
@@ -85,9 +86,9 @@
                     Bank Accounts</a>
                 <div class="dropdown-items" id="dropdown_items" style="display: none;">
                     {% for bankAccount in bankAccounts %}
-                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
                             <span class="text-truncate">{{ bankAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{{currency}}{{ bankAccount.balance }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                     {% endfor %}
@@ -147,7 +148,7 @@
                     <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
                 </a>
                 </li>
-                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
+                <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
                     <i class="bi bi-plus-circle"></i> Add Investment Account
                   </button>
             </div>
@@ -190,8 +191,8 @@
                                         Profile
                                     </a>
                                 </li>
-                                
-                                <li><a class="dropdown-item" href="#">Contact us</a></li>
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#contactModal" href="#">Contact us</a></li>
                                 <li>
                                     <form method="post" action="{% url 'account_logout' %}">
                                         {% csrf_token %}
@@ -330,6 +331,25 @@
         </div>
     </div>
 
+
+    <!-- Contact Us Modal -->
+    <div class="modal fade" id="contactModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="contactModalLabel">Contact Us</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="contact_modalClose"></button>
+            </div>
+            <div class="modal-body">
+                <p>Thank you for using our website! If you have any queries, please email us at <a href="mailto:services.chittabook@gmail.com">services.chittabook@gmail.com</a>.</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="contact_modalClose1">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <!-- Toasts -->
     {% for message in messages %}
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -363,6 +383,8 @@
             modal.classList.add("show");
         </script>
     {% endif %}
+
+    <!-- script for proper closing of profiel modal-->
     <script>
         $(function () {
             $('#modalClose').on('click', function () {
@@ -372,6 +394,20 @@
         $(function () {
             $('#btn-modalClose').on('click', function () {
                 $('#staticBackdrop').hide();
+            })
+        })
+    </script>
+
+    <!-- scirpt for proper closing of contact modal-->
+    <script>
+        $(function () {
+            $('#contact_modalClose').on('click', function () {
+                $('#contactModal').hide();
+            })
+        })
+        $(function () {
+            $('#contact_modalClose1').on('click', function () {
+                $('#contactModal').hide();
             })
         })
     </script>
