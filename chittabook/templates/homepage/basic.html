@@ -82,17 +82,15 @@
           <!-- Dropdown -->
           <!-- Bank Accounts Dropdown -->
           <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
-                    Accounts</a>
-                <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                    <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                        <span class="text-truncate">Account 100000</span>
-                        <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{{currency}}1,00,00,000,00,0000</span>
-                    </a>
-                    <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                        <span class="text-truncate"> Account 2</span>
-                        <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">-{{currency}}1,00,00</span>
-                    </a>
-                    </li>
+                    Bank Accounts</a>
+                <div class="dropdown-items" id="dropdown_items" style="display: none;">
+                    {% for bankAccount in bankAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
+                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{{currency}}{{ bankAccount.balance }}</span>
+                        </a>
+                        </li>
+                    {% endfor %}
                     <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#bankAccountModal">
                         <i class="bi bi-plus-circle"></i> Add Bank Account</button>
                 </div>

@@ -46,26 +46,30 @@ def terms(request):
 # home page view for chittabook app
 @login_required
 def home(request, form_error=False):
-    # get instance of user profile
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
     UserProfileInstance = UserProfile.objects.get(user=request.user)
 
     return render(request, 'homepage/home.html',
         context={
-            "form": UserProfileForm(instance=UserProfileInstance),
-            "form_error": form_error,
+            "form": UserProfileForm(instance=UserProfileInstance),  # profile form for editing when user is logged in and no country and name is set
+            "form_error": form_error,   # form error when userprofile is not valid
             "bankForm": BankAccountForm(instance=UserProfileInstance), # bank form for creating new bank accounts
             "loanForm": LoanAccountForm(instance=UserProfileInstance), # loan form for creating new loan accounts
             "creditCardForm": CreditCardsForm(instance=UserProfileInstance), # credit card form for creating new credit cards
             "investmentForm": InvestmentAccountForm(instance=UserProfileInstance), # investment form for creating new investment accounts
-            "username": UserProfileInstance.name,
-            "country": UserProfileInstance.country,
-            "currency": currency_symbol(str(UserProfileInstance.country)),
-            "BankAccount": BankAccount.objects.filter(user=request.user),
-            "LoanAccount": LoanAccount.objects.filter(user=request.user),
-            "CreditCards": CreditCards.objects.filter(user=request.user),
-            "InvestmentAccount": InvestmentAccount.objects.filter(user=request.user),
+            "username": UserProfileInstance.name,   # username from user
+            "country": UserProfileInstance.country, # country from user
+            "currency": currency_symbol(str(UserProfileInstance.country)), # currency from user using country name
+            "bankAccounts": user.bank_accounts.all(),   # bank accounts associated with user
+            "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
+            "creditCards": CreditCards.objects.filter(user=request.user),   # credit cards associated with user
+            "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
         }
     )
+
 
 
 # profile update

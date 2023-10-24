@@ -7,7 +7,7 @@
     <!-- if user doesnot select his country -->
     {% if username %}
         <!-- if user doesnot created atleast one type of account -->
-        {% if BankAccount or LoanAccount or InvestmentAccount or CreditCards %}
+        {% if bankAccounts or loanAccounts or investmentAccounts or creditCards %}
             <h2 class="fs-5"> Dashboard</h2>
             <p>Welcome {{ username }}.</p>
             <p>You are from {{ country }} and Your currency is {{ currency }}</p>
@@ -59,11 +59,11 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
                             <i class="bi bi-plus-circle"></i> Add Investment Account
                           </button>
+                        
                       </div>
                     </div>
                   </div>
               </div>
-
         {% endif %}  
     {% else %}
         <h2 class="fs-5"> Welcome to Chitta Book </h2>
