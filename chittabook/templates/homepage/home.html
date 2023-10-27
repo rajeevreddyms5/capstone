@@ -11,6 +11,12 @@
             <h2 class="fs-5"> Dashboard</h2>
             <p>Welcome {{ username }}.</p>
             <p>You are from {{ country }} and Your currency is {{ currency }}</p>
+            <div>
+              <!-- add button for expense and income -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#expenseModal">
+                <i class="bi bi-plus-circle"></i> Add Expense
+              </button>
+            </div>
         {% else %}
             <h2 class="fs-5"> Welcome {{ username }} </h2>
             <p>Just one more step to get started. Just create any account for adding transactions.</p>
@@ -73,6 +79,30 @@
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
             Click here for Getting Started
         </a>
-        
     {% endif %}
+
+    <!-- Add expense modal -->
+    <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="expenseModalLabel">Add Expense</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    {{ expenseForm|crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}

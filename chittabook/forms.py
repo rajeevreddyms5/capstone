@@ -1,9 +1,10 @@
-from django.forms import ModelForm, widgets, ValidationError
+from django.forms import ModelForm, widgets, ValidationError, ChoiceField, NumberInput
 from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
-from bootstrap_datepicker_plus.widgets import DatePickerInput
+from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from datetime import date
 from chittabook.models.accounts import BankAccount, LoanAccount, CreditCards, InvestmentAccount
+from chittabook.models.expense import Expense, ExpenseCategory
 
 # Create your custom views here.
 
@@ -69,3 +70,45 @@ class InvestmentAccountForm(ModelForm):
     class Meta:
         model = InvestmentAccount
         fields = ['account_name', 'current_value']
+
+
+# Expense form with list of accounts to choose from bank account, loan account, credit cards, and investment account
+#  and add expense category field to choose from expense categories
+class ExpenseForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(ExpenseForm, self).__init__(*args, **kwargs)
+        self.fields['account'].choices = self.get_account_choices()
+    
+    account = ChoiceField(choices=[], required=True, label='Select Account')
+
+    class Meta:
+        model = Expense
+        fields = ['account', 'amount', 'date', 'note', 'category']
+        widgets = {
+            'date': DatePickerInput(),
+        }
+
+
+    def get_account_choices(self):
+        bank_accounts = BankAccount.objects.filter(user=self.request.user)
+        credit_cards = CreditCards.objects.filter(user=self.request.user)
+        loan_accounts = LoanAccount.objects.filter(user=self.request.user)
+        investment_accounts = InvestmentAccount.objects.filter(user=self.request.user)
+
+        account_choices = []
+
+        if bank_accounts:
+            account_choices.append(('Bank Accounts', [(a.id, a.account_name) for a in bank_accounts]))
+
+        if credit_cards:
+            account_choices.append(('Credit Cards', [(a.id, a.card_name) for a in credit_cards]))
+
+        if loan_accounts:
+            account_choices.append(('Loan Accounts', [(a.id, a.account_name) for a in loan_accounts]))
+
+        if investment_accounts:
+            account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
+
+        return account_choices

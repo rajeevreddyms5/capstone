@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCardsForm, InvestmentAccountForm
+from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCardsForm, InvestmentAccountForm, ExpenseForm
 from .models import UserProfile, User, BankAccount, LoanAccount, CreditCards, InvestmentAccount
 from django.contrib import messages
 from .utils import currency_symbol, currency_name
@@ -68,6 +68,7 @@ def home(request, form_error=False):
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCards.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
+            "expenseForm": ExpenseForm(request=request), # expense form
         }
     )
 
