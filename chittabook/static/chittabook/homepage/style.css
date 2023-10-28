@@ -52,3 +52,14 @@ body{
     box-shadow: 0 6px 6px -6px rgba(0,0,0, .35);
   }
    
+  .dashboard-content {
+    margin-left: 0;
+    max-height: calc(100vh - 30px); /* Adjust the value of 50px based on the height of your top bar */
+    overflow-y: auto;
+  }
+
+  @media (min-width: 768px) {
+    .dashboard-content {
+      margin-left: auto; /* Adjust this value based on the width of your sidebar */
+    }
+  }

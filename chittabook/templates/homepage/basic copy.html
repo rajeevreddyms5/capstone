@@ -207,11 +207,6 @@
           <div class="dashboard-content px-3 pt-4">
                 {% block content %}
                 {% endblock %}
-                <!-- hidden text at the end for space purpose-->
-                <div class="invisible" id="hidden_text">
-                    <h2>hi</h2>
-                    <p>for space purpose</p>
-                </div>
           </div>
       </div>
   </div>
@@ -434,12 +429,6 @@
             $('.sidebar').removeClass('active');
 
         })
-
-        $('.dashboard-content').on('click touchstart', function () {
-            if ($(window).width() <= 768) {
-                $('.sidebar').removeClass('active');
-            }
-        });
     </script>
     
     <script src="{% static 'chittabook/homepage/main.js' %}"></script>
