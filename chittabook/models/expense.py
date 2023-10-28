@@ -19,7 +19,7 @@ class ExpenseCategory(models.Model):
 # expense subcategory
 class ExpenseSubCategory(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	category = models.ForeignKey(ExpenseCategory, on_delete=models.CASCADE, related_name='subcategories')
+	category = models.ForeignKey(ExpenseCategory, on_delete=models.CASCADE, related_name='expensesubcategories')
 	name = models.CharField(max_length=256)
 	created_at = models.DateTimeField(auto_now_add=True)
 

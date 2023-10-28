@@ -5,7 +5,9 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInp
 from datetime import date
 from chittabook.models.accounts import BankAccount, LoanAccount, CreditCards, InvestmentAccount
 from chittabook.models.expense import Expense, ExpenseCategory, ExpenseSubCategory
+from chittabook.models.income import Income, IncomeCategory, IncomeSubCategory
 from django.utils.html import format_html
+
 
 # Create your custom views here.
 
@@ -142,3 +144,6 @@ class ExpenseForm(ModelForm):
             category_choices.append((category.id, category.name))
 
         return category_choices
+
+
+# Income form
