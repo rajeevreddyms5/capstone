@@ -1,10 +1,11 @@
-from django.forms import ModelForm, widgets, ValidationError, ChoiceField, NumberInput
+from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField
 from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from datetime import date
 from chittabook.models.accounts import BankAccount, LoanAccount, CreditCards, InvestmentAccount
-from chittabook.models.expense import Expense, ExpenseCategory
+from chittabook.models.expense import Expense, ExpenseCategory, ExpenseSubCategory
+from django.utils.html import format_html
 
 # Create your custom views here.
 
@@ -80,9 +81,23 @@ class ExpenseForm(ModelForm):
         self.request = kwargs.pop('request', None)
         super(ExpenseForm, self).__init__(*args, **kwargs)
         self.fields['account'].choices = self.get_account_choices()
+        self.fields['category'].queryset = ExpenseCategory.objects.filter(user=self.request.user).order_by('name')
+        
+        # add subcategory field to the category field
+        choices = []
+        categories = self.fields['category'].queryset
+        subcategories = ExpenseSubCategory.objects.filter(user=self.request.user)
+        for category in categories:
+            subcategories_for_category = subcategories.filter(category=category)
+            choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
+            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
+
+        self.fields['category'].widget.choices = choices
     
     account = ChoiceField(choices=[], required=True, label='Select Account')
-
+    category = ModelChoiceField(queryset=ExpenseCategory.objects.none())
+    
+    
     class Meta:
         model = Expense
         fields = ['account', 'amount', 'date', 'note', 'category']
@@ -90,7 +105,7 @@ class ExpenseForm(ModelForm):
             'date': DatePickerInput(),
         }
 
-
+    # Account choices function
     def get_account_choices(self):
         bank_accounts = BankAccount.objects.filter(user=self.request.user)
         credit_cards = CreditCards.objects.filter(user=self.request.user)
@@ -112,3 +127,18 @@ class ExpenseForm(ModelForm):
             account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
 
         return account_choices
+    
+    # Category choices function
+    def get_category_choices(self):
+        expense_categories = ExpenseCategory.objects.filter(user=self.request.user)
+        subcategories = ExpenseSubCategory.objects.filter(user=self.request.user)
+
+        category_choices = []
+
+        for category in expense_categories:
+            subcategory_choices = []
+            for subcategory in subcategories.filter(category=category):
+                subcategory_choices.append((subcategory.id, subcategory.name))
+            category_choices.append((category.id, category.name))
+
+        return category_choices

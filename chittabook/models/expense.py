@@ -10,7 +10,7 @@ class ExpenseCategory(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return str(self.user) + self.name
+		return self.name
 
 	class Meta:
 		verbose_name_plural = 'Expense Categories'
@@ -24,7 +24,7 @@ class ExpenseSubCategory(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return str(self.category) + self.name
+		return self.name
 	
 	class Meta:
 		verbose_name_plural = 'Expense Subcategories'
@@ -38,7 +38,7 @@ class Expense(models.Model):
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	date = models.DateField(default=localtime)
 	note = models.CharField(max_length=256, blank=True, null=True)
-	category = models.ForeignKey(ExpenseCategory, on_delete=models.CASCADE)
+	category = models.CharField(max_length=256)
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
