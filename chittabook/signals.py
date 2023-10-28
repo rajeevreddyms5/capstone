@@ -2,11 +2,15 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import UserProfile, User
 from chittabook.models.expense import ExpenseSubCategory, ExpenseCategory
+from chittabook.models.income import IncomeSubCategory, IncomeCategory
 
+
+# create user profile when user is created
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
@@ -16,8 +20,9 @@ def save_user_profile(sender, instance, **kwargs):
         UserProfile.objects.create(user=instance)
 
 
+# create default expense categories for each user when user is created
 @receiver(post_save, sender=User)
-def create_default_categories(sender, instance, created, **kwargs):
+def create_default_expense_categories(sender, instance, created, **kwargs):
     if created:
         # create default categories
         categories = [
@@ -106,4 +111,48 @@ def create_default_categories(sender, instance, created, **kwargs):
 
         for subcategory_data in subcategories:
             subcategory, created = ExpenseSubCategory.objects.get_or_create(**subcategory_data)
+    
+
+# create default income categories for each user when user is created
+@receiver(post_save, sender=User)
+def create_default_income_categories(sender, instance, created, **kwargs):
+    if created:
+        # create default categories
+        categories = [
+            {'name': 'Initial Balance', 'user': instance},
+            {'name': 'Salary', 'user': instance},
+            {'name': 'Retirement Income', 'user': instance},
+            {'name': 'Other Income', 'user': instance},
+            {'name': 'Investment Income', 'user': instance},
+           
+        ]
+
+        for category_data in categories:
+            category, created = IncomeCategory.objects.get_or_create(**category_data)
+
+        
+        # create default subcategories
+        subcategories = [
+                {'category': IncomeCategory.objects.get(name='Investment Income', user = instance), 'name': 'Dividends', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Investment Income', user = instance), 'name': 'Interest', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Investment Income', user = instance), 'name': 'Long-term Capital Gains', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Investment Income', user = instance), 'name': 'Short-term Capital Gains', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Other Income', user = instance), 'name': 'Gifts Received', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Other Income', user = instance), 'name': 'Loan Principal Received', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Other Income', user = instance), 'name': 'Lotteries', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Retirement Income', user = instance), 'name': 'Pensions/Annuities', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Retirement Income', user = instance), 'name': 'Social Security', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Salary', user = instance), 'name': 'Bonus', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Salary', user = instance), 'name': 'Commission', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Salary', user = instance), 'name': 'Overtime', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Salary', user = instance), 'name': 'Employer Matching', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Salary', user = instance), 'name': 'Paycheck', 'user': instance},
+                {'category': IncomeCategory.objects.get(name='Salary', user = instance), 'name': 'Travel Allowance', 'user': instance},
+            
+                
+                # add more subcategories here
+            ]
+
+        for subcategory_data in subcategories:
+            subcategory, created = IncomeSubCategory.objects.get_or_create(**subcategory_data)
               

@@ -2,15 +2,16 @@ from typing import Any
 from django.core.management.base import BaseCommand
 from chittabook.models.usermodel import User
 from chittabook.models.expense import ExpenseCategory, ExpenseSubCategory
+from chittabook.models.income import IncomeCategory, IncomeSubCategory
 from django.apps import apps
 
 class Command(BaseCommand):
-    help = 'Apply default categories and subcategories to existing users'
+    help = 'Apply default categories and subcategories to existing users (Both income and expense) - for expense "apply_default_expense_categories" and for income "apply_default_income_categories"'
 
     def handle(self, *args, **options):
         # Check if the apps are already loaded
         if apps.ready:
-            self.apply_default_categories()
+            self.apply_default_expense_categories()
         else:
             self.stdout.write("Apps are not ready yet. Retrying...")
             # Retry after a short delay
@@ -18,7 +19,7 @@ class Command(BaseCommand):
             time.sleep(1)
             self.handle(*args, **options)
     
-    def apply_default_categories(self):
+    def apply_default_expense_categories(self):
         users = User.objects.all()
         for user in users:
             categories = [

@@ -5,7 +5,7 @@ from django.utils.timezone import localtime
 
 # expense category
 class ExpenseCategory(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='expensecategories')
 	name = models.CharField(max_length=256)
 	created_at = models.DateTimeField(auto_now_add=True)
 
@@ -33,7 +33,7 @@ class ExpenseSubCategory(models.Model):
 # expense
 class Expense(models.Model):	
 	
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='expensetransactions')
 	account = models.CharField(max_length=256)
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	date = models.DateField(default=localtime)
