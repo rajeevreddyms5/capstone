@@ -72,7 +72,7 @@ class CreditCardsForm(ModelForm):
 class InvestmentAccountForm(ModelForm):
     class Meta:
         model = InvestmentAccount
-        fields = ['account_name', 'current_value']
+        fields = ['account_name', 'balance']
 
 
 # Expense form with list of accounts to choose from bank account, loan account, credit cards, and investment account
@@ -109,6 +109,7 @@ class ExpenseForm(ModelForm):
 
     # Account choices function
     def get_account_choices(self):
+        print(self.request.user)
         bank_accounts = BankAccount.objects.filter(user=self.request.user)
         credit_cards = CreditCards.objects.filter(user=self.request.user)
         loan_accounts = LoanAccount.objects.filter(user=self.request.user)

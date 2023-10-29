@@ -12,4 +12,5 @@ urlpatterns = [
     path("privacy/", views.privacy, name="privacy"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("createBankAccount/", views.createBankAccount, name="createBankAccount"),
+    path("createExpense/", views.createExpense, name="createExpense"),
 ]

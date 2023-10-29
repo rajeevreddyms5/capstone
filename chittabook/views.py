@@ -5,6 +5,7 @@ from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCard
 from .models import UserProfile, User, BankAccount, LoanAccount, CreditCards, InvestmentAccount, Expense, Income, ExpenseCategory, ExpenseSubCategory, IncomeCategory, IncomeSubCategory
 from django.contrib import messages
 from .utils import currency_symbol, currency_name
+from django.urls import reverse
 
 
 # Create your views here.
@@ -70,7 +71,7 @@ def home(request, form_error=False):
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
             "expenseForm": ExpenseForm(request=request), # expense form
             "incomeForm": IncomeForm(request=request), # income form
-            "expensecategories": user.expensecategories.all(),   # expense categories associated with user
+            "expensetransactions": Expense.objects.filter(user=request.user), # expense transactions
         }
     )
 
@@ -131,3 +132,24 @@ def createBankAccount(request):
         return HttpResponseRedirect("/home/")
 
         
+# create or update expense transactions
+@ login_required
+def createExpense(request):
+    if request.method == "POST":
+        form = ExpenseForm(request.POST, request=request)
+        print(form)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.account = request.user.bank_accounts.get(id=request.POST['account'])
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Expense Transaction Saved Successfully.")
+            return HttpResponseRedirect("/home/")
+        else:
+            print(form.errors)
+            messages.error(request, "Expense Transaction Save Failed.")
+            return HttpResponseRedirect("/home/")
+    else:
+        form = ExpenseForm(request=request)
+        messages.error(request, "Expense Transaction Save Failed.")
+        return HttpResponseRedirect("/home/")
