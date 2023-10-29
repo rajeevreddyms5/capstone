@@ -40,12 +40,16 @@ class Expense(models.Model):
     date = models.DateField(default=localtime)
     note = models.CharField(max_length=256, blank=True, null=True)
     category = models.CharField(max_length=256)
-    #subcategory = models.CharField(max_length=256, blank=True, null=True)
+    subcategory = models.CharField(max_length=256, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
  
 
     # override save method for updating balance on every save or deleting expense
     def save(self, *args, **kwargs):
+        
+       # self.user.bank_accounts.get(id=self.account).balance
+        
+        
         # Update the balance of the bank account
         self.account.balance -= self.amount
         self.account.save()

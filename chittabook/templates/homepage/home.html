@@ -12,7 +12,7 @@
             <p>Welcome {{ username }}.</p>
             <p>You are from {{ country }} and Your currency is {{ currency }}</p>
             {% for transaction in expensetransactions %}
-              <p>category : {{ transaction.category }} created on {{ transaction.date }} for {{ transaction.amount }}</p>
+              <p>category : {{ transaction.category }} created on {{ transaction.date }} for {{ transaction.amount }} - Bank Account: {{ transaction.account }}</p>
             {% endfor %}
         {% else %}
             <h2 class="fs-5"> Welcome {{ username }} </h2>

@@ -135,9 +135,9 @@ def createBankAccount(request):
 # create or update expense transactions
 @ login_required
 def createExpense(request):
+    print(request.POST)
     if request.method == "POST":
         form = ExpenseForm(request.POST, request=request)
-        print(form)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.account = request.user.bank_accounts.get(id=request.POST['account'])
@@ -146,9 +146,30 @@ def createExpense(request):
             messages.success(request, "Expense Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")
         else:
-            print(form.errors)
-            messages.error(request, "Expense Transaction Save Failed.")
-            return HttpResponseRedirect("/home/")
+            if '__all__' in form.errors:
+                if 'Error while selecting subcategory.' in form.errors['__all__']:
+                    if ExpenseSubCategory.objects.filter(id=request.POST['category']).exists():
+                        subcategory = request.POST['category']
+                        subcategory_name = ExpenseSubCategory.objects.get(id=subcategory).name
+                        category = ExpenseSubCategory.objects.get(id=subcategory).category
+                        
+                        # overrite the subcategory field, category field
+                        instance = form.save(commit=False)
+                        instance.subcategory = subcategory_name
+                        instance.category = category
+                        instance.account = request.user.bank_accounts.get(id=request.POST['account'])
+                        instance.user = request.user
+                        instance.save()
+                        messages.success(request, "Expense Transaction Saved Successfully.")
+                        return HttpResponseRedirect("/home/")
+                    else:
+                        print(form.errors)
+                        messages.error(request, "Expense Transaction Save Failed.")
+                        return HttpResponseRedirect("/home/")
+            else:
+                print(form.errors)
+                messages.error(request, "Expense Transaction Save Failed.")
+                return HttpResponseRedirect("/home/")
     else:
         form = ExpenseForm(request=request)
         messages.error(request, "Expense Transaction Save Failed.")

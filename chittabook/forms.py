@@ -106,10 +106,9 @@ class ExpenseForm(ModelForm):
         widgets = {
             'date': DatePickerInput(),
         }
-
+    
     # Account choices function
     def get_account_choices(self):
-        print(self.request.user)
         bank_accounts = BankAccount.objects.filter(user=self.request.user)
         credit_cards = CreditCards.objects.filter(user=self.request.user)
         loan_accounts = LoanAccount.objects.filter(user=self.request.user)
@@ -130,6 +129,7 @@ class ExpenseForm(ModelForm):
             account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
 
         return account_choices
+
 
 
 
