@@ -57,14 +57,14 @@ class BankAccountForm(ModelForm):
 class LoanAccountForm(ModelForm):
     class Meta:
         model = LoanAccount
-        fields = ['lender_name', 'amount', 'balance']
+        fields = ['account_name', 'amount', 'balance']
 
 
 # Credit Cards form
 class CreditCardsForm(ModelForm):
     class Meta:
         model = CreditCards
-        fields = ['card_name', 'credit_limit', 'initial_debt']
+        fields = ['account_name', 'credit_limit', 'initial_debt']
 
 
 
@@ -83,22 +83,11 @@ class ExpenseForm(ModelForm):
         self.request = kwargs.pop('request', None)
         super(ExpenseForm, self).__init__(*args, **kwargs)
         self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = ExpenseCategory.objects.filter(user=self.request.user).order_by('name')
+        self.fields['category'].choices = self.get_category_choices()
         
-        
-        # add subcategory field to the category field
-        choices = []
-        categories = self.fields['category'].queryset
-        subcategories = ExpenseSubCategory.objects.filter(user=self.request.user)
-        for category in categories:
-            subcategories_for_category = subcategories.filter(category=category)
-            choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
-            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
-
-        self.fields['category'].widget.choices = choices
     
     account = ChoiceField(choices=[], required=True, label='Select Account')
-    category = ModelChoiceField(queryset=ExpenseCategory.objects.none())
+    category = ChoiceField(choices=[], required=True, label='Select Category')
     
     
     class Meta:
@@ -107,7 +96,7 @@ class ExpenseForm(ModelForm):
         widgets = {
             'date': DatePickerInput(),
         }
-    
+
     # Account choices function
     def get_account_choices(self):
         bank_accounts = BankAccount.objects.filter(user=self.request.user)
@@ -130,6 +119,22 @@ class ExpenseForm(ModelForm):
             account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
 
         return account_choices
+    
+
+    # get category and subcategory choices
+    def get_category_choices(self):
+        
+        categories = ExpenseCategory.objects.filter(user=self.request.user).order_by('name')
+        subcategories = ExpenseSubCategory.objects.filter(user=self.request.user)
+
+        category_choices = []
+
+        for category in categories:
+            subcategories_for_category = subcategories.filter(category=category)
+            category_choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
+            category_choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
+
+        return category_choices
 
 
 
@@ -141,25 +146,15 @@ class IncomeForm(ModelForm):
         self.request = kwargs.pop('request', None)
         super(IncomeForm, self).__init__(*args, **kwargs)
         self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = IncomeCategory.objects.filter(user=self.request.user).order_by('name')
+        self.fields['category'].choices = self.get_category_choices()
         
-        # add subcategory field to the category field
-        choices = []
-        categories = self.fields['category'].queryset
-        subcategories = IncomeSubCategory.objects.filter(user=self.request.user)
-        for category in categories:
-            subcategories_for_category = subcategories.filter(category=category)
-            choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
-            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
-
-        self.fields['category'].widget.choices = choices
     
     account = ChoiceField(choices=[], required=True, label='Select Account')
-    category = ModelChoiceField(queryset=IncomeCategory.objects.none())
+    category = ChoiceField(choices=[], required=True, label='Select Category')
     
     
     class Meta:
-        model = Income
+        model = Expense
         fields = ['account', 'amount', 'date', 'note', 'category']
         widgets = {
             'date': DatePickerInput(),
@@ -187,3 +182,19 @@ class IncomeForm(ModelForm):
             account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
 
         return account_choices
+    
+
+    # get category and subcategory choices
+    def get_category_choices(self):
+        
+        categories = IncomeCategory.objects.filter(user=self.request.user).order_by('name')
+        subcategories = IncomeSubCategory.objects.filter(user=self.request.user)
+
+        category_choices = []
+
+        for category in categories:
+            subcategories_for_category = subcategories.filter(category=category)
+            category_choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
+            category_choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
+
+        return category_choices

@@ -142,12 +142,18 @@ def createExpense(request):
             instance = form.save(commit=False)
             instance.account = request.user.bank_accounts.get(id=request.POST['account'])
             instance.user = request.user
+            try:
+                instance.category = ExpenseCategory.objects.get(id=instance.category)
+            except:
+                subcategory = ExpenseSubCategory.objects.get(id=instance.category)
+                instance.category = subcategory.category
+                instance.subcategory = subcategory
             instance.save()
             messages.success(request, "Expense Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")
         else:
             print(form.errors.as_data())
-            messages.error(request, "Expense Transaction Save Failed.")
+            messages.error(request, "Expense Transaction Save Failed due to form validation.")
             return HttpResponseRedirect("/home/")
     else:
         form = ExpenseForm(request=request)

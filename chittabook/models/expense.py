@@ -46,20 +46,50 @@ class Expense(models.Model):
 
     # override save method for updating balance on every save or deleting expense
     def save(self, *args, **kwargs):
-        
-       # self.user.bank_accounts.get(id=self.account).balance
-        
-        
-        # Update the balance of the bank account
-        self.account.balance -= self.amount
-        self.account.save()
-
+        try:
+            # Update the balance of the bank account
+            self.account.balance -= self.amount
+            self.account.save()
+        except AttributeError:
+            expense = Expense.objects.get(id=self.id)
+            account = expense.account
+            # split account name by '-' to get account type and account name
+            account_type, account_name = self.account.split('-')
+            if account_type == 'Bank Accounts':
+                account = BankAccount.objects.get(id=account_name)
+            elif account_type == 'Loan Accounts':
+                account = LoanAccount.objects.get(id=account_name)
+            elif account_type == 'Credit Cards':
+                account = CreditCards.objects.get(id=account_name)
+            elif account_type == 'Investment Accounts':
+                account = CreditCards.objects.get(id=account_name)
+            
+            account.balance -= self.amount
+              
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        # Update the balance of the bank account
-        self.account.balance += self.amount
-        self.account.save()
+        try:
+            # Update the balance of the bank account
+            self.account.balance += self.amount
+            self.account.save()
+        except AttributeError:
+            expense = Expense.objects.get(id=self.id)
+            account = expense.account
+            # split account name by '-' to get account type and account name
+            account_type, account_name = self.account.split('-')
+            if account_type == 'Bank Accounts':
+                account = BankAccount.objects.get(id=account_name)
+                account.balance += self.amount
+            elif account_type == 'Loan Accounts':
+                account = LoanAccount.objects.get(id=account_name)
+                account.balance += self.amount
+            elif account_type == 'Credit Cards':
+                account = CreditCards.objects.get(id=account_name)
+                account.balance += self.amount
+            elif account_type == 'Investment Accounts':
+                account = CreditCards.objects.get(id=account_name)
+                account.balance += self.amount
 
         super().delete(*args, **kwargs)
             

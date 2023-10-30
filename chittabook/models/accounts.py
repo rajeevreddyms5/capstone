@@ -14,17 +14,17 @@ class BankAccount(models.Model):
 
 class LoanAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    lender_name = models.CharField(max_length=100)
+    account_name = models.CharField(max_length=100, verbose_name="Lender Name", null=True, blank=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Loan - {self.lender_name}"
+        return f"Loan - {self.account_name}"
 
 
 class CreditCards(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    card_name = models.CharField(max_length=100)
+    account_name = models.CharField(max_length=100, verbose_name="Card Name", null=True, blank=False)
     credit_limit = models.DecimalField(max_digits=10, decimal_places=2)
     initial_debt = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
@@ -38,7 +38,7 @@ class CreditCards(models.Model):
         
 
     def __str__(self):
-        return f"Credit Card - {self.card_name}"
+        return f"Credit Card - {self.account_name}"
 
 
 class InvestmentAccount(models.Model):
