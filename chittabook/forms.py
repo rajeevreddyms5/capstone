@@ -85,6 +85,7 @@ class ExpenseForm(ModelForm):
         self.fields['account'].choices = self.get_account_choices()
         self.fields['category'].queryset = ExpenseCategory.objects.filter(user=self.request.user).order_by('name')
         
+        
         # add subcategory field to the category field
         choices = []
         categories = self.fields['category'].queryset
@@ -92,7 +93,7 @@ class ExpenseForm(ModelForm):
         for category in categories:
             subcategories_for_category = subcategories.filter(category=category)
             choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
-            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
+            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
 
         self.fields['category'].widget.choices = choices
     
@@ -149,7 +150,7 @@ class IncomeForm(ModelForm):
         for category in categories:
             subcategories_for_category = subcategories.filter(category=category)
             choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
-            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
+            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
 
         self.fields['category'].widget.choices = choices
     

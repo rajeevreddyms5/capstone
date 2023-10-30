@@ -146,30 +146,9 @@ def createExpense(request):
             messages.success(request, "Expense Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")
         else:
-            if '__all__' in form.errors:
-                if 'Error while selecting subcategory.' in form.errors['__all__']:
-                    if ExpenseSubCategory.objects.filter(id=request.POST['category']).exists():
-                        subcategory = request.POST['category']
-                        subcategory_name = ExpenseSubCategory.objects.get(id=subcategory).name
-                        category = ExpenseSubCategory.objects.get(id=subcategory).category
-                        
-                        # overrite the subcategory field, category field
-                        instance = form.save(commit=False)
-                        instance.subcategory = subcategory_name
-                        instance.category = category
-                        instance.account = request.user.bank_accounts.get(id=request.POST['account'])
-                        instance.user = request.user
-                        instance.save()
-                        messages.success(request, "Expense Transaction Saved Successfully.")
-                        return HttpResponseRedirect("/home/")
-                    else:
-                        print(form.errors)
-                        messages.error(request, "Expense Transaction Save Failed.")
-                        return HttpResponseRedirect("/home/")
-            else:
-                print(form.errors)
-                messages.error(request, "Expense Transaction Save Failed.")
-                return HttpResponseRedirect("/home/")
+            print(form.errors.as_data())
+            messages.error(request, "Expense Transaction Save Failed.")
+            return HttpResponseRedirect("/home/")
     else:
         form = ExpenseForm(request=request)
         messages.error(request, "Expense Transaction Save Failed.")
