@@ -43,29 +43,6 @@ class Income(models.Model):
     def save(self, *args, **kwargs):
         try:
             # Update the balance of the bank account
-            self.account.balance -= self.amount
-            self.account.save()
-        except AttributeError:
-            income = Income.objects.get(id=self.id)
-            account = income.account
-            # split account name by '-' to get account type and account name
-            account_type, account_name = self.account.split('-')
-            if account_type == 'Bank Accounts':
-                account = BankAccount.objects.get(id=account_name)
-            elif account_type == 'Loan Accounts':
-                account = LoanAccount.objects.get(id=account_name)
-            elif account_type == 'Credit Cards':
-                account = CreditCards.objects.get(id=account_name)
-            elif account_type == 'Investment Accounts':
-                account = CreditCards.objects.get(id=account_name)
-
-            account.balance -= self.amount
-
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        try:
-            # Update the balance of the bank account
             self.account.balance += self.amount
             self.account.save()
         except AttributeError:
@@ -75,16 +52,39 @@ class Income(models.Model):
             account_type, account_name = self.account.split('-')
             if account_type == 'Bank Accounts':
                 account = BankAccount.objects.get(id=account_name)
-                account.balance += self.amount
             elif account_type == 'Loan Accounts':
                 account = LoanAccount.objects.get(id=account_name)
-                account.balance += self.amount
             elif account_type == 'Credit Cards':
                 account = CreditCards.objects.get(id=account_name)
-                account.balance += self.amount
             elif account_type == 'Investment Accounts':
                 account = CreditCards.objects.get(id=account_name)
-                account.balance += self.amount
+
+            account.balance += self.amount
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        try:
+            # Update the balance of the bank account
+            self.account.balance -= self.amount
+            self.account.save()
+        except AttributeError:
+            income = Income.objects.get(id=self.id)
+            account = income.account
+            # split account name by '-' to get account type and account name
+            account_type, account_name = self.account.split('-')
+            if account_type == 'Bank Accounts':
+                account = BankAccount.objects.get(id=account_name)
+                self.account.balance -= self.amount
+            elif account_type == 'Loan Accounts':
+                account = LoanAccount.objects.get(id=account_name)
+                self.account.balance -= self.amount
+            elif account_type == 'Credit Cards':
+                account = CreditCards.objects.get(id=account_name)
+                self.account.balance -= self.amount
+            elif account_type == 'Investment Accounts':
+                account = CreditCards.objects.get(id=account_name)
+                self.account.balance -= self.amount
 
         super().delete(*args, **kwargs)
 
