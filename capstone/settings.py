@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "bootstrap_datepicker_plus",
     # django htmx
     "django_htmx",
+    # django tables2
+    "django_tables2",
 ]
 
 # crspy templates

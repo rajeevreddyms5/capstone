@@ -1,6 +1,6 @@
 from django.contrib.gis.geoip2 import GeoIP2
 from babel.numbers import get_currency_symbol, get_territory_currencies
-import json
+
 
 # get country code using ip address
 def currency(request):
@@ -21,7 +21,6 @@ def currency_symbol(country_code):
         symbol = get_currency_symbol(currency_code)
     except IndexError:
         symbol = ''
-    #print(f"symbol: {symbol}")
     return symbol
 
 

@@ -6,6 +6,8 @@ from .models import UserProfile, User, BankAccount, LoanAccount, CreditCards, In
 from django.contrib import messages
 from .utils import currency_symbol, currency_name
 from django.urls import reverse
+import django_tables2 as tables
+from .tables import ExpenseTable
 
 
 
@@ -165,3 +167,10 @@ def createExpense(request):
 # django htmx views
 def HtmxView(request):
     return render(request, 'homepage/temp.html')
+
+
+# Expense table view
+class ExpenseTableView(tables.SingleTableView):
+    table_class = ExpenseTable
+    queryset = Expense.objects.all()
+    template_name = "homepage/list.html"

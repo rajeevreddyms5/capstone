@@ -18,7 +18,11 @@ class UserProfileForm(ModelForm):
         model = UserProfile
         fields = ['name', 'dob', 'profession', 'gender', 'country']
         widgets = {
-            'dob': DatePickerInput(),
+            'dob': DatePickerInput(
+                options={
+                    "format": "DD/MM/YYYY",
+                }
+            ),
             'country': CountrySelectWidget(),
         }
 
