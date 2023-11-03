@@ -164,13 +164,9 @@ def createExpense(request):
         return HttpResponseRedirect("/home/")
 
 
-# django htmx views
-def HtmxView(request):
-    return render(request, 'homepage/temp.html')
 
-
-# Expense table view
-class ExpenseTableView(tables.SingleTableView):
+# All Transactions table view
+class AllTransactionsView(tables.SingleTableView):
     table_class = ExpenseTable
     queryset = Expense.objects.all()
-    template_name = "homepage/list.html"
+    template_name = "homepage/alltransactions.html"

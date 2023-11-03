@@ -13,6 +13,5 @@ urlpatterns = [
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("createBankAccount/", views.createBankAccount, name="createBankAccount"),
     path("createExpense/", views.createExpense, name="createExpense"),
-    path("HtmxView/", views.HtmxView, name="HtmxView"),
-    path("ExpenseTableView/", views.ExpenseTableView.as_view(), name="ExpenseTableView"),
+    path("all/", views.AllTransactionsView.as_view(), name="AllTransactionsView"),
 ]
