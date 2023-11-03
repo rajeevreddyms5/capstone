@@ -27,7 +27,6 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    
    
     <!-- CSRF Token -->
     <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
@@ -499,6 +498,16 @@
     </script>
     
     <script src="{% static 'chittabook/homepage/main.js' %}"></script>
+
+    <!-- htmx js -->
+    <script src="{% static 'chittabook/homepage/htmx.min.js' %}" defer></script>
+
+    <!-- htmx config request for csrf token -->
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; //insert csrf token when performing AJAX request 
+        })
+    </script>
 
   </body>
 </html>

@@ -8,12 +8,18 @@
     {% if username %}
         <!-- if user doesnot created atleast one type of account -->
         {% if bankAccounts or loanAccounts or investmentAccounts or creditCards %}
-            <h2 class="fs-5"> Dashboard</h2>
+            <h2 class="fs-5" id="temp"> Dashboard</h2>
             <p>Welcome {{ username }}.</p>
             <p>You are from {{ country }} and Your currency is {{ currency }}</p>
             {% for transaction in expensetransactions %}
               <p>category : {{ transaction.category }} with subcategory: {{ transaction.subcategory }} created on {{ transaction.date }} for {{ transaction.amount }} - Bank Account: {{ transaction.account }}</p>
             {% endfor %}
+            <button hx-post="/HtmxView/"
+              hx-trigger="click"
+              hx-target="#temp"
+              hx-swap="innerHTML">
+              Click Me!
+          </button>
         {% else %}
             <h2 class="fs-5"> Welcome {{ username }} </h2>
             <p>Just one more step to get started. Just create any account for adding transactions.</p>

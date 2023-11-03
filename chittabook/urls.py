@@ -13,4 +13,5 @@ urlpatterns = [
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("createBankAccount/", views.createBankAccount, name="createBankAccount"),
     path("createExpense/", views.createExpense, name="createExpense"),
+    path("HtmxView/", views.HtmxView, name="HtmxView"),
 ]

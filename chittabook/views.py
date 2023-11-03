@@ -8,6 +8,7 @@ from .utils import currency_symbol, currency_name
 from django.urls import reverse
 
 
+
 # Create your views here.
 def index(request):
     return render(request, 'chittabook/index.html')
@@ -159,3 +160,8 @@ def createExpense(request):
         form = ExpenseForm(request=request)
         messages.error(request, "Expense Transaction Save Failed.")
         return HttpResponseRedirect("/home/")
+
+
+# django htmx views
+def HtmxView(request):
+    return render(request, 'homepage/temp.html')
