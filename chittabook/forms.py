@@ -98,7 +98,10 @@ class ExpenseForm(ModelForm):
         model = Expense
         fields = ['account', 'amount', 'date', 'note', 'category']
         widgets = {
-            'date': DatePickerInput(),
+            'date': DatePickerInput(
+                options={
+                    "format": "DD/MM/YYYY",
+                }),
         }
 
     # Account choices function
@@ -161,7 +164,10 @@ class IncomeForm(ModelForm):
         model = Expense
         fields = ['account', 'amount', 'date', 'note', 'category']
         widgets = {
-            'date': DatePickerInput(),
+            'date': DatePickerInput(
+                options={
+                    "format": "DD/MM/YYYY",
+                }),
         }
 
     # Account choices function

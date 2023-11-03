@@ -8,6 +8,7 @@ from .utils import currency_symbol, currency_name
 from django.urls import reverse
 import django_tables2 as tables
 from .tables import ExpenseTable
+from django_tables2 import SingleTableMixin
 
 
 
@@ -55,9 +56,9 @@ def home(request, form_error=False):
     
     # instance of userProfile of current user
     UserProfileInstance = UserProfile.objects.get(user=request.user)
-
-    return render(request, 'homepage/home.html',
-        context={
+    
+    # context for home page
+    context={
             "form": UserProfileForm(instance=UserProfileInstance),  # profile form for editing when user is logged in and no country and name is set
             "form_error": form_error,   # form error when userprofile is not valid
             "bankForm": BankAccountForm(instance=UserProfileInstance), # bank form for creating new bank accounts
@@ -76,7 +77,11 @@ def home(request, form_error=False):
             "incomeForm": IncomeForm(request=request), # income form
             "expensetransactions": Expense.objects.filter(user=request.user), # expense transactions
         }
-    )
+
+    if request.htmx:
+        return render(request, 'homepage/home_partial.html', context=context)
+    else:
+        return render(request, 'homepage/home.html', context=context)
 
 
 
@@ -165,8 +170,11 @@ def createExpense(request):
 
 
 
+
 # All Transactions table view
-class AllTransactionsView(tables.SingleTableView):
-    table_class = ExpenseTable
-    queryset = Expense.objects.all()
-    template_name = "homepage/alltransactions.html"
+def allTransactions(request):
+    table = ExpenseTable(Expense.objects.all())
+    if request.htmx:
+        return render(request, 'homepage/alltransactions_partial.html', {'table': table})
+    else:
+        return render(request, 'homepage/alltransactions.html', {'table': table})

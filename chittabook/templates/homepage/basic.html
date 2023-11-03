@@ -53,7 +53,7 @@
   <body>
 
     <div class="main-container d-flex">
-      <div class="sidebar bg-white" id="side_nav">
+      <div class="sidebar" id="side_nav">
           <div class="header-box px-2 pt-3 pb-4 d-flex justify-content-between">
               <h1 class="fs-4"> <a href="{% url 'home' %}" class="text-decoration-none"><span class="bg-dark text-white rounded shadow px-2 me-2">CB</span> <span
                       class="text-dark">Chitta Book</span></a></h1>
@@ -62,7 +62,7 @@
           </div>
 
           <ul class="list-unstyled px-2">
-              <li class="active"><a href="{% url 'home' %}" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class="active"><a href="#" hx-get="/home/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-home"></i> Insights</a></li>
               <li class=""><a href="#" hx-get="/all/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
                  All Transactions</a></li>
@@ -170,7 +170,7 @@
 
       </div>
       <div class="content">
-          <nav class="navbar navbar-expand-lg navbar-light p-3 bg-white" id="nav_bar">
+          <nav class="navbar navbar-expand-lg navbar-light p-3" id="nav_bar">
               <div class="container-fluid">
                   <div class="d-flex justify-content-between d-md-none d-block">
                    <button class="btn px-1 py-0 open-btn me-2"><i class="fal fa-stream"></i></button>
@@ -473,23 +473,27 @@
 
     <!-- for sidebar collapse on mobile -->
     <script>
-        $(".sidebar ul li").on('click', function () {
+        $(".sidebar ul li").on('click', function () {   // on click of the sidebar list element, the list element will be highlighted
             $(".sidebar ul li.active").removeClass('active');
-            $(this).addClass('active');
+            $(this).addClass('active'); // if the screen is small, the sidebar will be closed on click of the sidebar list element
+            if ($(window).width() <= 768) {
+                $('.sidebar').removeClass('active');
+            }
+
         });
 
-        $('.open-btn').on('click', function () {
+        $('.open-btn').on('click', function () {    // on click of the open button, the sidebar will be opened
             $('.sidebar').addClass('active');
 
         });
 
 
-        $('.close-btn').on('click', function () {
+        $('.close-btn').on('click', function () {    // on click of the close button, the sidebar will be closed
             $('.sidebar').removeClass('active');
 
         })
 
-        $('.dashboard-content').on('click touchstart', function () {
+        $('.dashboard-content').on('click touchstart', function () {    // on click of the dashboard content, the sidebar will be closed
             if ($(window).width() <= 768) {
                 $('.sidebar').removeClass('active');
             }

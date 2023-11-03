@@ -6,3 +6,5 @@ import django_tables2 as tables
 class ExpenseTable(tables.Table):
     class Meta:
         model = Expense
+        sequence = ('date', 'category', 'amount')
+        exclude = ('id', 'user', 'note')

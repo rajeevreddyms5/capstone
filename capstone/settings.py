@@ -230,3 +230,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 465
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+
+# deefault django tables2 template page
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5-responsive.html"

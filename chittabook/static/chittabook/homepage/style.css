@@ -1,9 +1,9 @@
 body{
-    background: #eee;
+    background: white;
    }
    
    #side_nav{
-    background: white;
+    background: #eee;
     min-width: 320px;
     max-width: 320px;
     transition: all 0.3s;
@@ -17,7 +17,7 @@ body{
    }
    
    .sidebar li.active{
-      background: #eee;
+      background: white;
       border-radius: 8px;
       font-weight: bold;
    }
@@ -50,6 +50,7 @@ body{
   /* navbar shadow only on downside */
   #nav_bar {
     box-shadow: 0 6px 6px -6px rgba(0,0,0, .35);
+    background: #eee;
   }
    
   .dashboard-content {
