@@ -31,3 +31,4 @@ def currency_name(country_code):
     except IndexError:
         currency_code = ''
     return currency_code
+

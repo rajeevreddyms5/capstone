@@ -7,7 +7,7 @@ from chittabook.models.accounts import BankAccount, LoanAccount, CreditCards, In
 from chittabook.models.expense import Expense, ExpenseCategory, ExpenseSubCategory
 from chittabook.models.income import Income, IncomeCategory, IncomeSubCategory
 from django.utils.html import format_html
-
+from django.utils import timezone
 
 # Create your custom views here.
 
@@ -46,6 +46,15 @@ class UserProfileForm(ModelForm):
             raise ValidationError("Date of Birth cannot be greater than 100 years.")
         
         return cleaned_data
+    
+    # custom date format based on timezone of the user
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            local_tz = timezone.get_current_timezone()
+            current_date = timezone.localtime(timezone.now(), local_tz)
+            date_format = current_date.strftime('%d/%m/%Y')
+            self.fields['dob'].widget.format = date_format
 
 
 
