@@ -378,9 +378,9 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-                        <form method="post" action="{% url 'createExpense' %}">
+                        <form method="post" action="{% url 'createTransaction' %}">
                             {% csrf_token %}
-                            {{ expenseForm| crispy }}
+                            {{ transactionForm| crispy }}
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <input type="submit" value="Save Changes" class="btn btn-primary"/>
@@ -388,9 +388,9 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-                        <form method="post" action="#">
+                        <form method="post" action="{% url 'createTransaction' %}">
                             {% csrf_token %}
-                            {{ incomeForm| crispy }}
+                            {{ transactionForm| crispy }}
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <input type="submit" value="Save Changes" class="btn btn-primary"/>

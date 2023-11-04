@@ -1,8 +1,8 @@
 from typing import Any
 from django.core.management.base import BaseCommand
 from chittabook.models.usermodel import User
-from chittabook.models.expense import ExpenseCategory, ExpenseSubCategory
-from chittabook.models.income import IncomeCategory, IncomeSubCategory
+from capstone.chittabook.models.transactions import ExpenseCategory, ExpenseSubCategory
+from capstone.chittabook.models.categories import IncomeCategory, IncomeSubCategory
 from django.apps import apps
 
 class Command(BaseCommand):

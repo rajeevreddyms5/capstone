@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCardsForm, InvestmentAccountForm, ExpenseForm, IncomeForm
-from .models import UserProfile, User, BankAccount, LoanAccount, CreditCards, InvestmentAccount, Expense, Income, ExpenseCategory, ExpenseSubCategory, IncomeCategory, IncomeSubCategory
-from django.contrib import messages
+from .forms import UserProfileForm, AccountForm, BankAccountForm, LoanAccountForm, CreditCardForm, InvestmentAccountForm, TransactionForm
+from .models import UserProfile, User, Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
 from .utils import currency_symbol, currency_name
 from django.urls import reverse
 import django_tables2 as tables
-from .tables import ExpenseTable
+from .tables import TransactionTable
 from django_tables2 import SingleTableMixin
 
 
@@ -63,19 +62,18 @@ def home(request, form_error=False):
             "form_error": form_error,   # form error when userprofile is not valid
             "bankForm": BankAccountForm(instance=UserProfileInstance), # bank form for creating new bank accounts
             "loanForm": LoanAccountForm(instance=UserProfileInstance), # loan form for creating new loan accounts
-            "creditCardForm": CreditCardsForm(instance=UserProfileInstance), # credit card form for creating new credit cards
+            "creditCardForm": CreditCardForm(instance=UserProfileInstance), # credit card form for creating new credit cards
             "investmentForm": InvestmentAccountForm(instance=UserProfileInstance), # investment form for creating new investment accounts
             "username": UserProfileInstance.name,   # username from user
             "country": str(UserProfileInstance.country), # country from user
             "currency_name": currency_name(str(UserProfileInstance.country)), # currency from user using country name
             "currency": currency_symbol(str(UserProfileInstance.country)), # currency from user using country name
-            "bankAccounts": user.bank_accounts.all(),   # bank accounts associated with user
+            "bankAccounts": BankAccount.objects.filter(user=request.user),   # bank accounts associated with user
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
-            "creditCards": CreditCards.objects.filter(user=request.user),   # credit cards associated with user
+            "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
-            "expenseForm": ExpenseForm(request=request), # expense form
-            "incomeForm": IncomeForm(request=request), # income form
-            "expensetransactions": Expense.objects.filter(user=request.user), # expense transactions
+            "transactionForm": TransactionForm, # expense form
+            "alltransactions": Transaction.objects.filter(user=request.user), # expense transactions
         }
 
     if request.htmx:
@@ -142,20 +140,14 @@ def createBankAccount(request):
         
 # create or update expense transactions
 @ login_required
-def createExpense(request):
+def createTransaction(request):
     print(request.POST)
     if request.method == "POST":
-        form = ExpenseForm(request.POST, request=request)
+        form = TransactionForm(request.POST, request=request)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.account = request.user.bank_accounts.get(id=request.POST['account'])
             instance.user = request.user
-            try:
-                instance.category = ExpenseCategory.objects.get(id=instance.category)
-            except:
-                subcategory = ExpenseSubCategory.objects.get(id=instance.category)
-                instance.category = subcategory.category
-                instance.subcategory = subcategory
             instance.save()
             messages.success(request, "Expense Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")
@@ -164,7 +156,7 @@ def createExpense(request):
             messages.error(request, "Expense Transaction Save Failed due to form validation.")
             return HttpResponseRedirect("/home/")
     else:
-        form = ExpenseForm(request=request)
+        form = TransactionForm(request=request)
         messages.error(request, "Expense Transaction Save Failed.")
         return HttpResponseRedirect("/home/")
 
@@ -173,7 +165,7 @@ def createExpense(request):
 
 # All Transactions table view
 def allTransactions(request):
-    table = ExpenseTable(Expense.objects.all())
+    table = TransactionTable(Transaction.objects.all())
     if request.htmx:
         return render(request, 'homepage/alltransactions_partial.html', {'table': table})
     else:
