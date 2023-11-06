@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileForm, AccountForm, BankAccountForm, LoanAccountForm, CreditCardForm, InvestmentAccountForm, TransactionForm
-from .models import UserProfile, User, Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
+from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCardForm, InvestmentAccountForm, TransactionForm
+from .models import UserProfile, User, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
 from .utils import currency_symbol, currency_name
 from django.urls import reverse
 import django_tables2 as tables
@@ -68,7 +68,6 @@ def home(request, form_error=False):
             "username": UserProfileInstance.name,   # username from user
             "country": str(UserProfileInstance.country), # country from user
             "currency_name": currency_name(str(UserProfileInstance.country)), # currency from user using country name
-            "currency": currency_symbol(str(UserProfileInstance.country)), # currency from user using country name
             "bankAccounts": BankAccount.objects.filter(user=request.user),   # bank accounts associated with user
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
@@ -118,7 +117,7 @@ def profileUpdate(request):
         form = UserProfileForm(instance=UserProfileInstance)
         form_error = True
     
-    return render(request, 'homepage/home.html', context={"form": form, "form_error": form_error, "username": UserProfileInstance.name})
+    return render(request, 'homepage/home.html', context={"profileform": form, "form_error": form_error, "username": UserProfileInstance.name})
 
 
 
@@ -138,7 +137,57 @@ def createBankAccount(request):
         messages.error(request, "Bank Account Creation Failed.")
         return HttpResponseRedirect("/home/")
 
-        
+
+# create credit card accounts
+@ login_required
+def createCreditCard(request):
+    if request.method == "POST":
+        form = CreditCardForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Credit Card Account Created Successfully.")
+            return HttpResponseRedirect("/home/")
+    else:
+        form = BankAccountForm()
+        messages.error(request, "Credit Card Account Creation Failed.")
+        return HttpResponseRedirect("/home/")
+
+
+# create loan accounts
+@ login_required
+def createLoanAccount(request):
+    if request.method == "POST":
+        form = BankAccountForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Bank Account Created Successfully.")
+            return HttpResponseRedirect("/home/")
+    else:
+        form = BankAccountForm()
+        messages.error(request, "Bank Account Creation Failed.")
+        return HttpResponseRedirect("/home/")
+
+
+# create Investment accounts
+@ login_required
+def createInvestmentAccount(request):
+    if request.method == "POST":
+        form = BankAccountForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Bank Account Created Successfully.")
+            return HttpResponseRedirect("/home/")
+    else:
+        form = BankAccountForm()
+        messages.error(request, "Bank Account Creation Failed.")
+        return HttpResponseRedirect("/home/")  
+
 # create or update expense transactions
 @ login_required
 def createTransaction(request):

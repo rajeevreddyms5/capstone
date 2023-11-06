@@ -99,15 +99,13 @@
           <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Credit Cards</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Credit Card 1</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
-                </a>
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Credit Card 2</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
-                </a>
-            </li>
+                {% for creditCardAccount in creditCards %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="creditCardAccount.{{ creditCardAccount.id }}">
+                            <span class="text-truncate">{{ creditCardAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter creditCardAccount.balance currency_name country %}</span>
+                        </a>
+                        </li>
+                {% endfor %}
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#creditCardModal">
                     <i class="bi bi-plus-circle"></i> Add Credit Card
                   </button>
@@ -118,15 +116,13 @@
         <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Loans</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Loan 1</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
-                </a>
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Loan 2</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
-                </a>
-                </li>
+                {% for bankAccount in bankAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
+                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
+                        </a>
+                        </li>
+                {% endfor %}
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#loanAccountModal">
                     <i class="bi bi-plus-circle"></i> Add Loan Account
                   </button>
@@ -137,15 +133,13 @@
         <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Investments</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Investment 1</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
-                </a>
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Investment 2</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
-                </a>
-                </li>
+                {% for bankAccount in bankAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
+                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
+                        </a>
+                        </li>
+                {% endfor %}
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
                     <i class="bi bi-plus-circle"></i> Add Investment Account
                   </button>
@@ -277,28 +271,6 @@
         </div>
     </div>
 
-    <!-- Add Loan Account Modal -->
-    <div class="modal fade" id="loanAccountModal" tabindex="-1" aria-labelledby="loanAccountModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="loanAccountModalLabel">Add Loan Account</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'createBankAccount' %}">
-                    {% csrf_token %}
-                    {{ loanForm| crispy }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                    </div>
-                </form>
-        </div>
-        </div>
-    </div>
-
     <!-- Add credit card Modal -->
     <div class="modal fade" id="creditCardModal" tabindex="-1" aria-labelledby="creditCardModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -308,7 +280,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{% url 'createBankAccount' %}">
+                <form method="post" action="{% url 'createCreditCard' %}">
                     {% csrf_token %}
                     {{ creditCardForm| crispy }}
                     </div>
@@ -321,6 +293,29 @@
         </div>
     </div>
 
+    <!-- Add Loan Account Modal -->
+    <div class="modal fade" id="loanAccountModal" tabindex="-1" aria-labelledby="loanAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="loanAccountModalLabel">Add Loan Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'createLoanAccount' %}">
+                    {% csrf_token %}
+                    {{ loanForm| crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </div>
+
+
     <!-- Add Investment Account Modal -->
     <div class="modal fade" id="investmentAccountModal" tabindex="-1" aria-labelledby="investmentAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -330,7 +325,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{% url 'createBankAccount' %}">
+                <form method="post" action="{% url 'createInvestmentAccount' %}">
                     {% csrf_token %}
                     {{ investmentForm| crispy }}
                     </div>

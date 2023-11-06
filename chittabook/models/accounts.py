@@ -1,5 +1,16 @@
 from django.db import models
 from .usermodel import User
+from django.db.utils import IntegrityError
+
+
+# modify field values for subclass models
+def modify_fields(**kwargs):
+        def wrap(cls):
+            for field, prop_dict in kwargs.items():
+                for prop, val in prop_dict.items():
+                    setattr(cls._meta.get_field(field), prop, val)
+            return cls
+        return wrap
 
 
 # Base Accounts Model
@@ -8,40 +19,38 @@ class Account(models.Model):
     account_name = models.CharField(max_length=50)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
 
+    # return account name 
     def __str__(self):
         return self.account_name
+    
 
-
+# Bank Account model
 class BankAccount(Account):
     pass
 
 
+# Credit Cards Model
+class CreditCard(Account):
+    credit_limit = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    debt = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Credit Card Debt')
+
+    # on first save, based on credit limit and initial debt balance available will be updated
+    def save(self, *args, **kwargs):
+        if not self.pk:  # check if it's the first save
+            if not self.credit_limit:
+                self.debt = 0
+            else:
+                self.debt = self.credit_limit - self.balance
+        super().save(*args, **kwargs)
+
+
+# Loan Account Model
 class LoanAccount(Account):
     principal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
 
-class CreditCard(Account):
-    credit_limit = models.DecimalField(max_digits=10, decimal_places=2)
-    initial_debt = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:  # check if it's the first save
-            self.balance = self.credit_limit - self.initial_debt
-        super().save(*args, **kwargs)
-
-
+# Investment Account model
 class InvestmentAccount(Account):
     pass
 
 
-# Update related_name based on account type
-BankAccount.user.related_name = 'bank_accounts'
-LoanAccount.user.related_name = 'loan_accounts'
-CreditCard.user.related_name = 'credit_cards'
-InvestmentAccount.user.related_name = 'investment_accounts'
-
-# update verbose name based on account type for account_name field
-BankAccount.account_name.verbose_name = 'Bank Account'
-LoanAccount.account_name.verbose_name = 'Loan Account'
-CreditCard.account_name.verbose_name = 'Credit Card'
-InvestmentAccount.account_name.verbose_name = 'Investment Account'

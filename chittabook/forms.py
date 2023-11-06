@@ -1,9 +1,10 @@
-from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField, DateInput
+from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField, DateInput, TextInput
 from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from datetime import date
-from chittabook.models.accounts import Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount
+import datetime
+from chittabook.models.accounts import BankAccount, LoanAccount, CreditCard, InvestmentAccount
 from chittabook.models.categories import Category
 from chittabook.models.transactions import Transaction
 from django.utils.html import format_html
@@ -16,9 +17,10 @@ class UserProfileForm(ModelForm):
         model = UserProfile
         fields = ['name', 'dob', 'profession', 'gender', 'country']
         widgets = {
-            'dob': DateInput(
-                format=('%d-%m-%Y'),
-            )
+            'dob': TextInput(     
+        attrs={'type': 'date'} 
+    ),
+            'country': CountrySelectWidget()
         }
 
     # custom validation for dob
@@ -43,25 +45,12 @@ class UserProfileForm(ModelForm):
         return cleaned_data
 
 
-# Account form
-class AccountForm(ModelForm):
-    class Meta:
-        model = Account
-        fields = '__all__'
-
-
 # Bank Account form
 class BankAccountForm(ModelForm):
     class Meta:
         model = BankAccount
         fields = '__all__'
-
-
-# Loan Account form
-class LoanAccountForm(ModelForm):
-    class Meta:
-        model = LoanAccount
-        fields = '__all__'
+        exclude = ['user']
 
 
 # Credit Cards form
@@ -69,6 +58,16 @@ class CreditCardForm(ModelForm):
     class Meta:
         model = CreditCard
         fields = '__all__'
+        exclude = ['user', 'debt']
+
+
+
+# Loan Account form
+class LoanAccountForm(ModelForm):
+    class Meta:
+        model = LoanAccount
+        fields = '__all__'
+        exclude = ['user']
 
 
 
@@ -77,6 +76,7 @@ class InvestmentAccountForm(ModelForm):
     class Meta:
         model = InvestmentAccount
         fields = '__all__'
+        exclude = ['user']
 
 
 # Transaction form

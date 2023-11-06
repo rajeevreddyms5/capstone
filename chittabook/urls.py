@@ -12,6 +12,9 @@ urlpatterns = [
     path("privacy/", views.privacy, name="privacy"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("createBankAccount/", views.createBankAccount, name="createBankAccount"),
+    path("createCreditCard/", views.createCreditCard, name="createCreditCard"),
+    path("createLoanAccount/", views.createLoanAccount, name="createLoanAccount"),
+    path("createInvestmentAccount/", views.createInvestmentAccount, name="createInvestmentAccount"),
     path("createTransaction/", views.createTransaction, name="createTransaction"),
     path("all/", views.allTransactions, name="alltransactions"),
 ]

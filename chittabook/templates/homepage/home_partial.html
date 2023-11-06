@@ -1,79 +1,79 @@
 
-    {% if username %}
-        <!-- if user doesnot created atleast one type of account -->
-        {% if bankAccounts or loanAccounts or investmentAccounts or creditCards %}
-          <div class = "container" id="selectedtable">
-            <h2 class="fs-5">Dashboard</h2>
-            <p>Welcome {{ username }}. The Insights page is still under construction. Thank you for your patience.</p>
+{% if username %}
+<!-- if user doesnot created atleast one type of account -->
+{% if bankAccounts or loanAccounts or investmentAccounts or creditCards %}
+  <div class = "container" id="selectedtable">
+    <h2 class="fs-5">Dashboard</h2>
+    <p>Welcome {{ username }}. The Insights page is still under construction. Thank you for your patience.</p>
+  </div>
+    
+    
+  <button hx-get="/ExpenseTableView/"
+      hx-trigger="click"
+      hx-target="#temp"
+      hx-swap="innerHTML">
+      Click Now!
+  </button>
+{% else %}
+    <h2 class="fs-5"> Welcome {{ username }} </h2>
+    <p>Just one more step to get started. Just create any account for adding transactions.</p>
+    
+    <!-- add buttons to create SavingsAccount, CheckingAccount, LoanAccount, InvestmentAccount, CreditCardAccount -->
+    <div class="row g-3">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Bank Account</h5>
+              <p class="card-text text-muted">With Bank Account you can track your savings or checking in your bank accounts. </p>
+              <!-- Bank Account trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bankAccountModal">
+                <i class="bi bi-plus-circle"></i> Add Bank Account
+              </button>
+            </div>
           </div>
-            
-            
-          <button hx-get="/ExpenseTableView/"
-              hx-trigger="click"
-              hx-target="#temp"
-              hx-swap="innerHTML">
-              Click Now!
-          </button>
-        {% else %}
-            <h2 class="fs-5"> Welcome {{ username }} </h2>
-            <p>Just one more step to get started. Just create any account for adding transactions.</p>
-            
-            <!-- add buttons to create SavingsAccount, CheckingAccount, LoanAccount, InvestmentAccount, CreditCardAccount -->
-            <div class="row g-3">
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Bank Account</h5>
-                      <p class="card-text text-muted">With Bank Account you can track your savings or checking in your bank accounts. </p>
-                      <!-- Bank Account trigger modal -->
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bankAccountModal">
-                        <i class="bi bi-plus-circle"></i> Add Bank Account
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Credit Cards</h5>
-                        <p class="card-text text-muted">With Credit Cards you can track your spending on credit cards.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creditCardModal">
-                            <i class="bi bi-plus-circle"></i> Add Credit Card
-                          </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Loan Account</h5>
-                        <p class="card-text text-muted">With Loan Account you can track your loans and liabilities.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loanAccountModal">
-                            <i class="bi bi-plus-circle"></i> Add Loan Account
-                          </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Investment Account</h5>
-                        <p class="card-text text-muted">With Investment Account you can track your Investments.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
-                            <i class="bi bi-plus-circle"></i> Add Investment Account
-                          </button>
-                        
-                      </div>
-                    </div>
-                  </div>
+        </div>
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Credit Cards</h5>
+                <p class="card-text text-muted">With Credit Cards you can track your spending on credit cards.</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#creditCardModal">
+                    <i class="bi bi-plus-circle"></i> Add Credit Card
+                  </button>
               </div>
-        {% endif %}  
-    {% else %}
-        <h2 class="fs-5"> Welcome to Chitta Book </h2>
-        <p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>
-        <p>Thank you using Chitta Book. It will only take a few seconds to Get Started!</p>
-        <!-- Button trigger modal -->
-        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
-            Click here for Getting Started
-        </a>
-    {% endif %}
+            </div>
+          </div>
+          <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Loan Account</h5>
+                <p class="card-text text-muted">With Loan Account you can track your loans and liabilities.</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loanAccountModal">
+                    <i class="bi bi-plus-circle"></i> Add Loan Account
+                  </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Investment Account</h5>
+                <p class="card-text text-muted">With Investment Account you can track your Investments.</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
+                    <i class="bi bi-plus-circle"></i> Add Investment Account
+                  </button>
+                
+              </div>
+            </div>
+          </div>
+      </div>
+{% endif %}  
+{% else %}
+<h2 class="fs-5"> Welcome to Chitta Book </h2>
+<p>It looks like this is your first time logging in. Let's get started by updating your name and currency.</p>
+<p>Thank you using Chitta Book. It will only take a few seconds to Get Started!</p>
+<!-- Button trigger modal -->
+<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'profileUpdate' %}">
+    Click here for Getting Started
+</a>
+{% endif %}

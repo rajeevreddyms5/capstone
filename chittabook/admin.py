@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from . models import User, UserProfile, Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
+from . models import User, UserProfile, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
 
 # Register your models here.
 class UserAdmin(BaseUserAdmin):
@@ -33,7 +33,6 @@ class UserAdmin(BaseUserAdmin):
 # register userprofile model
 admin.site.register(UserProfile)
 admin.site.register(Category)
-admin.site.register(Account)
 admin.site.register(BankAccount)
 admin.site.register(LoanAccount)
 admin.site.register(CreditCard)
