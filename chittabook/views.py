@@ -72,7 +72,7 @@ def home(request, form_error=False):
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
-            "transactionForm": TransactionForm, # expense form
+            "transactionForm": TransactionForm(), # expense form
             "alltransactions": Transaction.objects.filter(user=request.user), # expense transactions
         }
 
@@ -159,16 +159,16 @@ def createCreditCard(request):
 @ login_required
 def createLoanAccount(request):
     if request.method == "POST":
-        form = BankAccountForm(request.POST)
+        form = LoanAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.save()
-            messages.success(request, "Bank Account Created Successfully.")
+            messages.success(request, "Loan Account Created Successfully.")
             return HttpResponseRedirect("/home/")
     else:
-        form = BankAccountForm()
-        messages.error(request, "Bank Account Creation Failed.")
+        form = LoanAccountForm()
+        messages.error(request, "Loan Account Creation Failed.")
         return HttpResponseRedirect("/home/")
 
 
@@ -176,17 +176,18 @@ def createLoanAccount(request):
 @ login_required
 def createInvestmentAccount(request):
     if request.method == "POST":
-        form = BankAccountForm(request.POST)
+        form = InvestmentAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.save()
-            messages.success(request, "Bank Account Created Successfully.")
+            messages.success(request, "Investment Account Created Successfully.")
             return HttpResponseRedirect("/home/")
     else:
-        form = BankAccountForm()
-        messages.error(request, "Bank Account Creation Failed.")
+        form = InvestmentAccountForm()
+        messages.error(request, "Investment Account Creation Failed.")
         return HttpResponseRedirect("/home/")  
+
 
 # create or update expense transactions
 @ login_required

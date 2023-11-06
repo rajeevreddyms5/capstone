@@ -53,12 +53,17 @@ class BankAccountForm(ModelForm):
         exclude = ['user']
 
 
+
 # Credit Cards form
 class CreditCardForm(ModelForm):
     class Meta:
         model = CreditCard
         fields = '__all__'
         exclude = ['user', 'debt']
+        labels = {
+            'balance': 'Initial Debt',
+            'account_name': 'Credit Card Name',
+        }
 
 
 
@@ -84,3 +89,13 @@ class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
         fields = '__all__'
+        exclude = ['user', 'balance_after', 'created_at']
+        widgets = {
+            'date': TextInput(     
+        attrs={'type': 'date'} 
+    ),
+        }
+
+        
+        
+        

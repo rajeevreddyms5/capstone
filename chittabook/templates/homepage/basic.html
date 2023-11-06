@@ -85,7 +85,7 @@
                 <div class="dropdown-items" id="dropdown_items" style="display: none;">
                     {% for bankAccount in bankAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
-                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
+                            <span class="text-truncate" style="max-width: 15ch;">{{ bankAccount.account_name }}</span>
                             <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
                         </a>
                         </li>
@@ -101,7 +101,7 @@
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
                 {% for creditCardAccount in creditCards %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="creditCardAccount.{{ creditCardAccount.id }}">
-                            <span class="text-truncate">{{ creditCardAccount.account_name }}</span>
+                            <span class="text-truncate" style="max-width: 15ch;">{{ creditCardAccount.account_name }}</span>
                             <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter creditCardAccount.balance currency_name country %}</span>
                         </a>
                         </li>
@@ -116,10 +116,10 @@
         <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Loans</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                {% for bankAccount in bankAccounts %}
-                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
-                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
+                {% for loanAccount in loanAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="loanAccount.{{ loanAccount.id }}">
+                            <span class="text-truncate" style="max-width: 15ch;">{{ loanAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter loanAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -133,10 +133,10 @@
         <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Investments</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                {% for bankAccount in bankAccounts %}
-                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
-                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
+                {% for investmentAccount in investmentAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="investmentAccount.{{ investmentAccount.id }}">
+                            <span class="text-truncate" style="max-width: 15ch;">{{ investmentAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter investmentAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -150,7 +150,7 @@
         
         <!-- add transactionModal button -->
         <div class="sidebar mt-5">
-        <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#transactionModal">
+        <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 70px;" data-bs-toggle="modal" data-bs-target="#transactionModal">
             <i class="bi bi-plus-circle"></i> Add Transactions
           </button>
 
