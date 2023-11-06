@@ -9,8 +9,6 @@ from chittabook.models.transactions import Transaction
 from django.utils.html import format_html
 from django.utils import timezone
 
-# Create your custom views here.
-
 
 # create userprofile model form
 class UserProfileForm(ModelForm):

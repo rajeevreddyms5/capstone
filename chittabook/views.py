@@ -8,6 +8,7 @@ from django.urls import reverse
 import django_tables2 as tables
 from .tables import TransactionTable
 from django_tables2 import SingleTableMixin
+from django.contrib import messages
 
 
 
@@ -58,7 +59,7 @@ def home(request, form_error=False):
     
     # context for home page
     context={
-            "form": UserProfileForm(instance=UserProfileInstance),  # profile form for editing when user is logged in and no country and name is set
+            "profileform": UserProfileForm(instance=UserProfileInstance),  # profile form for editing when user is logged in and no country and name is set
             "form_error": form_error,   # form error when userprofile is not valid
             "bankForm": BankAccountForm(instance=UserProfileInstance), # bank form for creating new bank accounts
             "loanForm": LoanAccountForm(instance=UserProfileInstance), # loan form for creating new loan accounts

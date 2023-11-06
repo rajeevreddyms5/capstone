@@ -196,6 +196,9 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#contactModal" href="#">Contact us</a></li>
                                 <li>
                                     <form method="post" action="{% url 'account_logout' %}">
@@ -238,7 +241,7 @@
             {{ form.media }}  {# Adds widget's JS/CSS files from CDN #}
             <form method="post" action="{% url 'profileUpdate' %}">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ profileform|crispy }}
                 <p class="text-danger">Based on your country, currency will be changed</p>
                 <p class="text-dark-sm"> * fields are required</p>
                 <div class="modal-footer">
