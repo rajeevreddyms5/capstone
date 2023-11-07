@@ -18,10 +18,23 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
             
-
+    # str output
     def __str__(self):
         return str(self.category) + str(self.date) + str(self.amount)
 
+    # ordering
     class Meta:
         ordering = ['-date']
+    
+
+    # override save to update balance_after field by subtracting amount from account balance and if category.type is expense save the amount as negative
+    def save(self, *args, **kwargs):
+        self.balance_after = self.account.balance - self.amount # update balance after for every transaction
+        self.account.balance = self.balance_after   # update account balance of the account
+        if self.category.category_type == 'expense':    # if category type is expense set amount to negative
+            self.amount = -self.amount
+        super().save(*args, **kwargs)
+   
+
+
 

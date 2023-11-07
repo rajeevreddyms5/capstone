@@ -150,7 +150,7 @@
         
         <!-- add transactionModal button -->
         <div class="sidebar mt-5">
-        <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 70px;" data-bs-toggle="modal" data-bs-target="#transactionModal">
+        <button type="button" class="btn btn-primary rounded-pill py-1" hx-get="/htmx_load_categories" hx-vals='{"tab": "expense"}' hx-target="#id_category" hx-swap="innerHTML" style="margin-left: 70px;" data-bs-toggle="modal" data-bs-target="#transactionModal">
             <i class="bi bi-plus-circle"></i> Add Transactions
           </button>
 
@@ -368,10 +368,10 @@
             <div class="modal-body">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                    <button class="nav-link active" hx-get="/htmx_load_categories" hx-vals='{"tab": "expense"}' hx-target="#pills-tabContent" hx-swap="innerHTML" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Expense</button>
+                    <button class="nav-link active" hx-get="/htmx_load_categories" hx-vals='{"tab": "expense"}' hx-target="#id_category" hx-swap="innerHTML" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Expense</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                    <button class="nav-link" hx-get="/htmx_load_categories" hx-vals='{"tab": "income"}' hx-target="#pills-tabContent" hx-swap="innerHTML" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Income</button>
+                    <button class="nav-link" hx-get="/htmx_load_categories" hx-vals='{"tab": "income"}' hx-target="#pills-profile #id_category" hx-swap="innerHTML" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Income</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm, BankAccountForm, LoanAccountForm, CreditCardForm, InvestmentAccountForm, TransactionForm
-from .models import UserProfile, User, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
+from .models import UserProfile, User, Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount, Category, Transaction
 from .utils import currency_symbol, currency_name
 from django.urls import reverse
 import django_tables2 as tables
@@ -72,7 +72,7 @@ def home(request, form_error=False):
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
-            "transactionForm": TransactionForm(request=request, tab = 'expense'), # expense form
+            "transactionForm": TransactionForm(request=request), # expense form
             "alltransactions": Transaction.objects.filter(user=request.user), # expense transactions
         }
 
@@ -81,14 +81,15 @@ def home(request, form_error=False):
     else:
         return render(request, 'homepage/home.html', context=context)
 
-# load categories
+# load categories dropdown using htmx
 def htmx_load_categories(request):
-    user = request.user
-    tab = request.GET.get('tab')
+    user = request.user # get current user
+    tab = request.GET.get('tab')    # get tab from request 
+    categories = Category.objects.filter(user=user, category_type=tab)  # get categories based on tab i.e. income and expense
     if request.htmx:
-        return render(request, 'homepage/category_dropdown_list_options.html', {'transactionForm': TransactionForm(request=request, tab=tab)})
+        return render(request, 'homepage/category_dropdown_list_options.html', {'categories': categories})  # render category dropdown list options when using htmx
     else:
-        return render(request, 'homepage/category_dropdown_list_options.html', {'transactionForm': TransactionForm(request=request, tab=tab)})
+        return home(request)
 
 # profile update
 @login_required
@@ -204,8 +205,11 @@ def createTransaction(request):
         form = TransactionForm(request.POST, request=request)
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.account = request.user.bank_accounts.get(id=request.POST['account'])
             instance.user = request.user
+            account = Account.objects.get(id=request.POST.get('account'))
+            instance.account = account
+            category = Category.objects.get(id=request.POST.get('category'))
+            instance.category = category
             instance.save()
             messages.success(request, "Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")

@@ -105,20 +105,14 @@ class TransactionForm(ModelForm):
 
     account = ChoiceField(choices=[], required=True, label='Select Account')
     
+    # custom initialization
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
-        self.tab = kwargs.pop('tab', None)
         super(TransactionForm, self).__init__(*args, **kwargs)
         self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        self.fields['category'].queryset = Category.objects.none()  # set initial queryset to none and used htmx request to populate the fields based on the selected tab
 
-        if self.tab == 'expense':
-            self.fields['category'].queryset = Category.objects.filter(user=self.request.user, category_type='expense')
-        elif self.tab == 'income':
-            self.fields['category'].queryset = Category.objects.filter(user=self.request.user, category_type='income')
-        else:
-            self.fields['category'].queryset = Category.objects.filter(user=self.request.user)
-
+        
     # Account choices function
     def get_account_choices(self):
         bank_accounts = BankAccount.objects.filter(user=self.request.user)

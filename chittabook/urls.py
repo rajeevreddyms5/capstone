@@ -15,7 +15,7 @@ urlpatterns = [
     path("createCreditCard/", views.createCreditCard, name="createCreditCard"),
     path("createLoanAccount/", views.createLoanAccount, name="createLoanAccount"),
     path("createInvestmentAccount/", views.createInvestmentAccount, name="createInvestmentAccount"),
+    path("htmx_load_categories", views.htmx_load_categories, name="htmx_load_categories"),
     path("createTransaction/", views.createTransaction, name="createTransaction"),
     path("all/", views.allTransactions, name="alltransactions"),
-    path("htmx_load_categories", views.htmx_load_categories, name="htmx_load_categories"),
 ]
