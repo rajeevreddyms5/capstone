@@ -511,5 +511,30 @@
         })
     </script>
 
+    <!-- javascript code for filtering categories based on selected tab in Add transaction model form -->
+    <script>
+        // JavaScript code
+        $(document).ready(function () {
+            // Handle tab selection
+            $('#pills-tab button[data-bs-toggle="pill"]').click(function () {
+                var tab = $(this).data('bs-target').substring(1);
+                if (tab == 'pills-home') {
+                    tab = 'expense';
+                }
+                else if (tab == 'pills-profile') {
+                    tab = 'income';
+                }
+                var form = $('#transactionForm');
+
+                // Update the tab value in the form
+                form.find('input[name="tab"]').val(tab);
+                console.log(tab);
+
+                // Trigger the form submission event
+                form.trigger('submit');
+                console.log('Form submitted');
+            });
+        });
+    </script>
   </body>
 </html>

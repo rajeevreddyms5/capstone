@@ -72,7 +72,7 @@ def home(request, form_error=False):
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
-            "transactionForm": TransactionForm(request=request), # expense form
+            "transactionForm": TransactionForm(request=request, tab='expense'), # expense form
             "alltransactions": Transaction.objects.filter(user=request.user), # expense transactions
         }
 
