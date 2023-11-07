@@ -72,7 +72,7 @@ def home(request, form_error=False):
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
-            "transactionForm": TransactionForm(), # expense form
+            "transactionForm": TransactionForm(request=request), # expense form
             "alltransactions": Transaction.objects.filter(user=request.user), # expense transactions
         }
 
@@ -200,11 +200,11 @@ def createTransaction(request):
             instance.account = request.user.bank_accounts.get(id=request.POST['account'])
             instance.user = request.user
             instance.save()
-            messages.success(request, "Expense Transaction Saved Successfully.")
+            messages.success(request, "Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")
         else:
             print(form.errors.as_data())
-            messages.error(request, "Expense Transaction Save Failed due to form validation.")
+            messages.error(request, "Transaction Save Failed due to form validation.")
             return HttpResponseRedirect("/home/")
     else:
         form = TransactionForm(request=request)

@@ -19,3 +19,5 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
         unique_together = ('user', 'category', 'sub_category')
+        ordering = ['category', 'sub_category']
+        

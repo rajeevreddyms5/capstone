@@ -30,8 +30,7 @@ class CreditCard(Account):
         if self.balance > 0:
             self.balance = -self.balance
         super().save(*args, **kwargs)
-    
-        
+
 
 # Loan Account Model
 class LoanAccount(Account):

@@ -1,14 +1,16 @@
-from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField, DateInput, TextInput
+from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField, DateInput, TextInput, ModelMultipleChoiceField
 from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from datetime import date
 import datetime
-from chittabook.models.accounts import BankAccount, LoanAccount, CreditCard, InvestmentAccount
+from chittabook.models.accounts import Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount
 from chittabook.models.categories import Category
 from chittabook.models.transactions import Transaction
 from django.utils.html import format_html
 from django.utils import timezone
+from django.db.models import QuerySet
+from django.db import models
 
 
 # create userprofile model form
@@ -84,8 +86,13 @@ class InvestmentAccountForm(ModelForm):
         exclude = ['user']
 
 
+
 # Transaction form
 class TransactionForm(ModelForm):
+    
+    account = ModelChoiceField(queryset=Account.objects.none())
+
+    
     class Meta:
         model = Transaction
         fields = '__all__'
@@ -96,6 +103,34 @@ class TransactionForm(ModelForm):
     ),
         }
 
-        
-        
-        
+    account = ChoiceField(choices=[], required=True, label='Select Account')
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(TransactionForm, self).__init__(*args, **kwargs)
+        self.fields['account'].choices = self.get_account_choices()
+        self.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+
+
+    # Account choices function
+    def get_account_choices(self):
+        bank_accounts = BankAccount.objects.filter(user=self.request.user)
+        credit_cards = CreditCard.objects.filter(user=self.request.user)
+        loan_accounts = LoanAccount.objects.filter(user=self.request.user)
+        investment_accounts = InvestmentAccount.objects.filter(user=self.request.user)
+
+        account_choices = []
+
+        if bank_accounts:
+            account_choices.append(('Bank Accounts', [(a.id, a.account_name) for a in bank_accounts]))
+
+        if credit_cards:
+            account_choices.append(('Credit Cards', [(a.id, a.account_name) for a in credit_cards]))
+
+        if loan_accounts:
+            account_choices.append(('Loan Accounts', [(a.id, a.account_name) for a in loan_accounts]))
+
+        if investment_accounts:
+            account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
+
+        return account_choices
