@@ -56,9 +56,6 @@ def home(request, form_error=False):
     
     # instance of userProfile of current user
     UserProfileInstance = UserProfile.objects.get(user=request.user)
-
-    # declare variable tab
-    tab = 'expense'
     
     # context for home page
     context={
@@ -75,7 +72,7 @@ def home(request, form_error=False):
             "loanAccounts": LoanAccount.objects.filter(user=request.user),   # loan accounts associated with user
             "creditCards": CreditCard.objects.filter(user=request.user),   # credit cards associated with user
             "investmentAccounts": InvestmentAccount.objects.filter(user=request.user),   # investment accounts associated with user
-            "transactionForm": TransactionForm(request=request), # expense form
+            "transactionForm": TransactionForm(request=request, tab = 'expense'), # expense form
             "alltransactions": Transaction.objects.filter(user=request.user), # expense transactions
         }
 
@@ -88,11 +85,10 @@ def home(request, form_error=False):
 def htmx_load_categories(request):
     user = request.user
     tab = request.GET.get('tab')
-    categories = Category.objects.filter(user=user, category_type=tab)
     if request.htmx:
-        return render(request, 'homepage/category_dropdown_list_options.html', {'categories': categories, 'transactionForm': TransactionForm(request=request)})
+        return render(request, 'homepage/category_dropdown_list_options.html', {'transactionForm': TransactionForm(request=request, tab=tab)})
     else:
-        return render(request, 'homepage/category_dropdown_list_options.html', {'categories': categories, 'transactionForm': TransactionForm(request=request)})
+        return render(request, 'homepage/category_dropdown_list_options.html', {'transactionForm': TransactionForm(request=request, tab=tab)})
 
 # profile update
 @login_required

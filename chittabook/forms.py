@@ -107,9 +107,17 @@ class TransactionForm(ModelForm):
     
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
+        self.tab = kwargs.pop('tab', None)
         super(TransactionForm, self).__init__(*args, **kwargs)
         self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = Category.objects.none()
+        self.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+
+        if self.tab == 'expense':
+            self.fields['category'].queryset = Category.objects.filter(user=self.request.user, category_type='expense')
+        elif self.tab == 'income':
+            self.fields['category'].queryset = Category.objects.filter(user=self.request.user, category_type='income')
+        else:
+            self.fields['category'].queryset = Category.objects.filter(user=self.request.user)
 
     # Account choices function
     def get_account_choices(self):
