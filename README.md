@@ -75,5 +75,9 @@ python manage.py runserver
 6. HTMX is used for navigating without page reload
 7. The entire webpage is mobile responsive and beautiful
 
-
+#Tests
+Every page and model is tested using unit tests
+```
+python manage.py test
+```
 
