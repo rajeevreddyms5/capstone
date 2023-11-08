@@ -6,14 +6,6 @@
     <h2 class="fs-5">Dashboard</h2>
     <p>Welcome {{ username }}. The Insights page is still under construction. Thank you for your patience.</p>
   </div>
-    
-    
-  <button hx-get="/ExpenseTableView/"
-      hx-trigger="click"
-      hx-target="#temp"
-      hx-swap="innerHTML">
-      Click Now!
-  </button>
 {% else %}
     <h2 class="fs-5"> Welcome {{ username }} </h2>
     <p>Just one more step to get started. Just create any account for adding transactions.</p>

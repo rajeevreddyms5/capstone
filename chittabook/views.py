@@ -224,7 +224,7 @@ def createTransaction(request):
 
 # All Transactions table view
 def allTransactions(request):
-    table = TransactionTable(Transaction.objects.all())
+    table = TransactionTable(Transaction.objects.filter(user=request.user).order_by('-created_at'))
     if request.htmx:
         return render(request, 'homepage/alltransactions_partial.html', {'table': table})
     else:
