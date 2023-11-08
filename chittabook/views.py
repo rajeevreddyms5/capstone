@@ -229,3 +229,27 @@ def allTransactions(request):
         return render(request, 'homepage/alltransactions_partial.html', {'table': table})
     else:
         return render(request, 'homepage/alltransactions.html', {'table': table})
+
+
+# htmx budget function
+def htmxBudget(request):
+    if request.htmx:
+        return render(request, 'homepage/budget_partial.html')
+    else:
+        return home(request)
+
+
+# htmx recurring function
+def htmxRecurring(request):
+    if request.htmx:
+        return render(request, 'homepage/recurring_partial.html')
+    else:
+        return home(request)
+
+
+# htmx goals function
+def htmxGoals(request):
+    if request.htmx:
+        return render(request, 'homepage/goals_partial.html')
+    else:
+        return home(request)

@@ -62,18 +62,18 @@
           </div>
 
           <ul class="list-unstyled px-2">
-              <li class="active"><a href="#" hx-get="/home/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class="active"><a href="" hx-get="/home/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-home"></i> Insights</a></li>
-              <li class=""><a href="#" hx-get="/all/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
+              <li class=""><a href="" hx-get="/all/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
                  All Transactions</a></li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between text-dark">
+              <li class=""><a href="" hx-get="/budget/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between text-dark">
                       <span><i class="fal fa-envelope-open-text"></i> Budget</span>
                       <span class="bg-dark rounded-pill text-white py-0 px-2">02</span>
                   </a>
               </li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class=""><a href="" hx-get="/recurring/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-repeat"></i> Recurring Expenses</a></li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bullseye"></i>
+              <li class=""><a href="" hx-get="/goals/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bullseye"></i>
                        Goals</a></li>
            </ul>
           <hr class="h-color mx-2">
@@ -496,6 +496,7 @@
                 $('.sidebar').removeClass('active');
             }
         });
+        
     </script>
 
     <!-- main js -->    
@@ -529,6 +530,7 @@
                 element.classList.add('bg-success');
             }
         });
+        
     });
     </script>
     

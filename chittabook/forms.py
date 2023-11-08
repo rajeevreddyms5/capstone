@@ -3,7 +3,6 @@ from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from datetime import date
-import datetime
 from chittabook.models.accounts import Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount
 from chittabook.models.categories import Category
 from chittabook.models.transactions import Transaction
@@ -99,7 +98,10 @@ class TransactionForm(ModelForm):
         exclude = ['user', 'balance_after', 'created_at']
         widgets = {
             'date': TextInput(     
-        attrs={'type': 'date'} 
+        attrs={
+            'type': 'date',
+            'max': date.today().isoformat()
+            } 
     ),
         }
 
