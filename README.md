@@ -1,5 +1,5 @@
-Chittabook - An app for tracking expense and income tracking
-CS50W Final Project
+## Chittabook - An app for tracking expense and income tracking
+## CS50W Final Project
 # Chitta Book
 
 Chitta Book is a personal finance management system that helps users track their expenses, set financial goals, and make informed decisions. The project is designed to be user-friendly, mobile responsive.
@@ -66,7 +66,7 @@ python manage.py runserver
 6. Using javascript the login password show feature is implemented.
 7. I have overriden the templates to make them more responsive and beautiful.
 
-# Using the web application:
+#Using the web application:
 1. After login the user is greeted with welcome message and guides them to update their country. Based on the country selected, the currency will be updated
 2. User can create Bank Accounts, Credit Card Accounts, Loan Accounts, Investment Accounts
 3. User can Add transactions.
