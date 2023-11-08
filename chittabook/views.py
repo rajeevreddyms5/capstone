@@ -200,16 +200,13 @@ def createInvestmentAccount(request):
 # create or update expense transactions
 @ login_required
 def createTransaction(request):
-    print(request.POST)
     if request.method == "POST":
-        form = TransactionForm(request.POST, request=request)
+
+        form = TransactionForm(request.POST, request=request)     
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
-            account = Account.objects.get(id=request.POST.get('account'))
-            instance.account = account
-            category = Category.objects.get(id=request.POST.get('category'))
-            instance.category = category
             instance.save()
             messages.success(request, "Transaction Saved Successfully.")
             return HttpResponseRedirect("/home/")

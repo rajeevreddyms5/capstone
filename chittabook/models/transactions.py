@@ -29,10 +29,11 @@ class Transaction(models.Model):
 
     # override save to update balance_after field by subtracting amount from account balance and if category.type is expense save the amount as negative
     def save(self, *args, **kwargs):
-        self.balance_after = self.account.balance - self.amount # update balance after for every transaction
-        self.account.balance = self.balance_after   # update account balance of the account
         if self.category.category_type == 'expense':    # if category type is expense set amount to negative
             self.amount = -self.amount
+        self.balance_after = self.account.balance + self.amount # update balance after for every transaction
+        self.account.balance = self.balance_after   # update account balance of the account
+        self.account.save()  # Save the updated Account instance
         super().save(*args, **kwargs)
    
 

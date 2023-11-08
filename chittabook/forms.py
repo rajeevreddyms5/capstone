@@ -110,7 +110,7 @@ class TransactionForm(ModelForm):
         self.request = kwargs.pop('request', None)
         super(TransactionForm, self).__init__(*args, **kwargs)
         self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = Category.objects.none()  # set initial queryset to none and used htmx request to populate the fields based on the selected tab
+        self.fields['category'].queryset = Category.objects.filter(user=self.request.user)  # set initial queryset to none and used htmx request to populate the fields based on the selected tab
 
         
     # Account choices function
@@ -135,3 +135,21 @@ class TransactionForm(ModelForm):
             account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
 
         return account_choices
+    
+    
+    # clean function to convert account available choices
+    def clean(self):
+        cleaned_data = super().clean()
+        account_id = cleaned_data.get('account')
+        
+        # override account instance data and clean it
+        try:
+            account_instance = Account.objects.get(id=account_id)
+            cleaned_data['account'] = account_instance
+        except Account.DoesNotExist:
+            raise ValidationError('Invalid account choice.')
+        
+        return cleaned_data
+    
+
+    
