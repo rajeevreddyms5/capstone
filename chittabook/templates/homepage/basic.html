@@ -86,7 +86,7 @@
                     {% for bankAccount in bankAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ bankAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ bankAccount.balance }}">{% formatter bankAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                     {% endfor %}
@@ -102,7 +102,7 @@
                 {% for creditCardAccount in creditCards %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="creditCardAccount.{{ creditCardAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ creditCardAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter creditCardAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ creditCardAccount.balance }}">{% formatter creditCardAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -119,7 +119,7 @@
                 {% for loanAccount in loanAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="loanAccount.{{ loanAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ loanAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter loanAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ loanAccount.balance }}">{% formatter loanAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -136,7 +136,7 @@
                 {% for investmentAccount in investmentAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="investmentAccount.{{ investmentAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ investmentAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter investmentAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ investmentAccount.balance }}">{% formatter investmentAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -510,5 +510,27 @@
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; //insert csrf token when performing AJAX request 
         })
     </script>
+
+    <!-- javascript for changing of text color to red if amount is negative and green if positive in element with id sidebar_balance_color -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // get all elements with class sidebar_balance_color
+        const elements = document.querySelectorAll('#sidebar_balance_color');
+        elements.forEach(function(element) {
+            const amount = element.getAttribute('data-color');
+            console.log('Amount:', amount);
+            if (amount < 0) {
+                console.log('Negative amount');
+                element.classList.remove('bg-dark');
+                element.classList.add('bg-danger');
+            } else {
+                console.log('Positive amount');
+                element.classList.remove('bg-dark');
+                element.classList.add('bg-success');
+            }
+        });
+    });
+    </script>
+    
   </body>
 </html>
