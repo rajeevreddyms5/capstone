@@ -1,15 +1,15 @@
-from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField
+from django.forms import ModelForm, widgets, ValidationError, ChoiceField, ModelChoiceField, DateInput, TextInput, ModelMultipleChoiceField
 from chittabook.models.userprofile import UserProfile
 from django_countries.widgets import CountrySelectWidget
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from datetime import date
-from chittabook.models.accounts import BankAccount, LoanAccount, CreditCards, InvestmentAccount
-from chittabook.models.expense import Expense, ExpenseCategory, ExpenseSubCategory
-from chittabook.models.income import Income, IncomeCategory, IncomeSubCategory
+from chittabook.models.accounts import Account, BankAccount, LoanAccount, CreditCard, InvestmentAccount
+from chittabook.models.categories import Category
+from chittabook.models.transactions import Transaction
 from django.utils.html import format_html
-
-
-# Create your custom views here.
+from django.utils import timezone
+from django.db.models import QuerySet
+from django.db import models
 
 
 # create userprofile model form
@@ -18,8 +18,10 @@ class UserProfileForm(ModelForm):
         model = UserProfile
         fields = ['name', 'dob', 'profession', 'gender', 'country']
         widgets = {
-            'dob': DatePickerInput(),
-            'country': CountrySelectWidget(),
+            'dob': TextInput(     
+        attrs={'type': 'date'} 
+    ),
+            'country': CountrySelectWidget()
         }
 
     # custom validation for dob
@@ -44,27 +46,34 @@ class UserProfileForm(ModelForm):
         return cleaned_data
 
 
-
-
 # Bank Account form
 class BankAccountForm(ModelForm):
     class Meta:
         model = BankAccount
-        fields = ['account_name', 'balance']
+        fields = '__all__'
+        exclude = ['user']
+
+
+
+# Credit Cards form
+class CreditCardForm(ModelForm):
+    class Meta:
+        model = CreditCard
+        fields = '__all__'
+        exclude = ['user', 'debt']
+        labels = {
+            'balance': 'Initial Debt',
+            'account_name': 'Credit Card Name',
+        }
+
 
 
 # Loan Account form
 class LoanAccountForm(ModelForm):
     class Meta:
         model = LoanAccount
-        fields = ['lender_name', 'amount', 'balance']
-
-
-# Credit Cards form
-class CreditCardsForm(ModelForm):
-    class Meta:
-        model = CreditCards
-        fields = ['card_name', 'credit_limit', 'initial_debt']
+        fields = '__all__'
+        exclude = ['user']
 
 
 
@@ -72,45 +81,44 @@ class CreditCardsForm(ModelForm):
 class InvestmentAccountForm(ModelForm):
     class Meta:
         model = InvestmentAccount
-        fields = ['account_name', 'current_value']
+        fields = '__all__'
+        exclude = ['user']
 
 
-# Expense form with list of accounts to choose from bank account, loan account, credit cards, and investment account
-#  and add expense category field to choose from expense categories
-class ExpenseForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(ExpenseForm, self).__init__(*args, **kwargs)
-        self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = ExpenseCategory.objects.filter(user=self.request.user).order_by('name')
-        
-        # add subcategory field to the category field
-        choices = []
-        categories = self.fields['category'].queryset
-        subcategories = ExpenseSubCategory.objects.filter(user=self.request.user)
-        for category in categories:
-            subcategories_for_category = subcategories.filter(category=category)
-            choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
-            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
-
-        self.fields['category'].widget.choices = choices
+# Transaction form
+class TransactionForm(ModelForm):
     
-    account = ChoiceField(choices=[], required=True, label='Select Account')
-    category = ModelChoiceField(queryset=ExpenseCategory.objects.none())
-    
+    account = ModelChoiceField(queryset=Account.objects.none())
+
     
     class Meta:
-        model = Expense
-        fields = ['account', 'amount', 'date', 'note', 'category']
+        model = Transaction
+        fields = '__all__'
+        exclude = ['user', 'balance_after', 'created_at']
         widgets = {
-            'date': DatePickerInput(),
+            'date': TextInput(     
+        attrs={
+            'type': 'date',
+            'max': date.today().isoformat()
+            } 
+    ),
         }
 
+    account = ChoiceField(choices=[], required=True, label='Select Account')
+    
+    # custom initialization
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(TransactionForm, self).__init__(*args, **kwargs)
+        self.fields['account'].choices = self.get_account_choices()
+        self.fields['category'].queryset = Category.objects.filter(user=self.request.user)  # set initial queryset to none and used htmx request to populate the fields based on the selected tab
+
+        
     # Account choices function
     def get_account_choices(self):
         bank_accounts = BankAccount.objects.filter(user=self.request.user)
-        credit_cards = CreditCards.objects.filter(user=self.request.user)
+        credit_cards = CreditCard.objects.filter(user=self.request.user)
         loan_accounts = LoanAccount.objects.filter(user=self.request.user)
         investment_accounts = InvestmentAccount.objects.filter(user=self.request.user)
 
@@ -120,7 +128,7 @@ class ExpenseForm(ModelForm):
             account_choices.append(('Bank Accounts', [(a.id, a.account_name) for a in bank_accounts]))
 
         if credit_cards:
-            account_choices.append(('Credit Cards', [(a.id, a.card_name) for a in credit_cards]))
+            account_choices.append(('Credit Cards', [(a.id, a.account_name) for a in credit_cards]))
 
         if loan_accounts:
             account_choices.append(('Loan Accounts', [(a.id, a.account_name) for a in loan_accounts]))
@@ -129,59 +137,21 @@ class ExpenseForm(ModelForm):
             account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
 
         return account_choices
-
-
-
-# Income form
-class IncomeForm(ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(IncomeForm, self).__init__(*args, **kwargs)
-        self.fields['account'].choices = self.get_account_choices()
-        self.fields['category'].queryset = IncomeCategory.objects.filter(user=self.request.user).order_by('name')
+    
+    
+    # clean function to convert account available choices
+    def clean(self):
+        cleaned_data = super().clean()
+        account_id = cleaned_data.get('account')
         
-        # add subcategory field to the category field
-        choices = []
-        categories = self.fields['category'].queryset
-        subcategories = IncomeSubCategory.objects.filter(user=self.request.user)
-        for category in categories:
-            subcategories_for_category = subcategories.filter(category=category)
-            choices.append((category.id, format_html('<strong>{}</strong>', category.name)))
-            choices.extend([(subcategory.id, format_html('&nbsp;&nbsp;&nbsp;{}', subcategory.name)) for subcategory in subcategories_for_category])
-
-        self.fields['category'].widget.choices = choices
+        # override account instance data and clean it
+        try:
+            account_instance = Account.objects.get(id=account_id)
+            cleaned_data['account'] = account_instance
+        except Account.DoesNotExist:
+            raise ValidationError('Invalid account choice.')
+        
+        return cleaned_data
     
-    account = ChoiceField(choices=[], required=True, label='Select Account')
-    category = ModelChoiceField(queryset=IncomeCategory.objects.none())
+
     
-    
-    class Meta:
-        model = Income
-        fields = ['account', 'amount', 'date', 'note', 'category']
-        widgets = {
-            'date': DatePickerInput(),
-        }
-
-    # Account choices function
-    def get_account_choices(self):
-        bank_accounts = BankAccount.objects.filter(user=self.request.user)
-        credit_cards = CreditCards.objects.filter(user=self.request.user)
-        loan_accounts = LoanAccount.objects.filter(user=self.request.user)
-        investment_accounts = InvestmentAccount.objects.filter(user=self.request.user)
-
-        account_choices = []
-
-        if bank_accounts:
-            account_choices.append(('Bank Accounts', [(a.id, a.account_name) for a in bank_accounts]))
-
-        if credit_cards:
-            account_choices.append(('Credit Cards', [(a.id, a.card_name) for a in credit_cards]))
-
-        if loan_accounts:
-            account_choices.append(('Loan Accounts', [(a.id, a.account_name) for a in loan_accounts]))
-
-        if investment_accounts:
-            account_choices.append(('Investment Accounts', [(a.id, a.account_name) for a in investment_accounts]))
-
-        return account_choices

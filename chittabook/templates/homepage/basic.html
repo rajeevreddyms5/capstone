@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 {% load formatter from format %}
 
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -27,7 +26,6 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    
    
     <!-- CSRF Token -->
     <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
@@ -55,7 +53,7 @@
   <body>
 
     <div class="main-container d-flex">
-      <div class="sidebar bg-white" id="side_nav">
+      <div class="sidebar" id="side_nav">
           <div class="header-box px-2 pt-3 pb-4 d-flex justify-content-between">
               <h1 class="fs-4"> <a href="{% url 'home' %}" class="text-decoration-none"><span class="bg-dark text-white rounded shadow px-2 me-2">CB</span> <span
                       class="text-dark">Chitta Book</span></a></h1>
@@ -64,18 +62,18 @@
           </div>
 
           <ul class="list-unstyled px-2">
-              <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class="active"><a href="" hx-get="/home/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-home"></i> Insights</a></li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
+              <li class=""><a href="" hx-get="/all/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
                  All Transactions</a></li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between text-dark">
+              <li class=""><a href="" hx-get="/budget/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between text-dark">
                       <span><i class="fal fa-envelope-open-text"></i> Budget</span>
                       <span class="bg-dark rounded-pill text-white py-0 px-2">02</span>
                   </a>
               </li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class=""><a href="" hx-get="/recurring/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-repeat"></i> Recurring Expenses</a></li>
-              <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bullseye"></i>
+              <li class=""><a href="" hx-get="/goals/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bullseye"></i>
                        Goals</a></li>
            </ul>
           <hr class="h-color mx-2">
@@ -87,8 +85,8 @@
                 <div class="dropdown-items" id="dropdown_items" style="display: none;">
                     {% for bankAccount in bankAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
-                            <span class="text-truncate">{{ bankAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate">{% formatter bankAccount.balance currency_name country %}</span>
+                            <span class="text-truncate" style="max-width: 15ch;">{{ bankAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ bankAccount.balance }}">{% formatter bankAccount.balance currency_name country %}</span>
                         </a>
                         </li>
                     {% endfor %}
@@ -101,15 +99,13 @@
           <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Credit Cards</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Credit Card 1</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
-                </a>
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Credit Card 2</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
-                </a>
-            </li>
+                {% for creditCardAccount in creditCards %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="creditCardAccount.{{ creditCardAccount.id }}">
+                            <span class="text-truncate" style="max-width: 15ch;">{{ creditCardAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ creditCardAccount.balance }}">{% formatter creditCardAccount.balance currency_name country %}</span>
+                        </a>
+                        </li>
+                {% endfor %}
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#creditCardModal">
                     <i class="bi bi-plus-circle"></i> Add Credit Card
                   </button>
@@ -120,15 +116,13 @@
         <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Loans</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Loan 1</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
-                </a>
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Loan 2</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
-                </a>
-                </li>
+                {% for loanAccount in loanAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="loanAccount.{{ loanAccount.id }}">
+                            <span class="text-truncate" style="max-width: 15ch;">{{ loanAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ loanAccount.balance }}">{% formatter loanAccount.balance currency_name country %}</span>
+                        </a>
+                        </li>
+                {% endfor %}
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#loanAccountModal">
                     <i class="bi bi-plus-circle"></i> Add Loan Account
                   </button>
@@ -139,29 +133,38 @@
         <ul class="list-unstyled px-2 mb-0"><a href="#" id="dropdown_on_sidebar" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-chevron-down"></i>
             Investments</a>
             <div class="dropdown-items" id="dropdown_items" style="display: none;">  
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Investment 1</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">+1,00,00</span>
-                </a>
-                <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark">
-                    <span> Investment 2</span>
-                    <span class="bg-dark rounded-pill text-white py-0 px-2">-1,00,00</span>
-                </a>
-                </li>
+                {% for investmentAccount in investmentAccounts %}
+                        <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="investmentAccount.{{ investmentAccount.id }}">
+                            <span class="text-truncate" style="max-width: 15ch;">{{ investmentAccount.account_name }}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ investmentAccount.balance }}">{% formatter investmentAccount.balance currency_name country %}</span>
+                        </a>
+                        </li>
+                {% endfor %}
                 <button type="button" class="btn btn-primary rounded-pill py-1" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#investmentAccountModal">
                     <i class="bi bi-plus-circle"></i> Add Investment Account
                   </button>
             </div>
         </ul>
 
-        <!-- sidebar end - buy me a coffee link -->
-        <div class="sidebar-footer px-2 py-5 mt-5"><p style="font-weight: bold;">If you enjoy this website, please show your support to help keep it free. <span class="text-danger">THANK YOU for your support.</span></p>
-            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+        <hr class="h-color mx-2">
+        
+        <!-- add transactionModal button -->
+        <div class="sidebar mt-5">
+        <button type="button" class="btn btn-primary rounded-pill py-1" hx-get="/htmx_load_categories" hx-vals='{"tab": "expense"}' hx-target="#id_category" hx-swap="innerHTML" style="margin-left: 70px;" data-bs-toggle="modal" data-bs-target="#transactionModal">
+            <i class="bi bi-plus-circle"></i> Add Transactions
+          </button>
+
+
+          <!-- sidebar end - buy me a coffee link -->
+        <div class="sidebar-footer px-2 mt-5 text-justify"><p style="font-weight: bold;">If you enjoy this website, please show your support to help keep it free. <span class="text-danger">THANK YOU for your support.</span></p>
+            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" class="mx-auto d-block" ></a>
         </div>
+        </div>
+        
 
       </div>
       <div class="content">
-          <nav class="navbar navbar-expand-lg navbar-light p-3 bg-white" id="nav_bar">
+          <nav class="navbar navbar-expand-lg navbar-light p-3" id="nav_bar">
               <div class="container-fluid">
                   <div class="d-flex justify-content-between d-md-none d-block">
                    <button class="btn px-1 py-0 open-btn me-2"><i class="fal fa-stream"></i></button>
@@ -174,11 +177,6 @@
                       <i class="fal fa-bars"></i>
                   </button>
                   <div class="collapse navbar-collapse justify-content-end me-5 px-5" id="navbarSupportedContent">
-                       
-                        <!-- buymeacoffee link
-                        <div>
-                            <a href="https://www.buymeacoffee.com/rajeevreddy1992" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 177px !important; margin-left: 5px;" ></a>
-                        </div> -->
 
                         <!-- settings -->
                         <div class="btn-group">
@@ -190,6 +188,9 @@
                                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#">
                                         Profile
                                     </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#contactModal" href="#">Contact us</a></li>
@@ -207,11 +208,16 @@
                         
                   </div>
               </div>
-          </nav>
+          </nav>  
 
-          <div class="dashboard-content px-3 pt-4">
+          <div class="dashboard-content px-3 pt-4" id="dashboard_content">
                 {% block content %}
                 {% endblock %}
+                <!-- hidden text at the end for space purpose-->
+                <div class="invisible" id="hidden_text">
+                    <h2>hi</h2>
+                    <p>for space purpose</p>
+                </div>
           </div>
       </div>
   </div>
@@ -229,7 +235,7 @@
             {{ form.media }}  {# Adds widget's JS/CSS files from CDN #}
             <form method="post" action="{% url 'profileUpdate' %}">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ profileform|crispy }}
                 <p class="text-danger">Based on your country, currency will be changed</p>
                 <p class="text-dark-sm"> * fields are required</p>
                 <div class="modal-footer">
@@ -265,28 +271,6 @@
         </div>
     </div>
 
-    <!-- Add Loan Account Modal -->
-    <div class="modal fade" id="loanAccountModal" tabindex="-1" aria-labelledby="loanAccountModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="loanAccountModalLabel">Add Loan Account</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'createBankAccount' %}">
-                    {% csrf_token %}
-                    {{ loanForm| crispy }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                    </div>
-                </form>
-        </div>
-        </div>
-    </div>
-
     <!-- Add credit card Modal -->
     <div class="modal fade" id="creditCardModal" tabindex="-1" aria-labelledby="creditCardModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -296,7 +280,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{% url 'createBankAccount' %}">
+                <form method="post" action="{% url 'createCreditCard' %}">
                     {% csrf_token %}
                     {{ creditCardForm| crispy }}
                     </div>
@@ -309,6 +293,29 @@
         </div>
     </div>
 
+    <!-- Add Loan Account Modal -->
+    <div class="modal fade" id="loanAccountModal" tabindex="-1" aria-labelledby="loanAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="loanAccountModalLabel">Add Loan Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'createLoanAccount' %}">
+                    {% csrf_token %}
+                    {{ loanForm| crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </div>
+
+
     <!-- Add Investment Account Modal -->
     <div class="modal fade" id="investmentAccountModal" tabindex="-1" aria-labelledby="investmentAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -318,7 +325,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{% url 'createBankAccount' %}">
+                <form method="post" action="{% url 'createInvestmentAccount' %}">
                     {% csrf_token %}
                     {{ investmentForm| crispy }}
                     </div>
@@ -349,6 +356,51 @@
         </div>
         </div>
     </div>
+
+     <!-- Add transaction Modal -->
+  <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="transactionModalLabel">Add Transactions</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link active" hx-get="/htmx_load_categories" hx-vals='{"tab": "expense"}' hx-target="#id_category" hx-swap="innerHTML" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Expense</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" hx-get="/htmx_load_categories" hx-vals='{"tab": "income"}' hx-target="#pills-profile #id_category" hx-swap="innerHTML" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Income</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                        <form method="post" action="{% url 'createTransaction' %}">
+                            {% csrf_token %}
+                            {{ transactionForm| crispy }}
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                        <form method="post" action="{% url 'createTransaction' %}">
+                            {% csrf_token %}
+                            {{ transactionForm| crispy }}
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+           
+            </div>
+        </div>
+    </div>
+  </div>
 
     <!-- Toasts -->
     {% for message in messages %}
@@ -419,24 +471,68 @@
 
     <!-- for sidebar collapse on mobile -->
     <script>
-        $(".sidebar ul li").on('click', function () {
+        $(".sidebar ul li").on('click', function () {   // on click of the sidebar list element, the list element will be highlighted
             $(".sidebar ul li.active").removeClass('active');
-            $(this).addClass('active');
+            $(this).addClass('active'); // if the screen is small, the sidebar will be closed on click of the sidebar list element
+            if ($(window).width() <= 768) {
+                $('.sidebar').removeClass('active');
+            }
+
         });
 
-        $('.open-btn').on('click', function () {
+        $('.open-btn').on('click', function () {    // on click of the open button, the sidebar will be opened
             $('.sidebar').addClass('active');
 
         });
 
 
-        $('.close-btn').on('click', function () {
+        $('.close-btn').on('click', function () {    // on click of the close button, the sidebar will be closed
             $('.sidebar').removeClass('active');
 
         })
+
+        $('.dashboard-content').on('click touchstart', function () {    // on click of the dashboard content, the sidebar will be closed
+            if ($(window).width() <= 768) {
+                $('.sidebar').removeClass('active');
+            }
+        });
+        
     </script>
-    
+
+    <!-- main js -->    
     <script src="{% static 'chittabook/homepage/main.js' %}"></script>
 
+    <!-- htmx js -->
+    <script src="{% static 'chittabook/homepage/htmx.min.js' %}" defer></script>
+
+    <!-- htmx config request for csrf token -->
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; //insert csrf token when performing AJAX request 
+        })
+    </script>
+
+    <!-- javascript for changing of text color to red if amount is negative and green if positive in element with id sidebar_balance_color -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // get all elements with class sidebar_balance_color
+        const elements = document.querySelectorAll('#sidebar_balance_color');
+        elements.forEach(function(element) {
+            const amount = element.getAttribute('data-color');
+            console.log('Amount:', amount);
+            if (amount < 0) {
+                console.log('Negative amount');
+                element.classList.remove('bg-dark');
+                element.classList.add('bg-danger');
+            } else {
+                console.log('Positive amount');
+                element.classList.remove('bg-dark');
+                element.classList.add('bg-success');
+            }
+        });
+        
+    });
+    </script>
+    
   </body>
 </html>

@@ -1,10 +1,10 @@
 body{
-    background: #eee;
+    background: white;
    }
    
    #side_nav{
-    background: white;
-    min-width: 250px;
+    background: #CFECF7;
+    min-width: 320px;
     max-width: 320px;
     transition: all 0.3s;
    }
@@ -17,7 +17,7 @@ body{
    }
    
    .sidebar li.active{
-      background: #eee;
+      background: white;
       border-radius: 8px;
       font-weight: bold;
    }
@@ -50,5 +50,17 @@ body{
   /* navbar shadow only on downside */
   #nav_bar {
     box-shadow: 0 6px 6px -6px rgba(0,0,0, .35);
+    background: #CFECF7;
   }
    
+  .dashboard-content {
+    margin-left: 0;
+    max-height: calc(100vh - 30px); /* Adjust the value of 50px based on the height of your top bar */
+    overflow-y: auto;
+  }
+
+  @media (min-width: 768px) {
+    .dashboard-content {
+      margin-left: auto; /* Adjust this value based on the width of your sidebar */
+    }
+  }

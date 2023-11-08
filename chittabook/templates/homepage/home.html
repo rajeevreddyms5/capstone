@@ -8,24 +8,10 @@
     {% if username %}
         <!-- if user doesnot created atleast one type of account -->
         {% if bankAccounts or loanAccounts or investmentAccounts or creditCards %}
-            <h2 class="fs-5"> Dashboard</h2>
-            <p>Welcome {{ username }}.</p>
-            <p>You are from {{ country }} and Your currency is {{ currency }}</p>
-            {% for category in expensecategories %}
-              <p>category : {{ category.name }} created on {{ category.created_at }}</p>
-            {% endfor %}
-            <div>
-              <!-- add button for expense and income -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#expenseModal">
-                <i class="bi bi-plus-circle"></i> Add Expense
-              </button>
-            </div>
-            &nbsp;
-            <div>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#incomeModal">
-                <i class="bi bi-plus-circle"></i> Add Income
-              </button>
-            </div>
+          <div class = "container" id="selectedtable">
+            <h2 class="fs-5">Dashboard</h2>
+            <p>Welcome {{ username }}. The Insights page is still under construction. Thank you for your patience.</p>
+          </div>
         {% else %}
             <h2 class="fs-5"> Welcome {{ username }} </h2>
             <p>Just one more step to get started. Just create any account for adding transactions.</p>
@@ -89,50 +75,5 @@
             Click here for Getting Started
         </a>
     {% endif %}
-
-    <!-- Add expense modal -->
-    <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="expenseModalLabel">Add Expense</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="#">
-                    {% csrf_token %}
-                    {{ expenseForm|crispy }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                    </div>
-                </form>
-        </div>
-        </div>
-    </div>
-
-    <!-- Add income modal -->
-    <div class="modal fade" id="incomeModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="incomeModalLabel">Add Income</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="#">
-                    {% csrf_token %}
-                    {{ incomeForm|crispy }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                    </div>
-                </form>
-        </div>
-        </div>
-    </div>
-
 
 {% endblock %}

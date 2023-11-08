@@ -8,6 +8,7 @@ from disposable_email_domains import blocklist
 
 class SocialAdapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):
+        print('pre_social_login function executed')
         """
         Invoked just after a user successfully authenticates via a
         social provider, but before the login is actually processed
@@ -21,6 +22,7 @@ class SocialAdapter(DefaultSocialAccountAdapter):
 
         # Ignore existing social accounts, just do this stuff for new ones
         if sociallogin.is_existing:
+            print('existing social account')
             return
 
         # some social logins don't have an email address, e.g. facebook accounts
@@ -28,12 +30,14 @@ class SocialAdapter(DefaultSocialAccountAdapter):
         # ignore it
         if 'email' not in sociallogin.account.extra_data:
             return
-
+        
         # check if given email address already exists.
         # Note: __iexact is used to ignore cases
         try:
             email = sociallogin.account.extra_data['email'].lower()
+            print('email: ', email)
             email_address = EmailAddress.objects.get(email__iexact=email)
+            print('email_address: ', email_address)
 
         # if it does not, let allauth take care of this new social account
         except EmailAddress.DoesNotExist:

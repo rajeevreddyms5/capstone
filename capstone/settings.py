@@ -66,6 +66,10 @@ INSTALLED_APPS = [
     'django_countries',
     # datepicker plus
     "bootstrap_datepicker_plus",
+    # django htmx
+    "django_htmx",
+    # django tables2
+    "django_tables2",
 ]
 
 # crspy templates
@@ -84,6 +88,8 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     # browser reload middleware
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # django htmx middleware
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "capstone.urls"

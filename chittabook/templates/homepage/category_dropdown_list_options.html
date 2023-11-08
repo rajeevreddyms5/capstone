@@ -1,0 +1,7 @@
+{% for category in categories %}
+    {% if category.sub_category is None %}
+        <option value="{{ category.pk }}">{{ category.category }}</option>
+    {% else %}
+        <option value="{{ category.pk }}">&nbsp;&nbsp;&nbsp;{{ category.sub_category }}</option>
+    {% endif %}
+{% endfor %}
