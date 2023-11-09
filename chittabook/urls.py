@@ -18,6 +18,7 @@ urlpatterns = [
     path("htmx_load_categories", views.htmx_load_categories, name="htmx_load_categories"),
     path("createTransaction/", views.createTransaction, name="createTransaction"),
     path("all/", views.allTransactions, name="alltransactions"),
+    path('TransactionsHTMxTableView/', views.TransactionsHTMxTableView.as_view(), name="TransactionsHTMxTableView"),
     path("budget/", views.htmxBudget, name="budget"),
     path("recurring/", views.htmxRecurring, name="recurring"),
     path("goals/", views.htmxGoals, name="goals"),

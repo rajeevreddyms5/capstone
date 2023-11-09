@@ -9,7 +9,8 @@ import django_tables2 as tables
 from .tables import TransactionTable
 from django_tables2 import SingleTableMixin
 from django.contrib import messages
-
+from .filters import TransactionFilter
+from django_filters.views import FilterView
 
 
 # Create your views here.
@@ -219,6 +220,20 @@ def createTransaction(request):
         messages.error(request, "Expense Transaction Save Failed.")
         return HttpResponseRedirect("/home/")
 
+# All Transactions table view class
+class TransactionsHTMxTableView(SingleTableMixin, FilterView):
+    table_class = TransactionTable
+    queryset = Transaction.objects.all()
+    filterset_class = TransactionFilter
+    paginate_by = 10
+
+    def get_template_names(self):
+        if self.request.htmx:
+            template_name = "homepage/alltransactions_partial.html"
+        else:
+            template_name = "homepage/alltransactions.html"
+
+        return template_name
 
 
 

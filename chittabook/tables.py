@@ -8,4 +8,4 @@ class TransactionTable(tables.Table):
         model = Transaction
         sequence = ('date', 'account', 'category', 'amount')
         exclude = ('id', 'user', 'description', 'created_at', 'balance_after')
-        template_name = 'django_tables2/bootstrap5-responsive.html'
+        template_name = 'tables/bootstrap_htmx.html'

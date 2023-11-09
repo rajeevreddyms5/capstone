@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     "django_htmx",
     # django tables2
     "django_tables2",
+    # django filters
+    'django_filters',
 ]
 
 # crspy templates
