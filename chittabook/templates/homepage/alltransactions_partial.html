@@ -29,29 +29,33 @@
     {% render_table table %}
 
 <style>
-        /* Table style */
+    /* Table style */
+    .table-container table{
+            table-layout: auto;
+        }
+
+    .table-container table td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media (max-width: 768px) {
+    .table-container table td {
+        max-width: 100px; /* Adjust the width as per your requirement */
+    }
+    }
+
     .table-container th.asc:after {
         content: '\0000a0\0025b2';
         float: right;
     }
-    
+
     .table-container th.desc:after {
         content: '\0000a0\0025bc';
         float: right;
     }
-    
-    .table-container table td:nth-child(1) {
-        width: 5%;
-    }
-    
-    .table-container table td:nth-child(2) {
-        width: 20%;
-    }
-    
-    .table-container table td:nth-child(3) {
-        width: 50%;
-    }
-    
+
     /* Progress bar */
     .progress {
         height: 4px;
