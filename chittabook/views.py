@@ -131,7 +131,7 @@ def profileUpdate(request):
 
 
 # create bank account
-@ login_required
+@login_required
 def createBankAccount(request):
     if request.method == "POST":
         form = BankAccountForm(request.POST)
@@ -148,7 +148,7 @@ def createBankAccount(request):
 
 
 # create credit card accounts
-@ login_required
+@login_required
 def createCreditCard(request):
     if request.method == "POST":
         form = CreditCardForm(request.POST)
@@ -165,7 +165,7 @@ def createCreditCard(request):
 
 
 # create loan accounts
-@ login_required
+@login_required
 def createLoanAccount(request):
     if request.method == "POST":
         form = LoanAccountForm(request.POST)
@@ -182,7 +182,7 @@ def createLoanAccount(request):
 
 
 # create Investment accounts
-@ login_required
+@login_required
 def createInvestmentAccount(request):
     if request.method == "POST":
         form = InvestmentAccountForm(request.POST)
@@ -199,7 +199,7 @@ def createInvestmentAccount(request):
 
 
 # create or update expense transactions
-@ login_required
+@login_required
 def createTransaction(request):
     if request.method == "POST":
 
@@ -220,6 +220,7 @@ def createTransaction(request):
         messages.error(request, "Expense Transaction Save Failed.")
         return HttpResponseRedirect("/home/")
 
+
 # All Transactions table view class
 class TransactionsHTMxTableView(SingleTableMixin, FilterView):
     table_class = TransactionTable
@@ -228,12 +229,17 @@ class TransactionsHTMxTableView(SingleTableMixin, FilterView):
     paginate_by = 10
 
     def get_template_names(self):
-        if self.request.htmx:
-            template_name = "homepage/alltransactions_partial.html"
-        else:
-            template_name = "homepage/alltransactions.html"
+        if str(self.request.user) != "AnonymousUser":   # check if user is logged in
+            if self.request.htmx:
+                template_name = "homepage/alltransactions_partial.html"
+            else:
+                template_name = "homepage/alltransactions.html"
 
-        return template_name
+            return template_name
+        else:
+            template_name = "chittabook/index.html"
+            messages.error(self.request, "Please login to view all transactions.")
+            return template_name
 
 
 
