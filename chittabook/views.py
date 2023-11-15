@@ -237,15 +237,6 @@ class TransactionsHTMxTableView(SingleTableMixin, FilterView):
 
 
 
-# All Transactions table view
-def allTransactions(request):
-    table = TransactionTable(Transaction.objects.filter(user=request.user).order_by('-created_at'))
-    if request.htmx:
-        return render(request, 'homepage/alltransactions_partial.html', {'table': table})
-    else:
-        return render(request, 'homepage/alltransactions.html', {'table': table})
-
-
 # htmx budget function
 def htmxBudget(request):
     if request.htmx:
