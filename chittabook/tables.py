@@ -9,3 +9,5 @@ class TransactionTable(tables.Table):
         sequence = ('date', 'account', 'category', 'amount')
         exclude = ('id', 'user', 'description', 'created_at', 'balance_after')
         template_name = 'tables/bootstrap_htmx.html'
+
+        amount = tables.TemplateColumn('{% load formatter from format %}{{ formatter Account.balance currency_name country }}')
