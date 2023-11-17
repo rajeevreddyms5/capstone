@@ -5,6 +5,16 @@
 {% load crispy_forms_tags %}
 
 
+{% block extra_head %}
+<script>
+    window.onload = function() {
+      window.location.href = "http://127.0.0.1:8000/home";  // need to change url in final version of project
+    };
+  </script>
+
+
+{% endblock %}
+
 {% block content %}
 
     <div class="container d-flex flex-row justify-content-between align-items-center">
