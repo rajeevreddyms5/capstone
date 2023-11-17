@@ -17,26 +17,6 @@
 
 {% block content %}
 
-    <div class="container d-flex flex-row justify-content-between align-items-center">
-
-        <h3>All Transactions</h3>
-        
-        {# Search form #}
-        <form hx-get="" 
-            hx-target="div.table-container" 
-            hx-swap="outerHTML" 
-            hx-indicator=".progress" 
-            class="form-inline">
-            {% crispy filter.form %}
-        </form>
-    </div>
-
-    {# Progress indicator #}
-    <div class="progress">
-        <div class="indeterminate"></div>
-    </div>
-
-    {# The actual table #}
-    {% render_table table %}
+    <h3>All Transactions</h3>
 
 {% endblock %}
