@@ -6,8 +6,8 @@ import itertools
 # Expense table
 class TransactionTable(tables.Table):
 
-    T1     = '<button type="button" class="btn btn-outline-primary" id={{ transaction.id }}><i class="bi bi-pencil-square"></i></button>'
-    T2     = '<button type="button" class="btn btn-outline-danger" id={{ transaction.id }}><i class="bi bi-trash"></i></button>'
+    T1     = '<a href="#" role="button" id={{ transaction.id }}><i class="bi bi-pencil-square" style="font-size: 20px;"></i></a>'
+    T2     = '<a href="#" role="button" id={{ transaction.id }}><i class="bi bi-trash" style="font-size: 20px;"></i></a>'
     edit   = tables.TemplateColumn(T1)
     delete = tables.TemplateColumn(T2)
     
