@@ -5,6 +5,10 @@ import itertools
 # Expense table
 class TransactionTable(tables.Table):
 
+    T1     = '<button type="button" class="btn btn-outline-primary" id={{ transaction.id }}><i class="bi bi-pencil-square"></i></button>'
+    T2     = '<button type="button" class="btn btn-outline-danger" id={{ transaction.id }}><i class="bi bi-trash"></i></button>'
+    edit   = tables.TemplateColumn(T1)
+    delete = tables.TemplateColumn(T2)
     
 
     class Meta:
@@ -12,5 +16,10 @@ class TransactionTable(tables.Table):
         sequence = ('date', 'account', 'category', 'amount')
         exclude = ('id', 'user', 'description', 'created_at', 'balance_after')
         template_name = 'tables/bootstrap_htmx.html'
+        
+        # id attribute for each row
+        row_attrs = {
+            "data-id": lambda record: record.pk
+        }
 
 
