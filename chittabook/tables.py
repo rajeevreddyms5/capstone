@@ -10,6 +10,9 @@ class TransactionTable(tables.Table):
     edit   = tables.TemplateColumn(T1)
     delete = tables.TemplateColumn(T2)
     
+    # add formatter to display currency
+    amount = tables.TemplateColumn('{{ record.amount|floatformat:2 }}')
+
 
     class Meta:
         model = Transaction
