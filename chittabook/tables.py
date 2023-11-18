@@ -2,6 +2,7 @@ from .models import UserProfile, User, Account, BankAccount, LoanAccount, Credit
 import django_tables2 as tables
 import itertools
 
+
 # Expense table
 class TransactionTable(tables.Table):
 
@@ -11,7 +12,8 @@ class TransactionTable(tables.Table):
     delete = tables.TemplateColumn(T2)
     
     # add formatter to display currency
-    amount = tables.TemplateColumn('{{ record.amount|floatformat:2 }}')
+    amount = tables.TemplateColumn('{% load babel %}{{ record.amount|currencyfmt:"USD" }}')
+
 
 
     class Meta:
