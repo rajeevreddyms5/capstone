@@ -35,9 +35,8 @@ class SocialAdapter(DefaultSocialAccountAdapter):
         # Note: __iexact is used to ignore cases
         try:
             email = sociallogin.account.extra_data['email'].lower()
-            print('email: ', email)
             email_address = EmailAddress.objects.get(email__iexact=email)
-            print('email_address: ', email_address)
+
 
         # if it does not, let allauth take care of this new social account
         except EmailAddress.DoesNotExist:

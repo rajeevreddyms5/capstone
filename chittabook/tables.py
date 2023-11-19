@@ -12,14 +12,14 @@ class TransactionTable(tables.Table):
     delete = tables.TemplateColumn(T2)
     
     # add formatter to display currency
-    amount = tables.TemplateColumn('{% load babel %}{{ record.amount|currencyfmt:"USD" }}')
+    amount = tables.TemplateColumn('{% load babel %}{{ record.amount|currencyfmt:record.currency }}')
 
 
 
     class Meta:
         model = Transaction
         sequence = ('date', 'account', 'category', 'amount')
-        exclude = ('id', 'user', 'description', 'created_at', 'balance_after')
+        exclude = ('id', 'user', 'description', 'created_at', 'balance_after', 'currency')
         template_name = 'tables/bootstrap_htmx.html'
         
         # id attribute for each row

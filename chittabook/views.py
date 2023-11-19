@@ -114,6 +114,18 @@ def profileUpdate(request):
             instance.user = request.user
             instance.save()
             messages.success(request, "Profile Updated Successfully.")
+            
+            # update curreny of all accounts associated with user
+            accounts = Account.objects.filter(user=request.user)
+            for account in accounts:
+                account.currency = currency_name(str(UserProfileInstance.country))
+                account.save()
+            
+            # update currency of all transacations associated with user
+            transactions = Transaction.objects.filter(user=request.user)
+            for transaction in transactions:
+                transaction.currency = currency_name(str(UserProfileInstance.country))
+                transaction.save()
 
             # redirect to a new URL:
             return HttpResponseRedirect("/home/")
@@ -133,11 +145,18 @@ def profileUpdate(request):
 # create bank account
 @login_required
 def createBankAccount(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = BankAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Bank Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -150,11 +169,18 @@ def createBankAccount(request):
 # create credit card accounts
 @login_required
 def createCreditCard(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = CreditCardForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Credit Card Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -167,11 +193,18 @@ def createCreditCard(request):
 # create loan accounts
 @login_required
 def createLoanAccount(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = LoanAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Loan Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -184,11 +217,18 @@ def createLoanAccount(request):
 # create Investment accounts
 @login_required
 def createInvestmentAccount(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = InvestmentAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Investment Account Created Successfully.")
             return HttpResponseRedirect("/home/")
