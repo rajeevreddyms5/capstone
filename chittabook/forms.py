@@ -44,6 +44,8 @@ class UserProfileForm(ModelForm):
             raise ValidationError("Date of Birth cannot be greater than 100 years.")
         
         return cleaned_data
+    
+    
 
 
 # Bank Account form
@@ -51,7 +53,7 @@ class BankAccountForm(ModelForm):
     class Meta:
         model = BankAccount
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user', 'currency', 'created_at']
 
 
 
@@ -60,7 +62,7 @@ class CreditCardForm(ModelForm):
     class Meta:
         model = CreditCard
         fields = '__all__'
-        exclude = ['user', 'debt']
+        exclude = ['user', 'debt', 'currency', 'created_at']
         labels = {
             'balance': 'Initial Debt',
             'account_name': 'Credit Card Name',
@@ -73,7 +75,7 @@ class LoanAccountForm(ModelForm):
     class Meta:
         model = LoanAccount
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user', 'currency', 'created_at']
 
 
 
@@ -82,7 +84,7 @@ class InvestmentAccountForm(ModelForm):
     class Meta:
         model = InvestmentAccount
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user', 'currency', 'created_at']
 
 
 
@@ -95,7 +97,7 @@ class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
         fields = '__all__'
-        exclude = ['user', 'balance_after', 'created_at']
+        exclude = ['user', 'balance_after', 'created_at', 'currency']
         widgets = {
             'date': TextInput(     
         attrs={

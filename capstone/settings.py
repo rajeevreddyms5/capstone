@@ -70,6 +70,10 @@ INSTALLED_APPS = [
     "django_htmx",
     # django tables2
     "django_tables2",
+    # django filters
+    'django_filters',
+    # django bable
+    'django_babel',
 ]
 
 # crspy templates
@@ -90,6 +94,9 @@ MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     # django htmx middleware
     "django_htmx.middleware.HtmxMiddleware",
+    # django bable middleware
+    'django.middleware.locale.LocaleMiddleware',
+    'django_babel.middleware.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = "capstone.urls"

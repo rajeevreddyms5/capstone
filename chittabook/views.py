@@ -9,7 +9,8 @@ import django_tables2 as tables
 from .tables import TransactionTable
 from django_tables2 import SingleTableMixin
 from django.contrib import messages
-
+from .filters import TransactionFilter
+from django_filters.views import FilterView
 
 
 # Create your views here.
@@ -113,6 +114,18 @@ def profileUpdate(request):
             instance.user = request.user
             instance.save()
             messages.success(request, "Profile Updated Successfully.")
+            
+            # update curreny of all accounts associated with user
+            accounts = Account.objects.filter(user=request.user)
+            for account in accounts:
+                account.currency = currency_name(str(UserProfileInstance.country))
+                account.save()
+            
+            # update currency of all transacations associated with user
+            transactions = Transaction.objects.filter(user=request.user)
+            for transaction in transactions:
+                transaction.currency = currency_name(str(UserProfileInstance.country))
+                transaction.save()
 
             # redirect to a new URL:
             return HttpResponseRedirect("/home/")
@@ -130,13 +143,20 @@ def profileUpdate(request):
 
 
 # create bank account
-@ login_required
+@login_required
 def createBankAccount(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = BankAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Bank Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -147,13 +167,20 @@ def createBankAccount(request):
 
 
 # create credit card accounts
-@ login_required
+@login_required
 def createCreditCard(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = CreditCardForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Credit Card Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -164,13 +191,20 @@ def createCreditCard(request):
 
 
 # create loan accounts
-@ login_required
+@login_required
 def createLoanAccount(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = LoanAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Loan Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -181,13 +215,20 @@ def createLoanAccount(request):
 
 
 # create Investment accounts
-@ login_required
+@login_required
 def createInvestmentAccount(request):
+    # get instance of current user
+    user = User.objects.get(id=request.user.id)
+    
+    # instance of userProfile of current user
+    UserProfileInstance = UserProfile.objects.get(user=request.user)
+    
     if request.method == "POST":
         form = InvestmentAccountForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            instance.currency = currency_name(str(UserProfileInstance.country))
             instance.save()
             messages.success(request, "Investment Account Created Successfully.")
             return HttpResponseRedirect("/home/")
@@ -198,7 +239,7 @@ def createInvestmentAccount(request):
 
 
 # create or update expense transactions
-@ login_required
+@login_required
 def createTransaction(request):
     if request.method == "POST":
 
@@ -220,15 +261,26 @@ def createTransaction(request):
         return HttpResponseRedirect("/home/")
 
 
+# All Transactions table view class
+class TransactionsHTMxTableView(SingleTableMixin, FilterView):
+    table_class = TransactionTable
+    queryset = Transaction.objects.all()
+    filterset_class = TransactionFilter
+    paginate_by = 10
 
+    def get_template_names(self):
+        if str(self.request.user) != "AnonymousUser":   # check if user is logged in
+            if self.request.htmx:
+                template_name = "homepage/alltransactions_partial.html"
+            else:
+                template_name = "homepage/alltransactions.html"
 
-# All Transactions table view
-def allTransactions(request):
-    table = TransactionTable(Transaction.objects.filter(user=request.user).order_by('-created_at'))
-    if request.htmx:
-        return render(request, 'homepage/alltransactions_partial.html', {'table': table})
-    else:
-        return render(request, 'homepage/alltransactions.html', {'table': table})
+            return template_name
+        else:
+            template_name = "chittabook/index.html"
+            messages.error(self.request, "Please login to view all transactions.")
+            return template_name
+
 
 
 # htmx budget function

@@ -1,7 +1,30 @@
 {% load render_table from django_tables2 %}
 {% load i18n %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load babel %}
 
-<h3>All Transactions</h3>
 
-{% render_table table %}
+    <div class="container d-flex flex-row justify-content-between align-items-center">
+
+        <h3>All Transactions</h3>
+        
+        {# Search form #}
+        <form hx-get="#" 
+            hx-target="div.table-container" 
+            hx-swap="outerHTML" 
+            hx-indicator=".progress" 
+            class="form-inline">
+            {% crispy filter.form %}
+        </form>
+    </div>
+
+    
+
+    {# Progress indicator #}
+    <div class="progress">
+        <div class="indeterminate"></div>
+    </div>
+
+    {# The actual table #}
+    {% render_table table %}

@@ -1,17 +1,5 @@
-from django.contrib.gis.geoip2 import GeoIP2
-from babel.numbers import get_currency_symbol, get_territory_currencies
-
-
-# get country code using ip address
-def currency(request):
-    g = GeoIP2()
-    remote_addr = request.META.get('HTTP_X_FORWARDED_FOR')
-    if remote_addr:
-        address = remote_addr.split(',')[-1].strip()
-    else:
-        address = request.META.get('REMOTE_ADDR')
-    
-    return g.country_code(address)  # returns a 2-letter country code
+from babel.numbers import get_currency_symbol, get_territory_currencies, format_currency
+from babel import Locale
 
 
 # get country currency symbol using country code
@@ -31,4 +19,3 @@ def currency_name(country_code):
     except IndexError:
         currency_code = ''
     return currency_code
-

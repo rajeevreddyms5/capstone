@@ -2,8 +2,21 @@
 {% load render_table from django_tables2 %}
 {% load i18n %}
 {% load static %}
+{% load crispy_forms_tags %}
 
+
+{% block extra_head %}
+<script>
+    window.onload = function() {
+      window.location.href = "http://127.0.0.1:8000/home";  // need to change url in final version of project
+    };
+  </script>
+
+
+{% endblock %}
 
 {% block content %}
-    {% render_table table %}
+
+    <h3>All Transactions</h3>
+
 {% endblock %}

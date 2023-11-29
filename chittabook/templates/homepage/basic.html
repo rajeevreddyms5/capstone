@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load formatter from format %}
+{% load babel %}
 
 <!DOCTYPE html>
 <html>
@@ -33,6 +34,9 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'chittabook/homepage/style.css' %}">
 
+    <!--- css for table -->
+    <link rel="stylesheet" href="{% static 'chittabook/tables/styles.css' %}">
+
     <!-- React link -->
     <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
@@ -62,18 +66,18 @@
           </div>
 
           <ul class="list-unstyled px-2">
-              <li class="active"><a href="" hx-get="/home/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class="active"><a href="" hx-get="/home/" hx-push-url="true" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-home"></i> Insights</a></li>
-              <li class=""><a href="" hx-get="/all/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
+              <li class=""><a href="" hx-get="/all/" hx-push-url="true" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-list"></i>
                  All Transactions</a></li>
-              <li class=""><a href="" hx-get="/budget/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between text-dark">
+              <li class=""><a href="" hx-get="/budget/" hx-push-url="true" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between text-dark">
                       <span><i class="fal fa-envelope-open-text"></i> Budget</span>
                       <span class="bg-dark rounded-pill text-white py-0 px-2">02</span>
                   </a>
               </li>
-              <li class=""><a href="" hx-get="/recurring/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
+              <li class=""><a href="" hx-get="/recurring/" hx-push-url="true" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i
                           class="fal fa-repeat"></i> Recurring Expenses</a></li>
-              <li class=""><a href="" hx-get="/goals/" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bullseye"></i>
+              <li class=""><a href="" hx-get="/goals/" hx-push-url="true" hx-target="#dashboard_content" class="text-decoration-none px-3 py-2 d-block text-dark"><i class="fal fa-bullseye"></i>
                        Goals</a></li>
            </ul>
           <hr class="h-color mx-2">
@@ -86,7 +90,7 @@
                     {% for bankAccount in bankAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="bankAccount.{{ bankAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ bankAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ bankAccount.balance }}">{% formatter bankAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ bankAccount.balance }}">{{ bankAccount.balance|currencyfmt:bankAccount.currency }}</span>
                         </a>
                         </li>
                     {% endfor %}
@@ -102,7 +106,7 @@
                 {% for creditCardAccount in creditCards %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="creditCardAccount.{{ creditCardAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ creditCardAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ creditCardAccount.balance }}">{% formatter creditCardAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ creditCardAccount.balance }}">{{ creditCardAccount.balance|currencyfmt:creditCardAccount.currency }}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -119,7 +123,7 @@
                 {% for loanAccount in loanAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="loanAccount.{{ loanAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ loanAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ loanAccount.balance }}">{% formatter loanAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ loanAccount.balance }}">{{ loanAccount.balance|currencyfmt:loanAccount.currency }}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -136,7 +140,7 @@
                 {% for investmentAccount in investmentAccounts %}
                         <li class=""><a href="#" class="text-decoration-none px-4 py-2 d-block d-flex justify-content-between text-dark" data-id="investmentAccount.{{ investmentAccount.id }}">
                             <span class="text-truncate" style="max-width: 15ch;">{{ investmentAccount.account_name }}</span>
-                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ investmentAccount.balance }}">{% formatter investmentAccount.balance currency_name country %}</span>
+                            <span class="bg-dark rounded-pill text-white py-0 px-2 text-truncate" id="sidebar_balance_color" data-color="{{ investmentAccount.balance }}">{{ investmentAccount.balance|currencyfmt:investmentAccount.currency }}</span>
                         </a>
                         </li>
                 {% endfor %}
@@ -436,68 +440,9 @@
         </script>
     {% endif %}
 
-    <!-- script for proper closing of profiel modal-->
-    <script>
-        $(function () {
-            $('#modalClose').on('click', function () {
-                $('#staticBackdrop').hide();
-            })
-        })
-        $(function () {
-            $('#btn-modalClose').on('click', function () {
-                $('#staticBackdrop').hide();
-            })
-        })
-    </script>
-
-    <!-- scirpt for proper closing of contact modal-->
-    <script>
-        $(function () {
-            $('#contact_modalClose').on('click', function () {
-                $('#contactModal').hide();
-            })
-        })
-        $(function () {
-            $('#contact_modalClose1').on('click', function () {
-                $('#contactModal').hide();
-            })
-        })
-    </script>
 
     {% block body %}
     {% endblock %}
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- for sidebar collapse on mobile -->
-    <script>
-        $(".sidebar ul li").on('click', function () {   // on click of the sidebar list element, the list element will be highlighted
-            $(".sidebar ul li.active").removeClass('active');
-            $(this).addClass('active'); // if the screen is small, the sidebar will be closed on click of the sidebar list element
-            if ($(window).width() <= 768) {
-                $('.sidebar').removeClass('active');
-            }
-
-        });
-
-        $('.open-btn').on('click', function () {    // on click of the open button, the sidebar will be opened
-            $('.sidebar').addClass('active');
-
-        });
-
-
-        $('.close-btn').on('click', function () {    // on click of the close button, the sidebar will be closed
-            $('.sidebar').removeClass('active');
-
-        })
-
-        $('.dashboard-content').on('click touchstart', function () {    // on click of the dashboard content, the sidebar will be closed
-            if ($(window).width() <= 768) {
-                $('.sidebar').removeClass('active');
-            }
-        });
-        
-    </script>
 
     <!-- main js -->    
     <script src="{% static 'chittabook/homepage/main.js' %}"></script>
@@ -511,28 +456,6 @@
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; //insert csrf token when performing AJAX request 
         })
     </script>
-
-    <!-- javascript for changing of text color to red if amount is negative and green if positive in element with id sidebar_balance_color -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        // get all elements with class sidebar_balance_color
-        const elements = document.querySelectorAll('#sidebar_balance_color');
-        elements.forEach(function(element) {
-            const amount = element.getAttribute('data-color');
-            console.log('Amount:', amount);
-            if (amount < 0) {
-                console.log('Negative amount');
-                element.classList.remove('bg-dark');
-                element.classList.add('bg-danger');
-            } else {
-                console.log('Positive amount');
-                element.classList.remove('bg-dark');
-                element.classList.add('bg-success');
-            }
-        });
-        
-    });
-    </script>
-    
+   
   </body>
 </html>
