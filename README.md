@@ -4,12 +4,6 @@
 ## Main Idea
 Chitta Book is an Income and Expense Tracker that helps users track their income and expenses. The project is designed to be user-friendly and mobile responsive.
 
-## How it works
-- Register with email address.
-- A email will be recieved from chittabook webapp for confirmation of email.
-- After confirmation of email, you will be able to login.
-
-
 # Distinctiveness and Complexity
 I believe my project satisfies the criteria of distinctiveness and complexity because this project is to help everyone track their expenses and income. Anyone can use it for free. I faced many problems in creating this project, including the implementation of fully responsive layout in every device be it computer, tab and mobile. I also encountered problems in implementing the custom authentication system that uses email address to register and login and also in implementing Google social authentication and other problems related to programming that had been solved with seriousness and diligence..
 
@@ -49,7 +43,7 @@ The capstone project consists of one app - chittabook
 the main directory for the app
 - Here models, static, templates, tests folders and adapter.py, admin.py, apps.py, filters.py, forms.py, signals.py, tables.py, urls.py, utils.py and views.py exits
 
-## chittabook/models:
+### chittabook/models:
 I used 5 Models:
 
 1. usermodel.py: created custom usermanager that allows user register and login with email address instead of username.
@@ -59,11 +53,12 @@ I used 5 Models:
 5. categories.py - model for categories and subcategories.
 
 ### static/chittabook:
-static: contains all the CSS files for the project and also the javascript
+contains all the CSS files for the project and also the javascript
 - statics/chittabook/scripts.js - contains the javascript for the landing page (index page) - (here implemented code for password visibility when user login and register into the website, autodismiss alerts)
 - statics/chittabook/styles.css - contains css of the landing page (index page)
 
-#### static/chittabook/homepage - contains all the CSS files for homepage, javascript and HTMX for homepage functionality
+#### static/chittabook/homepage:
+contains all the CSS files for homepage, javascript and HTMX for homepage functionality
 -  htmx.min.js: HTMX code for deploying the HTMX functionality into the project
 - main.js: contains the javascript for the home page of the website. (here implemented code for changing of text color to red if amount is negative and green if positive, for sidebar closing on mobile devices, activate dropdown on sidebar onclick of each dropdown_on_sidebar)
 - sytles.css - contains the javascript for the home page of the website.
@@ -78,10 +73,12 @@ contains css for display of transactions table
 contains all the application pages
 
 #### capstone/templates/account:
-contains the html for login, logout, signup, password reset, email change, email confirm. I used Javascript and CSS to make the page responsive with desktop, tablet and mobile. I also used Bootstrap, fontawesome icons and Freepik to add some pictures, and I used the backend to make the user able to signup and login to the site.
+contains the html for login, logout, signup, password reset, email change, email confirm.
+- I used Javascript and CSS to make the page responsive with desktop, tablet and mobile. I also used Bootstrap, fontawesome icons and Freepik to add some pictures, and I used the backend to make the user able to signup and login to the site.
 
 #### capstone/templates/chittabook:
-contain the html for landing page. I used Javascript and CSS to make the page responsive with desktop, tablet and mobile. I also used Bootstrap, fontawesome icons and Freepik to add some pictures.
+contain the html for landing page.
+- I used Javascript and CSS to make the page responsive with desktop, tablet and mobile. I also used Bootstrap, fontawesome icons and Freepik to add some pictures.
 
 #### capstone/templates/homepage:
 contains the html for homepage of the app.
@@ -108,7 +105,8 @@ contains the html for homepage of the app.
 contains html code for display of data into table form by overriding default django-tables2 bootstrap code.
 
 
-### capstone/tests: TEST DRIVEN DEVELOPMENT
+### capstone/tests:
+TEST DRIVEN DEVELOPMENT
 contains all the files for testing various webpage functionality.
 
 - test_login.py: for testing login functionality
@@ -136,29 +134,74 @@ contans code for filtering the transactions table of the homepage.
 
 ### capstone/forms.py:
 contains code for all forms that are used in the website.
-- userprofie
-
-### project/views.py:
-contains all the functions that are used in the website.
-
-validate_password: validate that the first password is equal to the second password.
-
-index: process the login requests that come from the user by taking the username either from the username field in the first form or the second (I made two forms, one for desktop view and the second one for mobile view).
-
-main: processes all the activities that come from the main page (searching, loading the posts and rooms divs, posting messages to the rooms, handling the paginator in the rooms div).
-
-project/urls.py: contains all application's URLs
+- userprofileform: for updating userprofile options with custom Date of Birth validation.
+- bankaccountform: for creating new bank accounts
+- creditcardform: for creating new credit card accounts
+- loanaccountform: for creating new loan accounts
+- investmentaccountform: for creating new investment accounts
+- transactionform: for creating transactions with dynamically updating bankaccounts and categories based on logged in user and category type. 
 
 
+### capstone/signals.py:
+contains code for creating userprofile instance and creating default categories and subcategories when user registers to the web app.
 
-### Using the web application:
-1. After login the user is greeted with welcome message and guides them to update their country. Based on the country selected, the currency will be updated
-2. User can create Bank Accounts, Credit Card Accounts, Loan Accounts, Investment Accounts
-3. User can Add transactions.
-4. Based on the expense and income, the account balance is updated automatically
-5. Django-tables2 is used for rendering all transactions table
-6. HTMX is used for navigating without page reload
-7. The entire webpage is mobile responsive and beautiful
+### capstone/tables.py:
+contains code for creating tables for displaying user transactions with currencies symbol and format based on their country.
+
+### capstone/urls.py:
+contains all application's URLs
+
+### capstone/views.py:
+contains all the functions (views) that are used in the website.
+
+index: renders landing page template that gives users option to login and register into the website
+
+home: renders homepage template and processes all the activities that come from the home page (forms, accounts by the user, tables etc)
+
+htmx_load_categories: loads categories dropdown using htmx in transactionform
+
+profileUpdate: updates user profile and based on users choice of country, updates the currency symbol and currency format to display in transactions.
+
+createBankAccount: creates bank account for the logged in user
+
+createCreditCard: creates credit card account for the logged in user
+
+createLoanAccount: creates Loan Account for the logged in user
+
+createInvestmentAccount: creates Investment Account for the logged in user
+
+createTransaction: creates transaction for accounts for the logged in user
+
+about: renders about page template
+
+contact: renders about contact template
+
+features: renders about features template
+
+how: renders about how template
+
+privacy: renders about privacy template
+
+terms: renders about terms template
+
+TransactionsHTMxTableView: displays all transactions made by the user using django-tables2
+
+htmxBudget: renders budget_partial template using HTMX
+
+htmxRecurring: renders recurring_partial template using HTMX
+
+htmxGoals: render goals_partial template using HTMX
+
+
+
+## chittabook/models:
+I used 5 Models:
+
+1. usermodel.py: created custom usermanager that allows user register and login with email address instead of username.
+2. userprofile.py: model for profile update
+3. accounts.py: model for accounts like BankAccount, CreditCardAccount, LoanAccount, InvestentAccount.
+4. transactions.py: model for adding transactions for different accounts.
+5. categories.py - model for categories and subcategories.
 
 ## Installation
 To install the Chitta Book application, follow these steps:
@@ -198,3 +241,10 @@ Every page and model is tested using unit tests
 python manage.py test
 ```
 
+### Using the web application:
+- Register with your email address
+- A email will be recieved from chittabook webapp for confirmation of email.
+- After confirmation of email, you will be able to login.
+- After login the user is greeted with welcome message and guides them to update their country. Based on the country selected, the currency will be updated.
+- User can create Bank Accounts, Credit Card Accounts, Loan Accounts, Investment Accounts.
+- User can Add expense and income transactions for user created accounts of different types
